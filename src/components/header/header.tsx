@@ -45,7 +45,7 @@ export const Header = () => {
     <Container boxSize="full" maxW="container.xl">
       <Flex
         bg={useColorModeValue('white', 'gray.800')}
-        color={useColorModeValue('gray.600', 'white')}
+        color={useColorModeValue('gray.700', 'white')}
         minH="80px"
         py={{ base: 2 }}
         px={{ base: 4 }}

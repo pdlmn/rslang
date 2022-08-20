@@ -64,7 +64,7 @@ const DesktopSubNav = ({ label, href }: NavItem) => (
     display="block"
     p={2}
     rounded="md"
-    _hover={{ bg: useColorModeValue('yellow.50', 'gray.900') }}
+    _hover={{ bg: useColorModeValue('yellow.100', 'gray.900') }}
   >
     <Stack direction="row" align="center">
       <Box>
@@ -122,9 +122,10 @@ export const DesktopNav = () => {
                   {navItem.children.map((child) => (
                     <HStack
                       key={child.label}
+                      rounded="md"
                       _hover={{
-                        bg: useColorModeValue('yellow.50', 'gray.900'),
-                        color: 'yellow.500',
+                        bg: useColorModeValue('yellow.100', 'gray.900'),
+                        color: linkHoverColor,
                       }}
                     >
                       <Icon as={child.icon} ml={4} />
