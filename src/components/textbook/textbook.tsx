@@ -7,7 +7,7 @@ import { TextbookMain } from './textbookMain';
 
 export const Textbook = () => (
   <ChakraProvider theme={theme}>
-    <Flex minH="100vh" direction="column" justifyContent="space-between">
+    <Flex minH="100vh" direction="column" justifyContent="space-between" gap={10}>
       <Box>
         <Header />
         <TextbookMain />
