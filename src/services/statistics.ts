@@ -22,9 +22,9 @@ const update = async (
   return data;
 };
 
-const Statistics = {
+const statistics = {
   get,
   update,
 };
 
-export default Statistics;
+export default statistics;

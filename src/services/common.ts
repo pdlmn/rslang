@@ -1,8 +1,8 @@
 import { FilterObject } from '../interfaces/types';
 
-// common variable and functions for services
+// common variables and functions for services
 
-// we will use local deploy of server for development,
+// we will use the local deploy of server for development,
 // as was recommended by RSSchool
 const API_URI = process.env.NODE_ENV === 'production'
   ? 'https://react-rslang-2022.herokuapp.com'
@@ -16,6 +16,8 @@ const buildQueryString = (
   if (uriParamsArr.length <= 0) return baseUri;
 
   const uriParamsString = uriParamsArr
+    // checks for objects for FilterObject
+    // FilterObject is used for MongoDB queries 
     .map(([key, value]) => (typeof value === 'object'
       ? `${key}=${JSON.stringify(value)}`
       : `${key}=${value}`))

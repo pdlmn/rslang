@@ -54,7 +54,7 @@ const deleteUserWord = async (userId: string, wordId: string, authToken: string)
   return response;
 };
 
-const UserWords = {
+const usersWords = {
   get,
   getOne,
   create,
@@ -62,4 +62,4 @@ const UserWords = {
   delete: deleteUserWord,
 } as const;
 
-export default UserWords;
+export default usersWords;

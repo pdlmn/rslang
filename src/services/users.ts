@@ -72,7 +72,7 @@ const signIn = async (email: string, password: string) => {
   return data;
 };
 
-const Users = {
+const users = {
   create,
   get,
   update,
@@ -81,4 +81,4 @@ const Users = {
   getToken,
 } as const;
 
-export default Users;
+export default users;

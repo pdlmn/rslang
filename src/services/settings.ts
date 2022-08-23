@@ -22,9 +22,9 @@ const update = async (
   return data;
 };
 
-const Settings = {
+const settings = {
   get,
   update,
 } as const;
 
-export default Settings;
+export default settings;

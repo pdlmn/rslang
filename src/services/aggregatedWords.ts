@@ -1,7 +1,7 @@
 import { AggregatedObject, AggregatedWord, FilterObject } from '../interfaces/types';
 import { API_URI, buildQueryString, fetchData } from './common';
 
-// aggregated words are a combination of regular words & custom words data for user
+// aggregated words are combination of regular words & custom words data (userWord)
 // this is the only data type we can use MongoDB queries on
 
 type GetAggregatedWordsParams = {
@@ -39,9 +39,9 @@ const getOne = async (userId: string, wordId: string, authToken: string) => {
   return data;
 };
 
-const AggregatedWords = {
+const aggregatedWords = {
   get,
   getOne,
 } as const;
 
-export default AggregatedWords;
+export default aggregatedWords;
