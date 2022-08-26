@@ -7,6 +7,14 @@
   "resolved" "https://registry.npmjs.org/@adobe/css-tools/-/css-tools-4.0.1.tgz"
   "version" "4.0.1"
 
+"@ajna/pagination@^1.4.19":
+  "integrity" "sha512-QnrERhw1fhAVst1pBrXyPruJphbrLnIYcHf5bpWS7IhtK3tKljTPQ8/UbUsroJ6oAqHCp9X9nLi49PT+xw/hXw=="
+  "resolved" "https://registry.npmjs.org/@ajna/pagination/-/pagination-1.4.19.tgz"
+  "version" "1.4.19"
+  dependencies:
+    "framer-motion" "^6.3.11"
+    "lodash.union" "^4.6.0"
+
 "@ampproject/remapping@^2.1.0":
   "integrity" "sha512-qRmjj8nj9qmLTQXXmaR1cck3UXSRMPrbsLJAasZpF+t3riI71BXed5ebIOYwQntykeZuhjsdweEc9BxH5Jc26w=="
   "resolved" "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.2.0.tgz"
@@ -1467,7 +1475,7 @@
   dependencies:
     "@chakra-ui/utils" "2.0.8"
 
-"@chakra-ui/react@^2.2.8":
+"@chakra-ui/react@^2.2.1", "@chakra-ui/react@^2.2.8":
   "integrity" "sha512-yLHoE6NpDu3UORtv/drzYl+d/ngjLkEPuUggJd6gu+kv0lHLAmTkoNL8yNGPxuY/StiQEyCSjwFXmknklRr+BA=="
   "resolved" "https://registry.npmjs.org/@chakra-ui/react/-/react-2.2.8.tgz"
   "version" "2.2.8"
@@ -1876,7 +1884,7 @@
   "resolved" "https://registry.npmjs.org/@emotion/memoize/-/memoize-0.7.4.tgz"
   "version" "0.7.4"
 
-"@emotion/react@^11.0.0", "@emotion/react@^11.0.0-rc.0", "@emotion/react@^11.10.0", "@emotion/react@>=10.0.35":
+"@emotion/react@^11.0.0", "@emotion/react@^11.0.0-rc.0", "@emotion/react@^11.10.0", "@emotion/react@^11.9.0", "@emotion/react@>=10.0.35":
   "integrity" "sha512-K6z9zlHxxBXwN8TcpwBKcEsBsOw4JWCCmR+BeeOWgqp8GIU1yA2Odd41bwdAAr0ssbQrbJbVnndvv7oiv1bZeQ=="
   "resolved" "https://registry.npmjs.org/@emotion/react/-/react-11.10.0.tgz"
   "version" "11.10.0"
@@ -1905,7 +1913,7 @@
   "resolved" "https://registry.npmjs.org/@emotion/sheet/-/sheet-1.2.0.tgz"
   "version" "1.2.0"
 
-"@emotion/styled@^11.0.0", "@emotion/styled@^11.10.0":
+"@emotion/styled@^11.0.0", "@emotion/styled@^11.10.0", "@emotion/styled@^11.8.1":
   "integrity" "sha512-V9oaEH6V4KePeQpgUE83i8ht+4Ri3E8Djp/ZPJ4DQlqWhSKITvgzlR3/YQE2hdfP4Jw3qVRkANJz01LLqK9/TA=="
   "resolved" "https://registry.npmjs.org/@emotion/styled/-/styled-11.10.0.tgz"
   "version" "11.10.0"
@@ -5455,7 +5463,7 @@
   "resolved" "https://registry.npmjs.org/fraction.js/-/fraction.js-4.2.0.tgz"
   "version" "4.2.0"
 
-"framer-motion@^6.5.1", "framer-motion@>=4.0.0":
+"framer-motion@^6.3.11", "framer-motion@^6.5.1", "framer-motion@>=4.0.0":
   "integrity" "sha512-o1BGqqposwi7cgDrtg0dNONhkmPsUFDaLcKXigzuTFC5x58mE8iyTazxSudFzmT6MEyJKfjjU8ItoMe3W+3fiw=="
   "resolved" "https://registry.npmjs.org/framer-motion/-/framer-motion-6.5.1.tgz"
   "version" "6.5.1"
@@ -7023,6 +7031,11 @@
   "integrity" "sha512-HDWXG8isMntAyRF5vZ7xKuEvOhT4AhlRt/3czTSjvGUxjYCBVRQY48ViDHyfYz9VIoBkW4TMGQNapx+l3RUwdA=="
   "resolved" "https://registry.npmjs.org/lodash.sortby/-/lodash.sortby-4.7.0.tgz"
   "version" "4.7.0"
+
+"lodash.union@^4.6.0":
+  "integrity" "sha512-c4pB2CdGrGdjMKYLA+XiRDO7Y0PRQbm/Gzg8qMj+QH+pFVAoTp5sBpO0odL3FjoPCGjK96p6qsP+yQoiLoOBcw=="
+  "resolved" "https://registry.npmjs.org/lodash.union/-/lodash.union-4.6.0.tgz"
+  "version" "4.6.0"
 
 "lodash.uniq@^4.5.0":
   "integrity" "sha512-xfBaXQd9ryd9dlSDvnvI0lvxfLJlYAZzXomUYzLKtUeOQvOP5piqAWuGtrhWeqaXK9hhoM/iyJc5AV+XfsX3HQ=="

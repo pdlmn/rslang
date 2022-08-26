@@ -1,4 +1,6 @@
-import { Container, Heading, Stack } from '@chakra-ui/react';
+import {
+  Container, Heading, Stack, useColorModeValue,
+} from '@chakra-ui/react';
 import { useState } from 'react';
 import { groupButtonData } from './groupButtonData';
 import { GroupButtons } from './groupButtons';
@@ -10,7 +12,12 @@ export const TextbookMain = () => {
   return (
     <Container maxW="container.xl" p="1rem 1rem">
       <Stack spacing={4}>
-        <Heading as="h1" alignSelf="center" bg="linear-gradient(transparent 50%, #83e9e7 50%)" shadow="lg">
+        <Heading
+          as="h1"
+          alignSelf="center"
+          bg={useColorModeValue('linear-gradient(transparent 50%, #83e9e7 50%)', 'linear-gradient(transparent 50%, #2D3748 50%)')}
+          shadow="lg"
+        >
           Учебник
         </Heading>
         <GroupButtons group={group} setGroup={setGroup} />

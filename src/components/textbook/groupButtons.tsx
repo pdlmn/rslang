@@ -1,5 +1,10 @@
 import {
-  Button, Flex, Heading, Stack, Text,
+  Button,
+  Flex,
+  Heading,
+  Stack,
+  Text,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { groupButtonData, GroupButtonData } from './groupButtonData';
 
@@ -9,7 +14,12 @@ type GroupButtonProps = GroupButtonData & {
 };
 
 const GroupButton = ({
-  lvl, numWords, grade, color, onClick, selected,
+  lvl,
+  numWords,
+  grade,
+  color,
+  onClick,
+  selected,
 }: GroupButtonProps) => (
   <Button
     h="4.5rem"
@@ -21,9 +31,10 @@ const GroupButton = ({
     borderLeft="4px dotted"
     borderLeftColor="red.300"
     borderBottomEndRadius="3xl"
-    bgColor={selected ? color.activeColor : 'gray.50'}
+    bgColor={selected ? color.hoverColor : useColorModeValue('gray.50', 'gray.400')}
     shadow="md"
     transition="all .25s ease-in-out"
+    color={useColorModeValue('gray.800', 'gray.800')}
     _hover={{ bgColor: `${color.hoverColor}` }}
     _active={{ bgColor: `${color.activeColor}`, transform: 'scale(0.95)' }}
     onClick={onClick}

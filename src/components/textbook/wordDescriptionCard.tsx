@@ -7,6 +7,7 @@ import {
   VStack,
   Stack,
   Tooltip,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useCallback, useEffect, useState } from 'react';
 import { ImVolumeMedium } from 'react-icons/im';
@@ -62,8 +63,9 @@ const SoundButton = ({ selectedWord }: WordDescriptionCardProps) => {
     <Tooltip label="Озвучить" placement="right-start" rounded="md">
       <Button
         backgroundColor="transparent"
-        color="gray.700"
-        _hover={{ bgColor: 'yellow.300', rounded: 'full' }}
+        p={2}
+        color={useColorModeValue('gray.700', 'gray.400')}
+        _hover={{ bgColor: 'yellow.300', rounded: 'full', color: useColorModeValue('gray.700', 'gray.800') }}
         _active={{ bgColor: 'yellow.400', rounded: 'full' }}
         onClick={() => {
           stopAll();
@@ -82,7 +84,6 @@ export const WordDescriptionCard = ({
 }: WordDescriptionCardProps) => (
   <Flex
     w="400px"
-    // h="50.5rem"
     border="1px solid"
     borderColor={`${group?.color.baseColor.split('.')[0]}.200`}
     direction="column"
@@ -92,7 +93,7 @@ export const WordDescriptionCard = ({
       w="400px"
       h="230px"
       objectFit="cover"
-      src={`${API_URI}/${selectedWord?.image}`} // "image":"files/01_0018.jpg"
+      src={`${API_URI}/${selectedWord?.image}`}
       alt={selectedWord?.word}
       roundedTop="md"
     />
@@ -110,8 +111,8 @@ export const WordDescriptionCard = ({
         {selectedWord && <SoundButton selectedWord={selectedWord} />}
       </HStack>
       <HStack spacing={8} pt={2} pb={2}>
-        <Button>+ в сложные слова</Button>
-        <Button>удалить слово</Button>
+        <Button colorScheme="green" lineHeight={1}>+ в сложные слова</Button>
+        <Button colorScheme="red" lineHeight={1}>удалить слово</Button>
       </HStack>
       <Stack>
         <Text align="center" fontWeight="bold">
@@ -134,28 +135,3 @@ export const WordDescriptionCard = ({
     </VStack>
   </Flex>
 );
-
-// для каждого слова отображается:
-// само слово, транскрипция, перевод
-// предложение с объяснением значения слова, перевод предложения
-// предложение с примером использования изучаемого слова, перевод предложения
-// картинка-ассоциация к изучаемому слову
-// иконка аудио, при клике по которой последовательно звучит произношение изучаемого слова,
-// произношение
-// предложения с объяснением его значения, произношение предложения с примером его использования
-
-// только у авторизированных пользователей отображаются:
-// кнопка, при клике по которой слово можно отметить как сложное (в разделе "Сложные слова"
-// на её месте отображается кнопка, снимающая отметку что это сложное слово и удаляющая
-// его из данного раздела)
-// кнопка, при клике по которой слово можно отметить как изученное
-// если слово отмечено как сложное, оно остаётся на странице учебника и выделяется стилем,
-// указывающим, что данное слово относится к сложным словам. Также данное слово добавляется
-// в раздел "Сложные слова"
-// если слово отмечено как изученное, оно остаётся на странице учебника и выделяется стилем,
-// указывающим, что данное слово относится к изученным словам
-// если все слова на странице относятся к изученным словам или к изученным и сложным словам,
-// такая страница считается полностью изученной и выделяется стилем. Также стилем выделяется
-// соответствующая ей
-// кнопка навигации по страницам учебника. Ссылки на мини-игры на этой странице
-// становятся неактивными.
