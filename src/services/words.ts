@@ -14,7 +14,7 @@ const getOne = async (wordId: string) => {
   return data;
 };
 
-const Words = {
+export const Words = {
   get,
   getOne,
 } as const;

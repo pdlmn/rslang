@@ -121,13 +121,14 @@ export const DesktopNav = () => {
                 <Stack>
                   {navItem.children.map((child) => (
                     <HStack
+                      key={child.label}
                       _hover={{
                         bg: useColorModeValue('yellow.50', 'gray.900'),
                         color: 'yellow.500',
                       }}
                     >
                       <Icon as={child.icon} ml={4} />
-                      <DesktopSubNav key={child.label} {...child} />
+                      <DesktopSubNav label={child.label} href={child.href} />
                     </HStack>
                   ))}
                 </Stack>
