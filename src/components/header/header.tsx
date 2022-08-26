@@ -12,7 +12,8 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { DesktopNav, MobileNav } from './nav';
 import { Logo } from './logo';
-import { ModalForm } from './modalForm';
+import { SignUpForm } from './signUpForm';
+import { SignInForm } from './signInForm';
 
 export const Header = () => {
   const {
@@ -76,7 +77,7 @@ export const Header = () => {
         >
 
           {/* I noticed that modals are blinking if they are coming AFTER buttons */}
-          <ModalForm
+          {/* <ModalForm
             isOpen={isSignUpOpen}
             onClose={onSignUpClose}
             headerHeading="Регистрация"
@@ -102,7 +103,7 @@ export const Header = () => {
               { placeholder: 'E-mail', type: 'email' },
               { placeholder: 'Пароль', type: 'password' },
             ]}
-          />
+          /> */}
 
           <Button
             onClick={onSignUpOpen}
@@ -131,6 +132,16 @@ export const Header = () => {
 
         </Stack>
       </Flex>
+
+      <SignUpForm
+        isSignUpOpen={isSignUpOpen}
+        onSignUpClose={onSignUpClose}
+      />
+
+      <SignInForm
+        isSignInOpen={isSignInOpen}
+        onSignInClose={onSignInClose}
+      />
 
       <Collapse in={isNavigationOpen} animateOpacity>
         <MobileNav />

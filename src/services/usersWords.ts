@@ -1,4 +1,4 @@
-import { UserWord } from '../interfaces/types';
+import { UserWord } from '../interfaces/services';
 import { API_URI, fetchData, genericGet } from './common';
 
 // custom data on different words for users

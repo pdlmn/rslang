@@ -1,4 +1,4 @@
-import { UserSettings } from '../interfaces/types';
+import { UserSettings } from '../interfaces/services';
 import { API_URI, fetchData, genericGet } from './common';
 
 const get = genericGet<UserSettings>((userId) => `${API_URI}/users/${userId}/settings`);
