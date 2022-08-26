@@ -1,4 +1,4 @@
-import { Word } from '../interfaces/types';
+import { Word } from '../interfaces/services';
 import { API_URI, buildQueryString, fetchData } from './common';
 
 // raw unaltered words data

@@ -1,4 +1,4 @@
-import { Statistic } from '../interfaces/types';
+import { Statistic } from '../interfaces/services';
 import { API_URI, fetchData, genericGet } from './common';
 
 const get = genericGet<Statistic>((userId) => `${API_URI}/users/${userId}/statistics`);

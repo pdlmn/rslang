@@ -9,6 +9,7 @@
     "react/jsx-props-no-spreading": "off",
     "react/require-default-props": "off",
     "react/no-unused-prop-types": "off",
+    "@typescript-eslint/default-param-last": "off",
     "react/function-component-definition": [
       "error",
       {

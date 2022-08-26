@@ -1,6 +1,6 @@
 import {
   Token, User, UserToken, UserWithoutPassword,
-} from '../interfaces/types';
+} from '../interfaces/services';
 import { API_URI, fetchData, genericGet } from './common';
 
 // without authorization, users can be ONLY created

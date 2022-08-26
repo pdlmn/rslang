@@ -1,4 +1,4 @@
-import { FilterObject } from '../interfaces/types';
+import { FilterObject } from '../interfaces/services';
 
 // common variable and functions for services
 
