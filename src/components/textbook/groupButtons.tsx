@@ -31,11 +31,11 @@ const GroupButton = ({
     borderLeft="4px dotted"
     borderLeftColor="red.300"
     borderBottomEndRadius="3xl"
-    bgColor={selected ? color.hoverColor : useColorModeValue('gray.50', 'gray.400')}
+    bgColor={selected ? useColorModeValue(color.hoverColor, color.activeColor) : useColorModeValue('gray.50', 'gray.700')}
     shadow="md"
     transition="all .25s ease-in-out"
-    color={useColorModeValue('gray.800', 'gray.800')}
-    _hover={{ bgColor: `${color.hoverColor}` }}
+    color={selected ? 'gray.800' : useColorModeValue('gray.800', 'gray.200')}
+    _hover={{ bgColor: `${color.hoverColor}`, color: useColorModeValue('gray.800', 'gray.800') }}
     _active={{ bgColor: `${color.activeColor}`, transform: 'scale(0.95)' }}
     onClick={onClick}
   >
