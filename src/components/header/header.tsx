@@ -12,9 +12,26 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { DesktopNav, MobileNav } from './nav';
 import { Logo } from './logo';
+import { SignUpForm } from './signUpForm';
+import { SignInForm } from './signInForm';
 
 export const Header = () => {
-  const { isOpen, onToggle } = useDisclosure();
+  const {
+    isOpen: isNavigationOpen,
+    onToggle: onNavigationToggle,
+  } = useDisclosure();
+
+  const {
+    isOpen: isSignInOpen,
+    onOpen: onSignInOpen,
+    onClose: onSignInClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isSignUpOpen,
+    onOpen: onSignUpOpen,
+    onClose: onSignUpClose,
+  } = useDisclosure();
 
   return (
     <Container boxSize="full" maxW="container.xl">
@@ -35,9 +52,9 @@ export const Header = () => {
           display={{ base: 'flex', md: 'none' }}
         >
           <IconButton
-            onClick={onToggle}
+            onClick={onNavigationToggle}
             icon={
-              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
+              isNavigationOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
             }
             variant="ghost"
             aria-label="Toggle Navigation"
@@ -58,32 +75,75 @@ export const Header = () => {
           direction="row"
           spacing={6}
         >
-          {/* <Button
-            as={"a"}
-            fontSize={"md"}
-            fontWeight={400}
-            variant={"link"}
-            href={"#"}
-          >
-            Войти
-          </Button> */}
+
+          {/* I noticed that modals are blinking if they are coming AFTER buttons */}
+          {/* <ModalForm
+            isOpen={isSignUpOpen}
+            onClose={onSignUpClose}
+            headerHeading="Регистрация"
+            headerText="Начни изучения языка сейчас!"
+            buttonText="Создать аккаунт"
+            altButtonText="У меня уже есть аккаунт"
+            inputs={[
+              { placeholder: 'Имя', type: 'text' },
+              { placeholder: 'E-mail', type: 'email' },
+              { placeholder: 'Пароль', type: 'password' },
+              { placeholder: 'Повторите пароль', type: 'password' },
+            ]}
+          />
+
+          <ModalForm
+            isOpen={isSignInOpen}
+            onClose={onSignInClose}
+            headerHeading="Вход"
+            headerText="Добро пожаловать. Снова :)"
+            buttonText="Войти"
+            altButtonText="Создать аккаунт"
+            inputs={[
+              { placeholder: 'E-mail', type: 'email' },
+              { placeholder: 'Пароль', type: 'password' },
+            ]}
+          /> */}
+
           <Button
+            onClick={onSignUpOpen}
+            fontSize="md"
+            fontWeight={400}
+            variant="link"
+          >
+            Регистрация
+          </Button>
+
+          <Button
+            onClick={onSignInOpen}
             display={{ base: 'none', md: 'inline-flex' }}
             fontSize="md"
             fontWeight={600}
-            color="white"
+            color="black"
             bg="yellow.400"
             _hover={{
               bg: 'yellow.300',
             }}
           >
-            Войти
+            Вход
           </Button>
+
           <ColorModeSwitcher justifySelf="flex-end" />
+
         </Stack>
       </Flex>
 
-      <Collapse in={isOpen} animateOpacity>
+      <SignUpForm
+        isSignUpOpen={isSignUpOpen}
+        onSignUpClose={onSignUpClose}
+      />
+
+      <SignInForm
+        isSignInOpen={isSignInOpen}
+        onSignInClose={onSignInClose}
+      />
+
+      <Collapse in={isNavigationOpen} animateOpacity>
         <MobileNav />
       </Collapse>
     </Container>

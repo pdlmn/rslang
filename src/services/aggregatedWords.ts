@@ -1,4 +1,4 @@
-import { AggregatedObject, AggregatedWord, FilterObject } from '../interfaces/types';
+import { AggregatedObject, AggregatedWord, FilterObject } from '../interfaces/services';
 import { API_URI, buildQueryString, fetchData } from './common';
 
 // aggregated words are a combination of regular words & custom words data for user
