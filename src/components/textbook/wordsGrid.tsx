@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   Button, Flex, Stack, Text, useColorModeValue,
 } from '@chakra-ui/react';
@@ -13,7 +13,7 @@ import {
   PaginationSeparator,
 } from '@ajna/pagination';
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
-import { Word } from '../../interfaces/types';
+import { Word } from '../../interfaces/services';
 import { Words as wordsService } from '../../services/words';
 import { GroupButtonData } from './groupButtonData';
 
@@ -65,15 +65,15 @@ export type PaginationBlockProps = {
   setCurrentPage: (page: number) => void;
 };
 
+const outerLimit = 1;
+const innerLimit = 1;
+
 export const WordsGrid = ({
   group,
   selectedWord,
   setSelectedWord,
 }: WordsGridProps) => {
   const [words, setWords] = useState<Array<Word>>([]);
-
-  const outerLimit = 1;
-  const innerLimit = 1;
 
   const {
     pages, pagesCount, currentPage, setCurrentPage,
@@ -98,15 +98,15 @@ export const WordsGrid = ({
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [group]);
+  }, [group, setCurrentPage]);
 
   useEffect(() => {
     setSelectedWord(words[0]);
   }, [words]);
 
-  const handlePageChange = (nextPage: number): void => {
+  const handlePageChange = useCallback((nextPage: number): void => {
     setCurrentPage(nextPage);
-  };
+  }, [setCurrentPage]);
 
   return (
     <Flex wrap="wrap" gap={6} maxW="850px">

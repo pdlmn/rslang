@@ -1,6 +1,6 @@
 import { Flex, Heading, Stack } from '@chakra-ui/react';
 import { useState } from 'react';
-import { Word } from '../../interfaces/types';
+import { Word } from '../../interfaces/services';
 import { GroupButtonData } from './groupButtonData';
 import { WordDescriptionCard } from './wordDescriptionCard';
 import { WordsGrid } from './wordsGrid';

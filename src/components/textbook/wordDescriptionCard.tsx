@@ -9,10 +9,12 @@ import {
   Tooltip,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useCallback, useEffect, useState } from 'react';
+import {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import { ImVolumeMedium } from 'react-icons/im';
 import useSound from 'use-sound';
-import { Word } from '../../interfaces/types';
+import { Word } from '../../interfaces/services';
 import { API_URI } from '../../services/common';
 import { GroupButtonData } from './groupButtonData';
 
@@ -23,11 +25,11 @@ export type WordDescriptionCardProps = {
 
 const SoundButton = ({ selectedWord }: WordDescriptionCardProps) => {
   const { audio, audioMeaning, audioExample } = selectedWord;
-  const [audioSrc, audioExampleSrc, audioMeaningSrc] = [
+  const [audioSrc, audioExampleSrc, audioMeaningSrc] = useMemo(() => [
     audio,
     audioExample,
     audioMeaning,
-  ].map((s) => `${API_URI}/${s}`);
+  ].map((s) => `${API_URI}/${s}`), [audio, audioExample, audioMeaning]);
   const [playAudio, audioData] = useSound(audioSrc, { volume: 0.7 });
   const [playAudioMeaning, audioMeaningData] = useSound(audioMeaningSrc, {
     volume: 0.7,
@@ -47,7 +49,7 @@ const SoundButton = ({ selectedWord }: WordDescriptionCardProps) => {
   useEffect(() => {
     stopAll();
     setHandlersReady(false);
-  }, [selectedWord]);
+  }, [selectedWord, stopAll, setHandlersReady]);
 
   useEffect(() => {
     if (audioData.sound && audioMeaningData.sound && !handlersReady) {
@@ -57,7 +59,7 @@ const SoundButton = ({ selectedWord }: WordDescriptionCardProps) => {
     }
 
     return () => stopAll();
-  }, [audioData, playAudioMeaning, playAudioExample, handlersReady]);
+  }, [audioData, playAudioMeaning, playAudioExample, handlersReady, stopAll, setHandlersReady]);
 
   return (
     <Tooltip label="Озвучить" placement="right-start" rounded="md">

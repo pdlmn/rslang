@@ -128,7 +128,7 @@ export const DesktopNav = () => {
                       }}
                     >
                       <Icon as={child.icon} ml={4} />
-                      <DesktopSubNav {...child} />
+                      <DesktopSubNav label={child.label} href={child.href} />
                     </HStack>
                   ))}
                 </Stack>
