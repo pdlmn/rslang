@@ -28,6 +28,7 @@ export const SignUpForm = ({ isSignUpOpen, onSignUpClose }: SignUpFormProps) => 
 
   const handleSignUpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
+    if (name !== 'name' && name !== 'email' && name !== 'password1' && name !== 'password2') return;
     dispatch(signUpChange({ [name]: value }));
   };
 

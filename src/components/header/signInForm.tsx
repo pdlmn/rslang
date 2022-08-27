@@ -1,5 +1,7 @@
 import {
   Button,
+  FormControl,
+  FormErrorMessage,
   Input,
   Modal,
   ModalBody,
@@ -10,9 +12,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { useTypedSelector } from '../../redux';
-import { signInChange } from '../../redux/actions/signInActions';
+import { useAppDispatch, useTypedSelector } from '../../redux';
+import { signInChange, signInSubmit } from '../../redux/actions/signInActions';
 import { PasswordInput } from './passwordInput';
 
 interface SignInFormProps {
@@ -21,14 +22,23 @@ interface SignInFormProps {
 }
 
 export const SignInForm = ({ isSignInOpen, onSignInClose }: SignInFormProps) => {
-  const dispatch = useDispatch();
-  const signInData = useTypedSelector((state) => state.signIn);
+  const dispatch = useAppDispatch();
+  const signInState = useTypedSelector((state) => state.signIn);
   const signInRef = useRef(null);
 
   const handleSignInChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
+    if (name !== 'email' && name !== 'password') return;
     dispatch(signInChange({ [name]: value }));
   };
+
+  const sendUserData = () => {
+    dispatch(signInSubmit());
+  };
+
+  const isUserExist = ['example@gmail.com', 'rsschool@gmail.com'].includes(signInState.email);
+
+  const isPasswordCorrect = signInState.password === '13131313';
 
   return (
     <Modal
@@ -46,35 +56,45 @@ export const SignInForm = ({ isSignInOpen, onSignInClose }: SignInFormProps) => 
             fontStyle="italic"
             fontWeight="thin"
           >
-            Начни изучения языка сейчас!
+            Добро пожаловать снова :)
           </Text>
           <Text
             fontSize="x-large"
             textAlign="center"
             pt={4}
           >
-            Регистрация
+            Вход
           </Text>
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Stack spacing={5}>
-            <Input
-              placeholder="E-mail"
-              type="email"
-              size="lg"
-              name="email"
-              ref={signInRef}
-              onChange={handleSignInChange}
-              value={signInData.email}
-            />
-            <PasswordInput
-              placeholder="Пароль"
-              size="lg"
-              name="password"
-              onChange={handleSignInChange}
-              value={signInData.password}
-            />
+            <FormControl isInvalid={!isUserExist && signInState.failed}>
+              <Input
+                placeholder="E-mail"
+                type="email"
+                size="lg"
+                name="email"
+                ref={signInRef}
+                onChange={handleSignInChange}
+                value={signInState.email}
+              />
+              {signInState.failed && !isUserExist && (
+                <FormErrorMessage>No user with such email.</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl isInvalid={!isPasswordCorrect && signInState.failed}>
+              <PasswordInput
+                placeholder="Пароль"
+                size="lg"
+                name="password"
+                onChange={handleSignInChange}
+                value={signInState.password}
+              />
+              {signInState.failed && !isPasswordCorrect && (
+                <FormErrorMessage>Incorrect password.</FormErrorMessage>
+              )}
+            </FormControl>
           </Stack>
           <Button
             mt="7"
@@ -86,8 +106,10 @@ export const SignInForm = ({ isSignInOpen, onSignInClose }: SignInFormProps) => 
             _hover={{
               bg: 'yellow.300',
             }}
+            isLoading={signInState.loading}
+            onClick={sendUserData}
           >
-            Создать аккаунт
+            Войти
           </Button>
         </ModalBody>
         <ModalFooter justifyContent="center">
@@ -96,7 +118,7 @@ export const SignInForm = ({ isSignInOpen, onSignInClose }: SignInFormProps) => 
             color="blue.200"
             fontWeight="medium"
           >
-            У меня уже есть аккаунт
+            Создать аккаунт
           </Button>
         </ModalFooter>
       </ModalContent>

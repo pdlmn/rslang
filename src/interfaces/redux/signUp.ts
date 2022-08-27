@@ -1,7 +1,7 @@
 export enum SignUpActionTypes {
   Change = 'signUp/change',
   Submit = 'signUp/submit',
-  Fail = 'signUp/failed',
+  Fail = 'signUp/fail',
 }
 
 export type SignUpState = {
