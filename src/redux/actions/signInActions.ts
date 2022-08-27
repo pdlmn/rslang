@@ -17,7 +17,6 @@ export const signInFail = (payload: boolean): SignInFailAction => ({
 export const signInSubmit = () => (
   async (dispatch: Dispatch<SignInAction>) => {
     try {
-      console.log('heh');
       dispatch({ type: SignInActionTypes.Submit });
       await new Promise((_, reject) => {
         setTimeout(() => { reject(); }, 2000);
