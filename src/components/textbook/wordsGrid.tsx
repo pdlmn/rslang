@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
-  Button, Flex, Stack, Text, useColorModeValue,
+  Flex, Stack, useColorModeValue,
 } from '@chakra-ui/react';
 import {
   Pagination,
@@ -13,67 +13,27 @@ import {
   PaginationSeparator,
 } from '@ajna/pagination';
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
+import { useDispatch, useSelector } from 'react-redux';
+import { AnyAction } from 'redux';
 import { Word } from '../../interfaces/services';
 import { Words as wordsService } from '../../services/words';
-import { GroupButtonData } from './groupButtonData';
-
-type WordShortCard = {
-  word: Word;
-  color: { hoverColor: string; activeColor: string; baseColor: string };
-  selected: boolean;
-  onClick: () => void;
-};
-
-const Card = ({
-  word, color, selected, onClick,
-}: WordShortCard) => (
-  <Button
-    p={2}
-    h="7rem"
-    w="11.5rem"
-    variant="outline"
-    color={selected ? 'gray.800' : useColorModeValue('gray.700', 'gray.200')}
-    borderColor={color.activeColor}
-    bgColor={selected ? color.activeColor : 'transparent'}
-    transition="all .25s ease-in-out"
-    onClick={onClick}
-    flexWrap="wrap"
-    _hover={{ bgColor: color.activeColor, color: useColorModeValue('gray.800', 'gray.800') }}
-    _active={{ bgColor: color.baseColor, color: useColorModeValue('gray.800', 'gray.800') }}
-  >
-    <Stack>
-      <Text fontSize="xl" fontWeight="bold">
-        {word.word}
-      </Text>
-      <Text fontSize="md" fontWeight="300" style={{ whiteSpace: 'normal' }}>
-        {word.wordTranslate}
-      </Text>
-    </Stack>
-  </Button>
-);
-
-export type WordsGridProps = {
-  group: GroupButtonData;
-  selectedWord: Word | undefined;
-  setSelectedWord: (word: Word) => void;
-};
-
-export type PaginationBlockProps = {
-  pages: Array<number>;
-  pagesCount: number;
-  currentPage: number;
-  setCurrentPage: (page: number) => void;
-};
+import { getGroup, getSelectedWord } from './textbook.selectors';
+import { setSelectedWord } from './textbook.actions';
+import { Card } from './card';
 
 const outerLimit = 1;
 const innerLimit = 1;
 
-export const WordsGrid = ({
-  group,
-  selectedWord,
-  setSelectedWord,
-}: WordsGridProps) => {
+export const WordsGrid = () => {
   const [words, setWords] = useState<Array<Word>>([]);
+
+  const group = useSelector(getGroup);
+  const selectedWord = useSelector(getSelectedWord);
+  const dispatch = useDispatch();
+  const dispatchSetSelectedWord = useCallback(
+    (s: Word): AnyAction => dispatch(setSelectedWord(s)),
+    [dispatch],
+  );
 
   const {
     pages, pagesCount, currentPage, setCurrentPage,
@@ -89,11 +49,13 @@ export const WordsGrid = ({
   });
 
   useEffect(() => {
-    wordsService
-      .get({ group: group.id, page: currentPage - 1 })
-      .then((data) => {
-        setWords(data as Array<Word>);
-      });
+    if (group) {
+      wordsService
+        .get({ group: group.id, page: currentPage - 1 })
+        .then((data) => {
+          setWords(data as Array<Word>);
+        });
+    }
   }, [group, currentPage]);
 
   useEffect(() => {
@@ -101,12 +63,15 @@ export const WordsGrid = ({
   }, [group, setCurrentPage]);
 
   useEffect(() => {
-    setSelectedWord(words[0]);
+    dispatchSetSelectedWord(words[0]);
   }, [words]);
 
-  const handlePageChange = useCallback((nextPage: number): void => {
-    setCurrentPage(nextPage);
-  }, [setCurrentPage]);
+  const handlePageChange = useCallback(
+    (nextPage: number): void => {
+      setCurrentPage(nextPage);
+    },
+    [setCurrentPage],
+  );
 
   return (
     <Flex wrap="wrap" gap={6} maxW="850px">
@@ -114,9 +79,9 @@ export const WordsGrid = ({
         <Card
           key={word.id}
           word={word}
-          color={group.color}
+          color={group!.color}
           selected={selectedWord === word}
-          onClick={() => setSelectedWord(word)}
+          onClick={() => dispatchSetSelectedWord(word)}
         />
       ))}
       <Stack m="auto">
@@ -158,12 +123,12 @@ export const WordsGrid = ({
                   rounded="full"
                   bg="transparent"
                   _hover={{
-                    bg: group.color.activeColor,
+                    bg: group!.color.activeColor,
                     color: 'gray.800',
                   }}
-                  _active={{ bgColor: group.color.baseColor }}
+                  _active={{ bgColor: group!.color.baseColor }}
                   _current={{
-                    bg: group.color.activeColor,
+                    bg: group!.color.activeColor,
                     fontSize: 'sm',
                     w: 10,
                     color: 'gray.800',

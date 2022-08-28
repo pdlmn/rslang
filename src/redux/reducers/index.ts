@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { textbookReducer } from '../../components/textbook/textbook.reducer';
 import { authReducer } from './auth';
 import { gamesReducer } from './gamesReducer';
 import { gameWordsReducer } from './gameWordsReducer';
@@ -11,6 +12,7 @@ export const rootReducer = combineReducers({
   auth: authReducer,
   games: gamesReducer,
   gameWords: gameWordsReducer,
+  textbook: textbookReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
