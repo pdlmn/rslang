@@ -1,6 +1,8 @@
 import {
   Container, Heading, Stack, useColorModeValue,
 } from '@chakra-ui/react';
+import { ComplexButtons } from './complexButtons';
+import { GamesBlock } from './gamesBlock';
 import { GroupButtons } from './groupButtons';
 import { WordsBlock } from './wordsBlock';
 
@@ -19,7 +21,9 @@ export const TextbookMain = () => (
         Учебник
       </Heading>
       <GroupButtons />
+      <ComplexButtons />
       <WordsBlock />
+      <GamesBlock />
     </Stack>
   </Container>
 );

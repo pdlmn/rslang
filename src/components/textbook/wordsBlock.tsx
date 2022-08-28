@@ -8,7 +8,7 @@ export const WordsBlock = () => {
   const selectedWord = useSelector(getSelectedWord);
 
   return (
-    <Stack spacing={4} pt={4}>
+    <Stack spacing={4}>
       <Heading as="h3" size="lg">Слова</Heading>
       <Flex justify="space-between">
         <WordsGrid />
