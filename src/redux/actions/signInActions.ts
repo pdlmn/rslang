@@ -1,28 +1,47 @@
 import { Dispatch } from 'redux';
 import {
   SignInAction,
-  SignInActionTypes, SignInChangeAction, SignInFailAction, SignInState,
+  SignInActionTypes,
+  SignInChangeAction,
+  SignInError,
+  SignInFailAction,
+  SignInForm,
+  SignInResetAction,
+  SignInState,
+  SignInSuccessAction,
 } from '../../interfaces/redux/signIn';
+import Users from '../../services/users';
 
 export const signInChange = (payload: Partial<SignInState>): SignInChangeAction => ({
   type: SignInActionTypes.Change,
   payload,
 });
 
-export const signInFail = (payload: boolean): SignInFailAction => ({
+export const signInSuccess = (): SignInSuccessAction => ({
+  type: SignInActionTypes.Success,
+});
+
+export const signInFail = (payload: Partial<SignInError>): SignInFailAction => ({
   type: SignInActionTypes.Fail,
   payload,
 });
 
-export const signInSubmit = () => (
+export const signInReset = (): SignInResetAction => ({
+  type: SignInActionTypes.Reset,
+});
+
+export const signInSubmit = (payload: SignInForm) => (
   async (dispatch: Dispatch<SignInAction>) => {
     try {
       dispatch({ type: SignInActionTypes.Submit });
-      await new Promise((_, reject) => {
-        setTimeout(() => { reject(); }, 2000);
-      });
+      const response = await Users.signIn(payload.email, payload.password);
+      if ('token' in response) {
+        dispatch(signInSuccess());
+      } else if (response.status === 404 || response.status === 403) {
+        dispatch(signInFail({ incorrectEmailOrPassword: true }));
+      }
     } catch (e) {
-      dispatch(signInFail(true));
+      dispatch(signInFail({ other: true }));
     }
   }
 );

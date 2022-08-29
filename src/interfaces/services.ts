@@ -7,6 +7,19 @@ type User = {
 
 type UserWithoutPassword = Omit<User, 'password'>;
 
+type UserCreateError = {
+  path: 'name'[] | 'email'[] | 'password'[],
+  message: string,
+};
+
+// if post request for creating user didn't pass server validation it returns this
+type UserCreateErrorResponse = {
+  error: {
+    status: 'failed',
+    errors: UserCreateError[],
+  }
+};
+
 type Word = {
   id: string,
   group: 0,
@@ -71,6 +84,7 @@ type UserSettings = {
 
 export type {
   User,
+  UserCreateErrorResponse,
   UserWithoutPassword,
   Token,
   UserToken,
