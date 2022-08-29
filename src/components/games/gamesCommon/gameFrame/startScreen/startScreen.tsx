@@ -10,10 +10,9 @@ import { levelsButtons } from './levelsButtons';
 import { StartScreenBtn } from './startScreenBtn';
 
 export const StartScreen = () => {
-  const name = useTypedSelector((state) => state.games.name);
-  const description = useTypedSelector((state) => state.games.description);
-  const fromPage = useTypedSelector((state) => state.games.fromPage);
-  const currentLevel = useTypedSelector((state) => state.games.level);
+  const {
+    name, description, fromPage, level,
+  } = useTypedSelector((state) => state.games);
   const {
     startGame, startLoading, stopLoading, setWords,
   } = useAction();
@@ -21,13 +20,13 @@ export const StartScreen = () => {
     ? (
       <p>
         Игра со словами со страницы учебника
-        {currentLevel}
+        {level}
         -
         {fromPage}
       </p>
     )
-    : levelsButtons.map((level) => (
-      <StartScreenBtn {...level} />
+    : levelsButtons.map((levelBtn) => (
+      <StartScreenBtn {...levelBtn} />
     ));
 
   const getWordsAndStart = async () => {

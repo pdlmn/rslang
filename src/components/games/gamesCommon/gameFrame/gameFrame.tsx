@@ -5,10 +5,9 @@ import { StartScreen } from './startScreen/startScreen';
 import { StatisticsScreen } from './statisticsScreen/statisticsScreen';
 
 export const GameFrame = () => {
-  const isReady = useTypedSelector((state) => state.games.isStarted);
-  const isLoading = useTypedSelector((state) => state.games.isLoading);
-  const isFinished = useTypedSelector((state) => state.games.isFinished);
-  const name = useTypedSelector((state) => state.games.name);
+  const {
+    isStarted, isLoading, isFinished, name,
+  } = useTypedSelector((state) => state.games);
   const game = gameComponentByName(name);
 
   if (isLoading) {
@@ -31,7 +30,7 @@ export const GameFrame = () => {
   }
   return (
     <Box>
-      {isReady
+      {isStarted
         ? game
         : (
           <StartScreen />

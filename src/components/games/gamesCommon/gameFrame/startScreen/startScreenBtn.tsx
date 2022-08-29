@@ -4,7 +4,7 @@ import { StartScreenBtnProps } from '../../../../../interfaces/gamesCommon';
 import { useTypedSelector } from '../../../../../redux';
 
 export const StartScreenBtn = ({ label, color }: StartScreenBtnProps) => {
-  const currentLevel = useTypedSelector((state) => state.games.level);
+  const { level } = useTypedSelector((state) => state.games);
   const { selectLevel } = useAction();
 
   return (
@@ -17,7 +17,7 @@ export const StartScreenBtn = ({ label, color }: StartScreenBtnProps) => {
       _hover={{
         bg: `${color}.200`,
       }}
-      boxShadow={`0 0 ${currentLevel === label ? '2' : '0'}em ${color}`}
+      boxShadow={`0 0 ${level === label ? '2' : '0'}em ${color}`}
       onClick={() => {
         selectLevel({ level: label });
       }}

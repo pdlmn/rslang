@@ -11,8 +11,7 @@ import { useTypedSelector } from '../../../redux';
 import { GameFrame } from './gameFrame/gameFrame';
 
 export const GamesConteiner = () => {
-  const isMuted = useTypedSelector((state) => state.games.isMuted);
-  const isFullscreen = useTypedSelector((state) => state.games.isFullscreen);
+  const { isMuted, isFullscreen } = useTypedSelector((state) => state.games);
   const {
     mute, unmute, startFullscreen, stopFullscreen,
   } = useAction();

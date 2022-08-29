@@ -9,8 +9,7 @@ import { useAction } from '../../../hooks/useAction';
 import { useTypedSelector } from '../../../redux';
 
 export const AudioCallGame = () => {
-  const words = useTypedSelector((state) => state.gameWords.words);
-  const currentWord = useTypedSelector((state) => state.gameWords.currentWordIndex);
+  const { words, currentWordIndex } = useTypedSelector((state) => state.gameWords);
   const {
     nextWord, rightAnswer, wrongAnswer, finishGame,
   } = useAction();

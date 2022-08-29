@@ -2,7 +2,7 @@ import { Heading, Text, VStack } from '@chakra-ui/react';
 import { useTypedSelector } from '../../../../../redux';
 
 export const StatisticsScreen = () => {
-  const words = useTypedSelector((state) => state.gameWords.words);
+  const { words } = useTypedSelector((state) => state.gameWords);
   const rightWords = words
     .filter((word) => word.isAnswered)
     .filter((word) => word.isCorrect)
