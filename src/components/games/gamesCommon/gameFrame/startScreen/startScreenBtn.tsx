@@ -17,8 +17,7 @@ export const StartScreenBtn = ({ label, color }: StartScreenBtnProps) => {
       _hover={{
         bg: `${color}.200`,
       }}
-      transform="auto"
-      translateY={currentLevel === label ? '-10px' : '0'}
+      boxShadow={`0 0 ${currentLevel === label ? '2' : '0'}em ${color}`}
       onClick={() => {
         selectLevel({ level: label });
       }}

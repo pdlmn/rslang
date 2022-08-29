@@ -13,13 +13,15 @@ export const GameFrame = () => {
 
   if (isLoading) {
     return (
-      <Spinner
-        thickness="4px"
-        speed="0.65s"
-        emptyColor="gray.200"
-        color="blue.500"
-        size="xl"
-      />
+      <Box p="7rem">
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Box>
     );
   }
   if (isFinished) {
