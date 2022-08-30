@@ -4,7 +4,7 @@ const initialState: SignInState = {
   email: '',
   password: '',
   loading: false,
-  success: false,
+  user: null,
   error: null,
 };
 
@@ -16,11 +16,11 @@ export const signInReducer = (state = initialState, action: SignInAction): SignI
       return { ...state, loading: true };
     case SignInActionTypes.Success:
       return {
-        ...state, error: null, loading: false, success: true,
+        ...state, error: null, loading: false, user: action.payload,
       };
     case SignInActionTypes.Fail:
       return {
-        ...state, error: action.payload, loading: false, success: false,
+        ...state, error: action.payload, loading: false, user: null,
       };
     case SignInActionTypes.Reset:
       return { ...initialState };

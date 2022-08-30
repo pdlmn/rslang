@@ -10,6 +10,7 @@ import {
   SignInState,
   SignInSuccessAction,
 } from '../../interfaces/redux/signIn';
+import { UserToken } from '../../interfaces/services';
 import Users from '../../services/users';
 
 export const signInChange = (payload: Partial<SignInState>): SignInChangeAction => ({
@@ -17,8 +18,9 @@ export const signInChange = (payload: Partial<SignInState>): SignInChangeAction 
   payload,
 });
 
-export const signInSuccess = (): SignInSuccessAction => ({
+export const signInSuccess = (payload: UserToken): SignInSuccessAction => ({
   type: SignInActionTypes.Success,
+  payload,
 });
 
 export const signInFail = (payload: Partial<SignInError>): SignInFailAction => ({
@@ -36,7 +38,7 @@ export const signInSubmit = (payload: SignInForm) => (
       dispatch({ type: SignInActionTypes.Submit });
       const response = await Users.signIn(payload.email, payload.password);
       if ('token' in response) {
-        dispatch(signInSuccess());
+        dispatch(signInSuccess(response));
       } else if (response.status === 404 || response.status === 403) {
         dispatch(signInFail({ incorrectEmailOrPassword: true }));
       }

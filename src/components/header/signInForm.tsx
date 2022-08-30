@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 import { useAppDispatch, useTypedSelector } from '../../redux';
+import { authLogIn } from '../../redux/actions/auth';
 import { signInChange, signInReset, signInSubmit } from '../../redux/actions/signInActions';
 import { PasswordInput } from './passwordInput';
 
@@ -31,7 +32,7 @@ export const SignInForm = ({
 }: SignInFormProps) => {
   const dispatch = useAppDispatch();
   const {
-    email, password, error, loading, success,
+    user, email, password, error, loading,
   } = useTypedSelector((state) => state.signIn);
   const signInRef = useRef(null);
 
@@ -49,12 +50,13 @@ export const SignInForm = ({
   };
 
   useEffect(() => {
-    if (success) {
+    if (user) {
       onSignInClose();
+      dispatch(authLogIn({ ...user, lastLogin: Date.now() }));
       dispatch(signInReset());
       onSuccess();
     }
-  }, [success]);
+  }, [user]);
 
   return (
     <Modal

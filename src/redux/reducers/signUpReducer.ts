@@ -6,7 +6,7 @@ const initialState: SignUpState = {
   password1: '',
   password2: '',
   loading: false,
-  success: false,
+  user: null,
   submitted: false,
   error: null,
 };
@@ -19,11 +19,11 @@ export const signUpReducer = (state = initialState, action: SignUpAction): SignU
       return { ...state, loading: true };
     case SignUpActionTypes.Success:
       return {
-        ...state, error: null, loading: false, success: true, submitted: true,
+        ...state, error: null, loading: false, user: action.payload, submitted: true,
       };
     case SignUpActionTypes.Fail:
       return {
-        ...state, error: action.payload, loading: false, success: false, submitted: true,
+        ...state, error: action.payload, loading: false, user: null, submitted: true,
       };
     case SignUpActionTypes.Reset:
       return { ...initialState };

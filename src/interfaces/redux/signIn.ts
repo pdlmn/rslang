@@ -1,3 +1,5 @@
+import { UserToken } from '../services';
+
 export enum SignInActionTypes {
   Change = 'signIn/change',
   Submit = 'signIn/sumbit',
@@ -18,7 +20,7 @@ export type SignInError = {
 
 export type SignInState = SignInForm & {
   loading: boolean,
-  success: boolean,
+  user: null | UserToken,
   error: null | Partial<SignInError>,
 };
 
@@ -33,6 +35,7 @@ export type SignInSubmitAction = {
 
 export type SignInSuccessAction = {
   type: SignInActionTypes.Success,
+  payload: UserToken
 };
 
 export type SignInFailAction = {

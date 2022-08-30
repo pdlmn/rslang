@@ -15,6 +15,8 @@ import { DesktopNav, MobileNav } from './nav';
 import { Logo } from './logo';
 import { SignUpForm } from './signUpForm';
 import { SignInForm } from './signInForm';
+import { useAppDispatch, useTypedSelector } from '../../redux';
+import { authLogOut } from '../../redux/actions/auth';
 
 export const Header = () => {
   const {
@@ -33,6 +35,9 @@ export const Header = () => {
     onOpen: onSignUpOpen,
     onClose: onSignUpClose,
   } = useDisclosure();
+
+  const dispatch = useAppDispatch();
+  const { user } = useTypedSelector((state) => state.auth);
 
   const toast = useToast();
 
@@ -78,30 +83,48 @@ export const Header = () => {
           direction="row"
           spacing={6}
         >
+          {user
+            ? (
+              <Button
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize="md"
+                fontWeight={600}
+                color="black"
+                bg="yellow.400"
+                _hover={{
+                  bg: 'yellow.300',
+                }}
+                onClick={() => dispatch(authLogOut())}
+              >
+                Выход
+              </Button>
+            )
+            : (
+              <>
+                <Button
+                  onClick={onSignUpOpen}
+                  fontSize="md"
+                  fontWeight={400}
+                  variant="link"
+                >
+                  Регистрация
+                </Button>
 
-          <Button
-            onClick={onSignUpOpen}
-            fontSize="md"
-            fontWeight={400}
-            variant="link"
-          >
-            Регистрация
-          </Button>
-
-          <Button
-            onClick={onSignInOpen}
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize="md"
-            fontWeight={600}
-            color="black"
-            bg="yellow.400"
-            _hover={{
-              bg: 'yellow.300',
-            }}
-          >
-            Вход
-          </Button>
-
+                <Button
+                  onClick={onSignInOpen}
+                  display={{ base: 'none', md: 'inline-flex' }}
+                  fontSize="md"
+                  fontWeight={600}
+                  color="black"
+                  bg="yellow.400"
+                  _hover={{
+                    bg: 'yellow.300',
+                  }}
+                >
+                  Вход
+                </Button>
+              </>
+            )}
           <ColorModeSwitcher justifySelf="flex-end" />
 
         </Stack>
