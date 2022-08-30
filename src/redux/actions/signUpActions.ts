@@ -9,7 +9,7 @@ import {
   SignUpForm,
   SignUpError,
 } from '../../interfaces/redux/signUp';
-import { User, UserCreateErrorResponse } from '../../interfaces/services';
+import { User, UserCreateErrorResponse, UserToken } from '../../interfaces/services';
 import Users from '../../services/users';
 
 export const signUpChange = (payload: Partial<SignUpForm>): SignUpChangeAction => ({
@@ -17,8 +17,9 @@ export const signUpChange = (payload: Partial<SignUpForm>): SignUpChangeAction =
   payload,
 });
 
-export const signUpSuccess = (): SignUpSuccessAction => ({
+export const signUpSuccess = (payload: UserToken): SignUpSuccessAction => ({
   type: SignUpActionTypes.Success,
+  payload,
 });
 
 export const signUpFail = (payload: Partial<SignUpError>): SignUpFailAction => ({
@@ -64,8 +65,8 @@ export const signUpSubmit = (payload: Omit<User, 'id'>) => (
       const response = await Users.create(payload);
 
       if ('email' in response) {
-        await Users.signIn(payload.email, payload.password);
-        dispatch(signUpSuccess());
+        const user = await Users.signIn(payload.email, payload.password) as UserToken;
+        dispatch(signUpSuccess(user));
       } else if (response.status === 417) {
         dispatch(signUpFail({ emailAlreadyExists: true }));
       } else if (response.status === 422) {

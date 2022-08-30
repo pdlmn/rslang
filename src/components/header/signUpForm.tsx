@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 import { useAppDispatch, useTypedSelector } from '../../redux';
+import { authLogIn } from '../../redux/actions/auth';
 import {
   signUpChange, signUpReset, signUpSubmit,
 } from '../../redux/actions/signUpActions';
@@ -36,7 +37,7 @@ export const SignUpForm = ({
   const dispatch = useAppDispatch();
   const signUpRef = useRef(null);
   const {
-    success, submitted, error, loading, name, email, password1, password2,
+    user, submitted, error, loading, name, email, password1, password2,
   } = useTypedSelector((state) => state.signUp);
 
   const handleSignUpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,12 +57,13 @@ export const SignUpForm = ({
   const arePasswordsMatch = password1 === password2;
 
   useEffect(() => {
-    if (submitted && success) {
+    if (submitted && user) {
       onSignUpClose();
+      dispatch(authLogIn({ ...user, lastLogin: Date.now() }));
       dispatch(signUpReset());
       onSuccess();
     }
-  }, [submitted, success]);
+  }, [submitted, user]);
 
   return (
     <Modal
@@ -103,7 +105,7 @@ export const SignUpForm = ({
           )}
           <Stack spacing={5}>
             <FormControl
-              isInvalid={submitted && !success && error?.nameEmpty}
+              isInvalid={submitted && !user && error?.nameEmpty}
             >
               <Input
                 placeholder="Имя"
@@ -114,12 +116,12 @@ export const SignUpForm = ({
                 onChange={handleSignUpChange}
                 value={name}
               />
-              {submitted && !success && error?.nameEmpty && (
+              {submitted && !user && error?.nameEmpty && (
                 <FormErrorMessage>Введите своё имя.</FormErrorMessage>
               )}
             </FormControl>
             <FormControl
-              isInvalid={submitted && !success
+              isInvalid={submitted && !user
                 && (error?.emailAlreadyExists || error?.emailInvalid || error?.emailEmpty)}
             >
               <Input
@@ -130,18 +132,18 @@ export const SignUpForm = ({
                 onChange={handleSignUpChange}
                 value={email}
               />
-              {submitted && !success && error?.emailEmpty && (
+              {submitted && !user && error?.emailEmpty && (
                 <FormErrorMessage>Введите свой email.</FormErrorMessage>
               )}
-              {submitted && !success && !error?.emailEmpty && error?.emailInvalid && (
+              {submitted && !user && !error?.emailEmpty && error?.emailInvalid && (
                 <FormErrorMessage>Некорректный email.</FormErrorMessage>
               )}
-              {submitted && !success && error?.emailAlreadyExists && (
+              {submitted && !user && error?.emailAlreadyExists && (
                 <FormErrorMessage>Введёный email уже зарегистрирован.</FormErrorMessage>
               )}
             </FormControl>
             <FormControl
-              isInvalid={submitted && !success && (error?.passwordInvalid || error?.passwordEmpty)}
+              isInvalid={submitted && !user && (error?.passwordInvalid || error?.passwordEmpty)}
             >
               <PasswordInput
                 placeholder="Пароль"
@@ -150,12 +152,12 @@ export const SignUpForm = ({
                 onChange={handleSignUpChange}
                 value={password1}
               />
-              {submitted && !success && error?.passwordEmpty && (
+              {submitted && !user && error?.passwordEmpty && (
                 <FormErrorMessage>
                   Пожалуйста, введите пароль.
                 </FormErrorMessage>
               )}
-              {submitted && !success && !error?.passwordEmpty && error?.passwordInvalid && (
+              {submitted && !user && !error?.passwordEmpty && error?.passwordInvalid && (
                 <FormErrorMessage>
                   Пароль должен быть длиной в не менее 8 символов.
                 </FormErrorMessage>
