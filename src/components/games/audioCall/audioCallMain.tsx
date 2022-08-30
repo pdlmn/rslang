@@ -1,9 +1,17 @@
-import { Container, Heading, VStack } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { useAction } from '../../../hooks/useAction';
+import { GameNames } from '../../../interfaces/gamesCommon';
+import { GamesConteiner } from '../gamesCommon/gamesConteiner';
 
-export const AudioCallMain = () => (
-  <Container maxW="container.xl" p="2rem 1rem">
-    <VStack>
-      <Heading as="h1">Аудиовызов</Heading>
-    </VStack>
-  </Container>
-);
+const name = GameNames.AudioCall;
+const description = 'Тренирует восприятие речи на слух';
+
+export const AudioCallMain = () => {
+  const { selectGame } = useAction();
+
+  useEffect(() => {
+    selectGame({ name, description });
+  }, []);
+
+  return <GamesConteiner />;
+};
