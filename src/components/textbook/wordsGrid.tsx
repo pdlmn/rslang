@@ -17,7 +17,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AnyAction } from 'redux';
 import { Word } from '../../interfaces/services';
 import { Words as wordsService } from '../../services/words';
-import { getGroup, getSelectedWord } from './textbook.selectors';
+import {
+  getComplexWords, getGroup, getLearnedWords, getSelectedWord,
+} from './textbook.selectors';
 import { setSelectedWord } from './textbook.actions';
 import { Card } from './card';
 
@@ -29,6 +31,8 @@ export const WordsGrid = () => {
 
   const group = useSelector(getGroup);
   const selectedWord = useSelector(getSelectedWord);
+  const complexWords = useSelector(getComplexWords);
+  const learnedWords = useSelector(getLearnedWords);
   const dispatch = useDispatch();
   const dispatchSetSelectedWord = useCallback(
     (s: Word): AnyAction => dispatch(setSelectedWord(s)),
@@ -81,6 +85,8 @@ export const WordsGrid = () => {
           word={word}
           color={group!.color}
           selected={selectedWord === word}
+          complex={complexWords.includes(word)}
+          learned={learnedWords.includes(word)}
           onClick={() => dispatchSetSelectedWord(word)}
         />
       ))}

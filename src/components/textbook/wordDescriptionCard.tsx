@@ -7,14 +7,27 @@ import {
   VStack,
   Stack,
 } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AnyAction } from 'redux';
+import { Word } from '../../interfaces/services';
 import { API_URI } from '../../services/common';
 import { SoundButton } from './soundButton';
+import { setComplexWord, setLearnedWord } from './textbook.actions';
 import { getGroup, getSelectedWord } from './textbook.selectors';
 
 export const WordDescriptionCard = () => {
   const group = useSelector(getGroup);
   const selectedWord = useSelector(getSelectedWord);
+  const dispatch = useDispatch();
+  const dispatchSetComplexWord = useCallback(
+    (cw: Word): AnyAction => dispatch(setComplexWord(cw)),
+    [dispatch],
+  );
+  const dispatchSetLearnedWord = useCallback(
+    (lw: Word): AnyAction => dispatch(setLearnedWord(lw)),
+    [dispatch],
+  );
 
   return (
     <Flex
@@ -45,9 +58,9 @@ export const WordDescriptionCard = () => {
           </Text>
           {selectedWord && <SoundButton />}
         </HStack>
-        <HStack spacing={8} pt={2} pb={2}>
-          <Button colorScheme="green" lineHeight={1}>+ в сложные слова</Button>
-          <Button colorScheme="red" lineHeight={1}>удалить слово</Button>
+        <HStack spacing={4} pt={2} pb={2}>
+          <Button colorScheme="green" lineHeight={1} onClick={() => dispatchSetComplexWord(selectedWord!)}>в сложные слова</Button>
+          <Button colorScheme="red" lineHeight={1} onClick={() => dispatchSetLearnedWord(selectedWord!)}>в изученные слова</Button>
         </HStack>
         <Stack>
           <Text align="center" fontWeight="bold">
