@@ -1,4 +1,9 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
   Button,
   Input,
   Modal,
@@ -9,26 +14,47 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { useTypedSelector } from '../../redux';
-import { signInChange } from '../../redux/actions/signInActions';
+import { useEffect, useRef } from 'react';
+import { useAppDispatch, useTypedSelector } from '../../redux';
+import { signInChange, signInReset, signInSubmit } from '../../redux/actions/signInActions';
 import { PasswordInput } from './passwordInput';
 
 interface SignInFormProps {
   isSignInOpen: boolean
   onSignInClose: () => void
+  onSuccess: () => void
+  altHandler: () => void
 }
 
-export const SignInForm = ({ isSignInOpen, onSignInClose }: SignInFormProps) => {
-  const dispatch = useDispatch();
-  const signInData = useTypedSelector((state) => state.signIn);
+export const SignInForm = ({
+  isSignInOpen, onSignInClose, onSuccess, altHandler,
+}: SignInFormProps) => {
+  const dispatch = useAppDispatch();
+  const {
+    email, password, error, loading, success,
+  } = useTypedSelector((state) => state.signIn);
   const signInRef = useRef(null);
 
   const handleSignInChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
+    if (name !== 'email' && name !== 'password') return;
     dispatch(signInChange({ [name]: value }));
   };
+
+  const sendUserData = () => {
+    dispatch(signInSubmit({
+      email,
+      password,
+    }));
+  };
+
+  useEffect(() => {
+    if (success) {
+      onSignInClose();
+      dispatch(signInReset());
+      onSuccess();
+    }
+  }, [success]);
 
   return (
     <Modal
@@ -36,6 +62,7 @@ export const SignInForm = ({ isSignInOpen, onSignInClose }: SignInFormProps) => 
       isOpen={isSignInOpen}
       onClose={onSignInClose}
       initialFocusRef={signInRef}
+      blockScrollOnMount={false}
     >
       <ModalOverlay />
       <ModalContent>
@@ -46,34 +73,52 @@ export const SignInForm = ({ isSignInOpen, onSignInClose }: SignInFormProps) => 
             fontStyle="italic"
             fontWeight="thin"
           >
-            Начни изучения языка сейчас!
+            Добро пожаловать снова :)
           </Text>
           <Text
             fontSize="x-large"
             textAlign="center"
             pt={4}
           >
-            Регистрация
+            Вход
           </Text>
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
+          {error?.other && (
+          <Alert status="error" mb="3">
+            <AlertIcon />
+            <Box>
+              <AlertTitle>Что-то пошло не так!</AlertTitle>
+              <AlertDescription>Повторите попытку входа позже.</AlertDescription>
+            </Box>
+          </Alert>
+          )}
+          {error?.incorrectEmailOrPassword && (
+          <Alert status="error" mb="3">
+            <AlertIcon />
+            <Box>
+              <AlertTitle>Неверный email или пароль.</AlertTitle>
+              <AlertDescription>Пожалуйста, попробуйте снова.</AlertDescription>
+            </Box>
+          </Alert>
+          )}
           <Stack spacing={5}>
             <Input
-              placeholder="E-mail"
+              placeholder="Email"
               type="email"
               size="lg"
               name="email"
               ref={signInRef}
               onChange={handleSignInChange}
-              value={signInData.email}
+              value={email}
             />
             <PasswordInput
               placeholder="Пароль"
               size="lg"
               name="password"
               onChange={handleSignInChange}
-              value={signInData.password}
+              value={password}
             />
           </Stack>
           <Button
@@ -86,8 +131,10 @@ export const SignInForm = ({ isSignInOpen, onSignInClose }: SignInFormProps) => 
             _hover={{
               bg: 'yellow.300',
             }}
+            isLoading={loading}
+            onClick={sendUserData}
           >
-            Создать аккаунт
+            Войти
           </Button>
         </ModalBody>
         <ModalFooter justifyContent="center">
@@ -95,8 +142,12 @@ export const SignInForm = ({ isSignInOpen, onSignInClose }: SignInFormProps) => 
             variant="link"
             color="blue.200"
             fontWeight="medium"
+            onClick={() => {
+              onSignInClose();
+              altHandler();
+            }}
           >
-            У меня уже есть аккаунт
+            Создать аккаунт
           </Button>
         </ModalFooter>
       </ModalContent>

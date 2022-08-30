@@ -17,7 +17,7 @@ const create = async (user: Omit<User, 'id'>) => {
     },
   };
 
-  const data = await fetchData<User>(`${API_URI}/users`, requestOptions);
+  const data = await fetchData<Omit<User, 'password'>>(`${API_URI}/users`, requestOptions);
   return data;
 };
 

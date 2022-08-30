@@ -1,4 +1,9 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
   Button,
   FormControl,
   FormErrorMessage,
@@ -11,43 +16,60 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAppDispatch, useTypedSelector } from '../../redux';
-import { signUpChange, signUpFail, signUpSubmit } from '../../redux/actions/signUpActions';
+import {
+  signUpChange, signUpReset, signUpSubmit,
+} from '../../redux/actions/signUpActions';
 import { PasswordInput } from './passwordInput';
 
 interface SignUpFormProps {
   isSignUpOpen: boolean
   onSignUpClose: () => void
+  onSuccess: () => void
+  altHandler: () => void
 }
 
-export const SignUpForm = ({ isSignUpOpen, onSignUpClose }: SignUpFormProps) => {
+export const SignUpForm = ({
+  isSignUpOpen, onSignUpClose, onSuccess, altHandler,
+}: SignUpFormProps) => {
   const dispatch = useAppDispatch();
-  const signUpState = useTypedSelector((state) => state.signUp);
   const signUpRef = useRef(null);
+  const {
+    success, submitted, error, loading, name, email, password1, password2,
+  } = useTypedSelector((state) => state.signUp);
 
   const handleSignUpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target as HTMLInputElement;
-    dispatch(signUpChange({ [name]: value }));
+    const { name: inputName, value } = e.target as HTMLInputElement;
+    if (!['name', 'email', 'password1', 'password2'].includes(inputName)) return;
+    dispatch(signUpChange({ [inputName]: value }));
   };
 
   const sendUserData = () => {
-    dispatch(signUpSubmit());
+    dispatch(signUpSubmit({
+      name,
+      email,
+      password: password1,
+    }));
   };
 
-  const emailValidator = /(.+)@(.+)\.(.+)/;
-  const isEmailValid = emailValidator.test(signUpState.email);
+  const arePasswordsMatch = password1 === password2;
 
-  const isPasswordValid = signUpState.password1.length >= 8;
+  useEffect(() => {
+    if (submitted && success) {
+      onSignUpClose();
+      dispatch(signUpReset());
+      onSuccess();
+    }
+  }, [submitted, success]);
 
-  const arePasswordsMatch = signUpState.password1 === signUpState.password2;
   return (
     <Modal
       size="md"
       isOpen={isSignUpOpen}
       onClose={onSignUpClose}
-      onCloseComplete={() => dispatch(signUpFail(false))}
       initialFocusRef={signUpRef}
+      blockScrollOnMount={false}
     >
       <ModalOverlay />
       <ModalContent>
@@ -70,51 +92,85 @@ export const SignUpForm = ({ isSignUpOpen, onSignUpClose }: SignUpFormProps) => 
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
+          {error?.other && (
+          <Alert status="error" mt="3">
+            <AlertIcon />
+            <Box>
+              <AlertTitle>Что-то пошло не так!</AlertTitle>
+              <AlertDescription>Повторите попытку регистрации позже.</AlertDescription>
+            </Box>
+          </Alert>
+          )}
           <Stack spacing={5}>
-            <Input
-              placeholder="Имя"
-              type="text"
-              size="lg"
-              name="name"
-              ref={signUpRef}
-              onChange={handleSignUpChange}
-              value={signUpState.name}
-            />
-            <FormControl isInvalid={signUpState.failed && !isEmailValid}>
+            <FormControl
+              isInvalid={submitted && !success && error?.nameEmpty}
+            >
               <Input
-                placeholder="E-mail"
+                placeholder="Имя"
+                type="text"
+                size="lg"
+                name="name"
+                ref={signUpRef}
+                onChange={handleSignUpChange}
+                value={name}
+              />
+              {submitted && !success && error?.nameEmpty && (
+                <FormErrorMessage>Введите своё имя.</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl
+              isInvalid={submitted && !success
+                && (error?.emailAlreadyExists || error?.emailInvalid || error?.emailEmpty)}
+            >
+              <Input
+                placeholder="Email"
                 type="email"
                 size="lg"
                 name="email"
                 onChange={handleSignUpChange}
-                value={signUpState.email}
+                value={email}
               />
-              {signUpState.failed && !isEmailValid && (
-                <FormErrorMessage>Email is invalid.</FormErrorMessage>
+              {submitted && !success && error?.emailEmpty && (
+                <FormErrorMessage>Введите свой email.</FormErrorMessage>
+              )}
+              {submitted && !success && !error?.emailEmpty && error?.emailInvalid && (
+                <FormErrorMessage>Некорректный email.</FormErrorMessage>
+              )}
+              {submitted && !success && error?.emailAlreadyExists && (
+                <FormErrorMessage>Введёный email уже зарегистрирован.</FormErrorMessage>
               )}
             </FormControl>
-            <FormControl isInvalid={signUpState.failed && !isPasswordValid}>
+            <FormControl
+              isInvalid={submitted && !success && (error?.passwordInvalid || error?.passwordEmpty)}
+            >
               <PasswordInput
                 placeholder="Пароль"
                 size="lg"
                 name="password1"
                 onChange={handleSignUpChange}
-                value={signUpState.password1}
+                value={password1}
               />
-              {signUpState.failed && !isPasswordValid && (
-                <FormErrorMessage>Password should be at least 8 characters long.</FormErrorMessage>
+              {submitted && !success && error?.passwordEmpty && (
+                <FormErrorMessage>
+                  Пожалуйста, введите пароль.
+                </FormErrorMessage>
+              )}
+              {submitted && !success && !error?.passwordEmpty && error?.passwordInvalid && (
+                <FormErrorMessage>
+                  Пароль должен быть длиной в не менее 8 символов.
+                </FormErrorMessage>
               )}
             </FormControl>
-            <FormControl isInvalid={signUpState.failed && !arePasswordsMatch}>
+            <FormControl isInvalid={!arePasswordsMatch}>
               <PasswordInput
                 placeholder="Повторите пароль"
                 size="lg"
                 name="password2"
                 onChange={handleSignUpChange}
-                value={signUpState.password2}
+                value={password2}
               />
-              {signUpState.failed && !arePasswordsMatch && (
-                <FormErrorMessage>Passwords should match.</FormErrorMessage>
+              {!arePasswordsMatch && (
+                <FormErrorMessage>Пароли должны совпадать.</FormErrorMessage>
               )}
             </FormControl>
           </Stack>
@@ -128,7 +184,8 @@ export const SignUpForm = ({ isSignUpOpen, onSignUpClose }: SignUpFormProps) => 
             _hover={{
               bg: 'yellow.300',
             }}
-            isLoading={signUpState.loading}
+            isDisabled={!arePasswordsMatch}
+            isLoading={loading}
             onClick={sendUserData}
           >
             Создать аккаунт
@@ -139,6 +196,10 @@ export const SignUpForm = ({ isSignUpOpen, onSignUpClose }: SignUpFormProps) => 
             variant="link"
             color="blue.200"
             fontWeight="medium"
+            onClick={() => {
+              onSignUpClose();
+              altHandler();
+            }}
           >
             У меня уже есть аккаунт
           </Button>

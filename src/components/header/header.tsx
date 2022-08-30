@@ -7,6 +7,7 @@ import {
   useColorModeValue,
   useDisclosure,
   Container,
+  useToast,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
@@ -32,6 +33,8 @@ export const Header = () => {
     onOpen: onSignUpOpen,
     onClose: onSignUpClose,
   } = useDisclosure();
+
+  const toast = useToast();
 
   return (
     <Container boxSize="full" maxW="container.xl">
@@ -76,35 +79,6 @@ export const Header = () => {
           spacing={6}
         >
 
-          {/* I noticed that modals are blinking if they are coming AFTER buttons */}
-          {/* <ModalForm
-            isOpen={isSignUpOpen}
-            onClose={onSignUpClose}
-            headerHeading="Регистрация"
-            headerText="Начни изучения языка сейчас!"
-            buttonText="Создать аккаунт"
-            altButtonText="У меня уже есть аккаунт"
-            inputs={[
-              { placeholder: 'Имя', type: 'text' },
-              { placeholder: 'E-mail', type: 'email' },
-              { placeholder: 'Пароль', type: 'password' },
-              { placeholder: 'Повторите пароль', type: 'password' },
-            ]}
-          />
-
-          <ModalForm
-            isOpen={isSignInOpen}
-            onClose={onSignInClose}
-            headerHeading="Вход"
-            headerText="Добро пожаловать. Снова :)"
-            buttonText="Войти"
-            altButtonText="Создать аккаунт"
-            inputs={[
-              { placeholder: 'E-mail', type: 'email' },
-              { placeholder: 'Пароль', type: 'password' },
-            ]}
-          /> */}
-
           <Button
             onClick={onSignUpOpen}
             fontSize="md"
@@ -136,11 +110,25 @@ export const Header = () => {
       <SignUpForm
         isSignUpOpen={isSignUpOpen}
         onSignUpClose={onSignUpClose}
+        altHandler={onSignInOpen}
+        onSuccess={() => toast({
+          title: 'Успех',
+          description: 'Вы успешно зарегистрировались на RSLang.',
+          status: 'success',
+          isClosable: true,
+        })}
       />
 
       <SignInForm
         isSignInOpen={isSignInOpen}
         onSignInClose={onSignInClose}
+        altHandler={onSignUpOpen}
+        onSuccess={() => toast({
+          title: 'Успех',
+          description: 'Вы успешно вошли в RSLang.',
+          status: 'success',
+          isClosable: true,
+        })}
       />
 
       <Collapse in={isNavigationOpen} animateOpacity>
