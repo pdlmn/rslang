@@ -1,38 +1,139 @@
 import {
-  Button, Flex, Heading, StackDivider, VStack,
+  Button, Flex, Text, StackDivider, VStack, HStack, CircularProgress,
+  CircularProgressLabel, Heading, Spacer,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import useSound from 'use-sound';
 import { useAction } from '../../../hooks/useAction';
 import { useTypedSelector } from '../../../redux';
+import { shadowFromMultipler } from './utils';
+
+const AudioRightAnswerUrl = '/assets/audio/rightAnswer.wav';
+const AudioWrongAnswerUrl = '/assets/audio/wrongAnswer.wav';
+const AudioFinishUrl = '/assets/audio/finish.wav';
+const AudioMultiplerGainUrl = '/assets/audio/multiplerPlus.wav';
+const AudioMultiplerLossUrl = '/assets/audio/wrongAnswer2.wav';
 
 export const SprintGame = () => {
-  const words = useTypedSelector((state) => state.gameWords.words);
-  const currentWord = useTypedSelector((state) => state.gameWords.currentWordIndex);
+  const { words, currentWordIndex } = useTypedSelector((state) => state.gameWords);
+  const { isMuted } = useTypedSelector((state) => state.games);
+  const [points, setPoints] = useState(0);
+  const [multipler, setMultipler] = useState(1);
+  const [time, setTime] = useState(60);
+  const [combo, setCombo] = useState(0);
   const {
     nextWord, rightAnswer, wrongAnswer, finishGame,
   } = useAction();
-  const { startLoading, stopLoading } = useAction();
+  const [playAudioRightAnswer] = useSound(AudioRightAnswerUrl, { volume: 0.4 });
+  const [playAudioWrongAnswer] = useSound(AudioWrongAnswerUrl, { volume: 0.4 });
+  const [playAudioFinish] = useSound(AudioFinishUrl, { volume: 0.4 });
+  const [playAudioMultiplerGain] = useSound(AudioMultiplerGainUrl, { volume: 0.4 });
+  const [playAudioMultiplerLoss] = useSound(AudioMultiplerLossUrl, { volume: 0.4 });
+  const prng = Math.sin(
+    words[currentWordIndex].word.length * currentWordIndex * multipler * points + combo,
+  ) * 10000;
+  const translate = Math.floor(
+    prng - Math.floor(prng) + 0.5,
+  )
+    ? words[currentWordIndex].wordTranslate
+    : words[
+      Math.trunc((prng - Math.floor(prng)) * 100) % words.length
+    ].wordTranslate;
+
+  const right = () => {
+    if (!isMuted) {
+      if (combo === 3 && multipler < 5) {
+        playAudioMultiplerGain();
+      } else {
+        playAudioRightAnswer();
+      }
+    }
+    rightAnswer();
+    setMultipler((m) => (currentWordIndex && combo === 3 && m < 5 ? m + 1 : m));
+    setCombo((c) => (c < 3 || multipler >= 5 ? c + 1 : 0));
+    setPoints((p) => p + 10 * multipler);
+    nextWord();
+  };
+  const wrong = () => {
+    if (!isMuted) {
+      if (multipler > 1) {
+        playAudioMultiplerLoss();
+      } else {
+        playAudioWrongAnswer();
+      }
+    }
+    wrongAnswer();
+    setCombo(0);
+    setMultipler(1);
+    nextWord();
+  };
+  const onKeyup = (e: KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') {
+      if (words[currentWordIndex].wordTranslate !== translate) {
+        right();
+      } else {
+        wrong();
+      }
+    } else if (e.key === 'ArrowRight') {
+      if (words[currentWordIndex].wordTranslate === translate) {
+        right();
+      } else {
+        wrong();
+      }
+    }
+  };
 
   useEffect(() => {
-    if (currentWord >= 10) {
-      startLoading();
+    if (time === 0) {
+      if (!isMuted) playAudioFinish();
+      finishGame();
+    } else {
       setTimeout(() => {
-        finishGame();
-        stopLoading();
-      }, 2000);
+        setTime((t) => t - 1);
+      }, 1000);
     }
-  }, [currentWord]);
+  }, [time]);
+
+  useEffect(() => {
+    if (currentWordIndex >= words.length - 1) {
+      if (!isMuted) playAudioFinish();
+      finishGame();
+    }
+
+    document.addEventListener('keyup', onKeyup);
+
+    return () => {
+      document.removeEventListener('keyup', onKeyup);
+    };
+  }, [currentWordIndex]);
 
   return (
     <VStack
+      p={4}
       divider={<StackDivider borderColor="gray.350" />}
-      spacing={8}
+      spacing={4}
     >
-      <Heading size="md" textAlign="center">Эта версия игры создана для проверки контейнера для игр, после 10 слов игра закончится, затем 2 сек загрузка, затем окно статистики</Heading>
-      <Heading size="md" textAlign="center">
-        {`${words[currentWord].word} - это ${words[currentWord].wordTranslate}?`}
-      </Heading>
-      <Flex gap="50px">
+      <Flex align="center" gap="20px">
+        <CircularProgress size="60px" value={combo * (33.3)} color="orange.400">
+          <CircularProgressLabel>
+            {multipler}
+            x
+          </CircularProgressLabel>
+        </CircularProgress>
+        <Spacer />
+        <Heading textShadow={shadowFromMultipler(multipler)}>{points}</Heading>
+        <Spacer />
+        <CircularProgress size="60px" value={100 - (time / 60) * 100} color="green.400">
+          <CircularProgressLabel>{time}</CircularProgressLabel>
+        </CircularProgress>
+      </Flex>
+      <Text fontSize="3xl" fontWeight="bold">
+        {words[currentWordIndex].word}
+      </Text>
+      <Text fontSize="xl" fontWeight="500">
+        {translate}
+      </Text>
+      <HStack spacing={8} pt={2} pb={2}>
         <Button
           display={{ base: 'none', md: 'inline-flex' }}
           fontSize="md"
@@ -42,10 +143,7 @@ export const SprintGame = () => {
           _hover={{
             bg: 'red.500',
           }}
-          onClick={() => {
-            wrongAnswer();
-            nextWord();
-          }}
+          onClick={words[currentWordIndex].wordTranslate === translate ? wrong : right}
         >
           Неверно
         </Button>
@@ -58,14 +156,11 @@ export const SprintGame = () => {
           _hover={{
             bg: 'green.500',
           }}
-          onClick={() => {
-            rightAnswer();
-            nextWord();
-          }}
+          onClick={words[currentWordIndex].wordTranslate === translate ? right : wrong}
         >
           Верно
         </Button>
-      </Flex>
+      </HStack>
     </VStack>
   );
 };

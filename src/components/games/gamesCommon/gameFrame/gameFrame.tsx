@@ -1,6 +1,6 @@
 import { Box, Spinner } from '@chakra-ui/react';
 import { useTypedSelector } from '../../../../redux';
-import { gameComponentByName } from './gameComponentByName';
+import { gameComponentByName } from './utils';
 import { StartScreen } from './startScreen/startScreen';
 import { StatisticsScreen } from './statisticsScreen/statisticsScreen';
 
