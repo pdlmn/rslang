@@ -4,8 +4,6 @@ import {
 
 export const HeroSection = () => (
   <Stack
-      // p={{ base: 5, md: 10 }}
-      // direction={{ base: 'column', md: 'row' }}
     bgImage={{
       base: 'none',
       md: '/assets/london2.jpg',
