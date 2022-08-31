@@ -7,16 +7,16 @@ export const StatisticsScreen = () => {
     .filter((word) => word.isAnswered)
     .filter((word) => word.isCorrect)
     .map((word) => (
-      <Text>{`${word.word} - ${word.wordTranslate}`}</Text>
+      <Text key={word.id}>{`${word.word} - ${word.wordTranslate}`}</Text>
     ));
   const wrongWords = words
     .filter((word) => word.isAnswered)
     .filter((word) => !word.isCorrect)
     .map((word) => (
-      <Text>{`${word.word} - ${word.wordTranslate}`}</Text>
+      <Text key={word.id}>{`${word.word} - ${word.wordTranslate}`}</Text>
     ));
   return (
-    <VStack>
+    <VStack maxH="40rem" overflow="auto">
       <Heading size="md" textAlign="center">Статистика</Heading>
       <Heading size="xs" textAlign="center">Ошибки</Heading>
       {wrongWords}

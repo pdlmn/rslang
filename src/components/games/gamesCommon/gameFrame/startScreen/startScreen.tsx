@@ -5,7 +5,7 @@ import { useAction } from '../../../../../hooks/useAction';
 import { Word } from '../../../../../interfaces/services';
 import { useTypedSelector } from '../../../../../redux';
 import { Words } from '../../../../../services/words';
-import { addStatAndShuffleWords } from '../statisticsScreen/addStatAndShuffleWords';
+import { addStatAndShuffleWords } from '../statisticsScreen/utils';
 import { levelsButtons } from './levelsButtons';
 import { StartScreenBtn } from './startScreenBtn';
 
