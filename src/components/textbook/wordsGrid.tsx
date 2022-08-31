@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
-  Flex, Stack, useColorModeValue,
+  Flex, Stack, useColorModeValue, Text,
 } from '@chakra-ui/react';
 import {
   Pagination,
@@ -18,9 +18,10 @@ import { AnyAction } from 'redux';
 import { Word } from '../../interfaces/services';
 import { Words as wordsService } from '../../services/words';
 import {
-  getComplexWords, getGroup, getLearnedWords, getSelectedWord,
+  getComplexWords,
+  getGroup, getLearnedWords, getSelectedWord, getShowComplexWords, getShowLearnedWords,
 } from './textbook.selectors';
-import { setSelectedWord } from './textbook.actions';
+import { setPage, setSelectedWord } from './textbook.actions';
 import { Card } from './card';
 
 const outerLimit = 1;
@@ -33,6 +34,8 @@ export const WordsGrid = () => {
   const selectedWord = useSelector(getSelectedWord);
   const complexWords = useSelector(getComplexWords);
   const learnedWords = useSelector(getLearnedWords);
+  const showComplexWords = useSelector(getShowComplexWords);
+  const showLearnedWords = useSelector(getShowLearnedWords);
   const dispatch = useDispatch();
   const dispatchSetSelectedWord = useCallback(
     (s: Word): AnyAction => dispatch(setSelectedWord(s)),
@@ -53,17 +56,26 @@ export const WordsGrid = () => {
   });
 
   useEffect(() => {
-    if (group) {
+    if (group && !(showComplexWords || showLearnedWords)) {
       wordsService
         .get({ group: group.id, page: currentPage - 1 })
         .then((data) => {
           setWords(data as Array<Word>);
         });
     }
-  }, [group, currentPage]);
+  }, [group, currentPage, showComplexWords, showLearnedWords]);
+
+  useEffect(() => {
+    if (showComplexWords) {
+      setWords(complexWords);
+    } else if (showLearnedWords) {
+      setWords(learnedWords);
+    }
+  }, [showComplexWords, showLearnedWords, complexWords, learnedWords]);
 
   useEffect(() => {
     setCurrentPage(1);
+    dispatch(setPage(1));
   }, [group, setCurrentPage]);
 
   useEffect(() => {
@@ -73,23 +85,28 @@ export const WordsGrid = () => {
   const handlePageChange = useCallback(
     (nextPage: number): void => {
       setCurrentPage(nextPage);
+      // прокидываю текущую страницу в стейт
+      dispatch(setPage(nextPage));
     },
     [setCurrentPage],
   );
 
   return (
     <Flex wrap="wrap" gap={6} maxW="850px">
-      {words.map((word) => (
+      {(words.length === 0) && <Text as="i" fontSize="xl" fontWeight="400" pb={14}>В этом разделе еще нет слов.</Text>}
+      {(words.length !== 0) && words.map((word) => (
         <Card
           key={word.id}
           word={word}
-          color={group!.color}
+          color={group?.color}
           selected={selectedWord === word}
-          complex={complexWords.includes(word)}
-          learned={learnedWords.includes(word)}
+          complex={complexWords.some((el) => el.id === word.id)}
+          learned={learnedWords.some((el) => el.id === word.id)}
           onClick={() => dispatchSetSelectedWord(word)}
         />
       ))}
+      {!(showComplexWords || showLearnedWords)
+      && (
       <Stack m="auto">
         <Pagination
           pagesCount={pagesCount}
@@ -129,12 +146,12 @@ export const WordsGrid = () => {
                   rounded="full"
                   bg="transparent"
                   _hover={{
-                    bg: group!.color.activeColor,
+                    bg: group?.color.activeColor,
                     color: 'gray.800',
                   }}
-                  _active={{ bgColor: group!.color.baseColor }}
+                  _active={{ bgColor: group?.color.baseColor }}
                   _current={{
-                    bg: group!.color.activeColor,
+                    bg: group?.color.activeColor,
                     fontSize: 'sm',
                     w: 10,
                     color: 'gray.800',
@@ -154,6 +171,7 @@ export const WordsGrid = () => {
           </PaginationContainer>
         </Pagination>
       </Stack>
+      )}
     </Flex>
   );
 };

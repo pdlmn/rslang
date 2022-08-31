@@ -13,12 +13,25 @@ import { AnyAction } from 'redux';
 import { Word } from '../../interfaces/services';
 import { API_URI } from '../../services/common';
 import { SoundButton } from './soundButton';
-import { setComplexWord, setLearnedWord } from './textbook.actions';
-import { getGroup, getSelectedWord } from './textbook.selectors';
+import {
+  removeComplexWord, removeLearnedWord, setComplexWord, setLearnedWord,
+} from './textbook.actions';
+import {
+  getComplexWords,
+  getGroup,
+  getLearnedWords,
+  getSelectedWord,
+  getShowComplexWords,
+  getShowLearnedWords,
+} from './textbook.selectors';
 
 export const WordDescriptionCard = () => {
   const group = useSelector(getGroup);
   const selectedWord = useSelector(getSelectedWord);
+  const complexWords = useSelector(getComplexWords);
+  const learnedWords = useSelector(getLearnedWords);
+  const showComplexWords = useSelector(getShowComplexWords);
+  const showLearnedWords = useSelector(getShowLearnedWords);
   const dispatch = useDispatch();
   const dispatchSetComplexWord = useCallback(
     (cw: Word): AnyAction => dispatch(setComplexWord(cw)),
@@ -28,6 +41,40 @@ export const WordDescriptionCard = () => {
     (lw: Word): AnyAction => dispatch(setLearnedWord(lw)),
     [dispatch],
   );
+  const dispatchRemoveComplexWord = useCallback(
+    (cw: Word): AnyAction => dispatch(removeComplexWord(cw)),
+    [dispatch],
+  );
+  const dispatchRemoveLearnedWord = useCallback(
+    (cw: Word): AnyAction => dispatch(removeLearnedWord(cw)),
+    [dispatch],
+  );
+
+  const handleComplexBtnClick = () => {
+    if (showComplexWords) {
+      return dispatchRemoveComplexWord(selectedWord!);
+    }
+    if (showLearnedWords) {
+      return (dispatchRemoveLearnedWord(selectedWord!), dispatchSetComplexWord(selectedWord!));
+    }
+    if (learnedWords.some((el) => el.id === selectedWord!.id)) {
+      return (dispatchRemoveLearnedWord(selectedWord!), dispatchSetComplexWord(selectedWord!));
+    }
+    return dispatchSetComplexWord(selectedWord!);
+  };
+
+  const handleLearnedBtnClick = () => {
+    if (showLearnedWords) {
+      return dispatchRemoveLearnedWord(selectedWord!);
+    }
+    if (showComplexWords) {
+      return (dispatchRemoveComplexWord(selectedWord!), dispatchSetLearnedWord(selectedWord!));
+    }
+    if (complexWords.some((el) => el.id === selectedWord!.id)) {
+      return (dispatchRemoveComplexWord(selectedWord!), dispatchSetLearnedWord(selectedWord!));
+    }
+    return dispatchSetLearnedWord(selectedWord!);
+  };
 
   return (
     <Flex
@@ -59,8 +106,22 @@ export const WordDescriptionCard = () => {
           {selectedWord && <SoundButton />}
         </HStack>
         <HStack spacing={4} pt={2} pb={2}>
-          <Button colorScheme="green" lineHeight={1} onClick={() => dispatchSetComplexWord(selectedWord!)}>в сложные слова</Button>
-          <Button colorScheme="red" lineHeight={1} onClick={() => dispatchSetLearnedWord(selectedWord!)}>в изученные слова</Button>
+          <Button
+            colorScheme={showComplexWords ? 'yellow' : 'green'}
+            lineHeight={1}
+            minW="11rem"
+            onClick={() => handleComplexBtnClick()}
+          >
+            {showComplexWords ? 'в учебник' : 'в сложные слова'}
+          </Button>
+          <Button
+            colorScheme={showLearnedWords ? 'yellow' : 'red'}
+            lineHeight={1}
+            minW="11rem"
+            onClick={() => handleLearnedBtnClick()}
+          >
+            {showLearnedWords ? 'в учебник' : 'в изученные слова'}
+          </Button>
         </HStack>
         <Stack>
           <Text align="center" fontWeight="bold">
@@ -68,7 +129,9 @@ export const WordDescriptionCard = () => {
           </Text>
           <Text
             align="left"
-            dangerouslySetInnerHTML={{ __html: selectedWord?.textMeaning || '' }}
+            dangerouslySetInnerHTML={{
+              __html: selectedWord?.textMeaning || '',
+            }}
           />
           <Text>{selectedWord?.textMeaningTranslate}</Text>
           <Text align="center" fontWeight="bold">
@@ -76,7 +139,9 @@ export const WordDescriptionCard = () => {
           </Text>
           <Text
             align="start"
-            dangerouslySetInnerHTML={{ __html: selectedWord?.textExample || '' }}
+            dangerouslySetInnerHTML={{
+              __html: selectedWord?.textExample || '',
+            }}
           />
           <Text>{selectedWord?.textExampleTranslate}</Text>
         </Stack>

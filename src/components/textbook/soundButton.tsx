@@ -36,7 +36,7 @@ export const SoundButton = () => {
   useEffect(() => {
     stopAll();
     setHandlersReady(false);
-  }, [selectedWord, stopAll, setHandlersReady]);
+  }, [selectedWord]);
 
   useEffect(() => {
     if (audioData.sound && audioMeaningData.sound && !handlersReady) {

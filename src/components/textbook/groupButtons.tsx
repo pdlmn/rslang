@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AnyAction } from 'redux';
 import { GroupButton } from './groupButton';
 import { groupButtonData, GroupButtonData } from './groupButtonData';
-import { setGroup } from './textbook.actions';
+import { setGroup, setShowComplexWords, setShowLearnedWords } from './textbook.actions';
 import { getGroup } from './textbook.selectors';
 
 export const GroupButtons = () => {
@@ -15,6 +15,14 @@ export const GroupButtons = () => {
   const dispatch = useDispatch();
   const dispatchSetGroup = useCallback(
     (g: GroupButtonData): AnyAction => dispatch(setGroup(g)),
+    [dispatch],
+  );
+  const dispatchSetShowComplexWords = useCallback(
+    (scw: boolean): AnyAction => dispatch(setShowComplexWords(scw)),
+    [dispatch],
+  );
+  const dispatchSetShowLearnedWords = useCallback(
+    (scw: boolean): AnyAction => dispatch(setShowLearnedWords(scw)),
     [dispatch],
   );
 
@@ -29,7 +37,11 @@ export const GroupButtons = () => {
             key={el.id}
             {...el}
             selected={group === el}
-            onClick={() => dispatchSetGroup(el)}
+            onClick={() => {
+              dispatchSetShowComplexWords(false);
+              dispatchSetShowLearnedWords(false);
+              dispatchSetGroup(el);
+            }}
           />
         ))}
       </Flex>

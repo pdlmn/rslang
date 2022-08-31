@@ -31,7 +31,7 @@ export const GamesBlock = () => (
     </Text>
     <Flex gap={8} pt={10} justify="space-around">
       {gameData.map((el) => (
-        <Box position="relative">
+        <Box position="relative" key={el.gameName}>
           <DottedBox height="270" left="-62px" />
           <GameButton {...el} />
         </Box>
