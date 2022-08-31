@@ -22,6 +22,8 @@ export const GroupButton = ({
 }: GroupButtonProps) => {
   const bgColorSelecter = useColorModeValue(color.hoverColor, color.activeColor);
   const bgColorSelecterBase = useColorModeValue('gray.50', 'gray.700');
+  const colorSelectedOrHoverDark = useColorModeValue('gray.800', 'gray.800');
+  const colorBase = useColorModeValue('gray.800', 'gray.200');
   return (
     <Button
       h="4.5rem"
@@ -36,8 +38,8 @@ export const GroupButton = ({
       bgColor={selected ? bgColorSelecter : bgColorSelecterBase}
       shadow="md"
       transition="all .25s ease-in-out"
-      color={useColorModeValue('gray.800', 'gray.200')}
-      _hover={{ bgColor: `${color.hoverColor}`, color: useColorModeValue('gray.800', 'gray.800') }}
+      color={selected ? colorSelectedOrHoverDark : colorBase}
+      _hover={{ bgColor: `${color.hoverColor}`, color: colorSelectedOrHoverDark }}
       _active={{ bgColor: `${color.activeColor}`, transform: 'scale(0.95)' }}
       onClick={onClick}
     >

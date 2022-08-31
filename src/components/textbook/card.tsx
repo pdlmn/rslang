@@ -31,18 +31,47 @@ const bgColor = ({
     return 'yellow.50';
   }
   if (showLearnedWords && selected) {
-    return 'gray.50';
+    return useColorModeValue('gray.100', 'gray.400');
   }
   if (showComplexWords || showLearnedWords) {
     return 'transparent';
   }
   if (learned) {
-    return 'gray.100';
+    return useColorModeValue('gray.100', 'gray.900');
   }
   if (selected) {
     return color?.activeColor;
   }
   return 'transparent';
+};
+
+type TextColorParams = {
+  showComplexWords: boolean,
+  showLearnedWords: boolean,
+  selected: boolean,
+  learned: boolean,
+  color?: { hoverColor: string; activeColor: string; baseColor: string };
+};
+
+const textColor = ({
+  showComplexWords, showLearnedWords, selected, learned,
+}: TextColorParams) => {
+  if ((showLearnedWords && selected)) {
+    return useColorModeValue('gray.800', 'gray.800');
+  }
+  if ((showComplexWords && selected)) {
+    return useColorModeValue('gray.800', 'gray.800');
+  }
+  if (showLearnedWords) {
+    return useColorModeValue('gray.800', 'gray.400');
+  }
+  if (learned) {
+    return useColorModeValue('gray.300', 'gray.600');
+  }
+  if (selected) {
+    return useColorModeValue('gray.800', 'gray.800');
+  }
+  return useColorModeValue('gray.800', 'gray.200');
 };
 
 export const Card = ({
@@ -52,19 +81,18 @@ export const Card = ({
   const showLearnedWords = useSelector(getShowLearnedWords);
   return (
     <Button
+      mb={6}
       p={2}
       h="7rem"
       w="11.5rem"
       variant="outline"
-      color={showLearnedWords ? 'gray.800' : learned ? 'gray.300' : selected ? 'gray.800' : useColorModeValue('gray.800', 'gray.200')}
+      color={textColor({
+        showComplexWords, showLearnedWords, selected, learned,
+      })}
       borderColor={showComplexWords ? 'yellow.400' : showLearnedWords ? 'gray.300' : learned ? 'transparent' : color?.activeColor}
       bgColor={bgColor({
         showComplexWords, showLearnedWords, selected, learned, color,
       })}
-      // bgColor={showComplexWords && selected ? 'yellow.50'
-      // : showLearnedWords && selected ? 'gray.50'
-      // : showComplexWords || showLearnedWords ? 'transparent'
-      // : learned ? 'gray.100' : selected ? color?.activeColor : 'transparent'}
       borderBottom={complex ? '4px solid' : '1px solid'}
       borderBottomColor={showLearnedWords ? 'gray.300' : learned ? 'transparent' : complex ? 'yellow.400' : color?.activeColor}
       transition="all .25s ease-in-out"
@@ -72,12 +100,12 @@ export const Card = ({
       flexWrap="wrap"
       position="relative"
       _hover={{
-        bgColor: showComplexWords ? 'yellow.50' : learned ? 'gray.100' : color?.activeColor,
-        color: showLearnedWords ? 'gray.800' : learned ? 'gray.300' : useColorModeValue('gray.800', 'gray.800'),
+        bgColor: showComplexWords ? 'yellow.50' : showLearnedWords ? useColorModeValue('gray.100', 'gray.400') : learned ? useColorModeValue('gray.100', 'gray.900') : color?.activeColor,
+        color: showLearnedWords ? 'gray.800' : learned ? useColorModeValue('gray.300', 'gray.600') : useColorModeValue('gray.800', 'gray.800'),
       }}
       _active={{
-        bgColor: showComplexWords ? 'yellow.100' : learned ? 'gray.100' : color?.baseColor,
-        color: showLearnedWords ? 'gray.700' : learned ? 'gray.300' : useColorModeValue('gray.800', 'gray.800'),
+        bgColor: showComplexWords ? 'yellow.100' : showLearnedWords ? useColorModeValue('gray.100', 'gray.400') : learned ? useColorModeValue('gray.100', 'gray.900') : color?.baseColor,
+        color: showLearnedWords ? 'gray.800' : learned ? useColorModeValue('gray.300', 'gray.600') : useColorModeValue('gray.800', 'gray.800'),
       }}
     >
       {' '}
