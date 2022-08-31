@@ -92,7 +92,7 @@ export const WordsGrid = () => {
   );
 
   return (
-    <Flex wrap="wrap" gap={6} maxW="850px">
+    <Flex wrap="wrap" maxW="850px" alignContent="flex-start" gap={6}>
       {(words.length === 0) && <Text as="i" fontSize="xl" fontWeight="400" pb={14}>В этом разделе еще нет слов.</Text>}
       {(words.length !== 0) && words.map((word) => (
         <Card

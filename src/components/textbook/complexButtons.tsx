@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import {
-  Button, Flex, Text,
+  Button, Flex, Text, useColorModeValue,
 } from '@chakra-ui/react';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,10 +29,11 @@ const ComplexButton = ({
       w="10rem"
       pl={0}
       flexGrow={{ base: '1', md: '0' }}
-      bgColor={(showComplexWords && complex) ? 'yellow.50' : (showLearnedWords && learned) ? 'gray.50' : 'gray.100'}
+      bgColor={(showComplexWords && complex) ? 'yellow.50' : (showLearnedWords && learned) ? 'gray.50' : useColorModeValue('gray.100', 'gray.600')}
       borderBottom="4px solid"
       borderBottomColor={(showComplexWords && complex) ? 'yellow.400' : (showLearnedWords && learned) ? 'gray.700' : 'transparent'}
       shadow={(showComplexWords && complex) || (showLearnedWords && learned) ? 'md' : 'none'}
+      color={useColorModeValue('gray.800', 'gray.800')}
       onClick={onClick}
       _hover={{ bgColor: (complex ? 'yellow.50' : 'gray.50'), borderBottomColor: (complex ? 'yellow.400' : 'gray.700') }}
       _active={{ bgColor: (complex ? 'yellow.100' : 'white') }}
