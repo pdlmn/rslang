@@ -6,13 +6,8 @@ import { useEffect, useState } from 'react';
 import useSound from 'use-sound';
 import { useAction } from '../../../hooks/useAction';
 import { useTypedSelector } from '../../../redux';
+import { SoundUrl } from '../gamesCommon/constants';
 import { shadowFromMultipler } from './utils';
-
-const AudioRightAnswerUrl = '/assets/audio/rightAnswer.wav';
-const AudioWrongAnswerUrl = '/assets/audio/wrongAnswer.wav';
-const AudioFinishUrl = '/assets/audio/finish.wav';
-const AudioMultiplerGainUrl = '/assets/audio/multiplerPlus.wav';
-const AudioMultiplerLossUrl = '/assets/audio/wrongAnswer2.wav';
 
 export const SprintGame = () => {
   const { words, currentWordIndex } = useTypedSelector((state) => state.gameWords);
@@ -24,11 +19,11 @@ export const SprintGame = () => {
   const {
     nextWord, rightAnswer, wrongAnswer, finishGame,
   } = useAction();
-  const [playAudioRightAnswer] = useSound(AudioRightAnswerUrl, { volume: 0.4 });
-  const [playAudioWrongAnswer] = useSound(AudioWrongAnswerUrl, { volume: 0.4 });
-  const [playAudioFinish] = useSound(AudioFinishUrl, { volume: 0.4 });
-  const [playAudioMultiplerGain] = useSound(AudioMultiplerGainUrl, { volume: 0.4 });
-  const [playAudioMultiplerLoss] = useSound(AudioMultiplerLossUrl, { volume: 0.4 });
+  const [playAudioRightAnswer] = useSound(SoundUrl.RightAnswer, { volume: 0.4 });
+  const [playAudioWrongAnswer] = useSound(SoundUrl.WrongAnswer, { volume: 0.4 });
+  const [playAudioFinish] = useSound(SoundUrl.Finish, { volume: 0.4 });
+  const [playAudioMultiplerGain] = useSound(SoundUrl.MultiplerGain, { volume: 0.4 });
+  const [playAudioMultiplerLoss] = useSound(SoundUrl.MultiplerLoss, { volume: 0.4 });
   const prng = Math.sin(
     words[currentWordIndex].word.length * currentWordIndex * multipler * points + combo,
   ) * 10000;

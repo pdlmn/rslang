@@ -38,14 +38,21 @@ export const GamesConteiner = () => {
   };
 
   return (
-    <Container maxW="container.md" h="calc(100vh - 100px)" bgColor={bgColor} ref={conteiner} boxShadow="inset 0 0 1em gray">
+    <Container
+      maxW="container.md"
+      h="calc(100vh - 100px)"
+      bgColor={bgColor}
+      ref={conteiner}
+      boxShadow="inset 0 0 1em gray"
+      rounded="xl"
+    >
       <VStack height={isFullscreen ? '100vh' : '100%'} p="1em">
-        <ButtonGroup size="lg" isAttached variant="outline" ml="auto" onClick={toggleAudio}>
-          <IconButton aria-label="Sound" icon={isMuted ? <BiVolumeMute /> : <BiVolumeFull />} />
+        <ButtonGroup isAttached size="lg" variant="outline" ml="auto">
+          <IconButton aria-label="Sound" icon={isMuted ? <BiVolumeMute /> : <BiVolumeFull />} onClick={toggleAudio} />
           <IconButton aria-label="Fullscreen" icon={<BsFullscreen />} onClick={toggleFullscreen} />
           <Link to="/"><IconButton aria-label="Close" icon={<CloseIcon />} /></Link>
         </ButtonGroup>
-        <Flex height="100%" align="center" justify="center">
+        <Flex height="100%" align="center" justify="center" mt="0px">
           <GameFrame />
         </Flex>
       </VStack>
