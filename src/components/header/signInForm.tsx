@@ -13,6 +13,7 @@ import {
   ModalHeader, ModalOverlay,
   Stack,
   Text,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 import { useAppDispatch, useTypedSelector } from '../../redux';
@@ -128,10 +129,13 @@ export const SignInForm = ({
             size="lg"
             width="100%"
             fontSize="xl"
-            color="black"
+            color={useColorModeValue('gray.800', 'black')}
             bg="yellow.400"
             _hover={{
               bg: 'yellow.300',
+            }}
+            _active={{
+              bg: 'yellow.500',
             }}
             isLoading={loading}
             onClick={sendUserData}

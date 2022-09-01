@@ -50,7 +50,7 @@ export const Overview = () => (
           mb={{ base: '3rem !important', sm: 0 }}
           flexWrap="wrap"
         >
-          <Button>Сотреть видео</Button>
+          <Button>Смотреть видео</Button>
         </HStack>
       </Stack>
       <Box ml={{ base: 0, md: 5 }} pos="relative">
