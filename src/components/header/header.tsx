@@ -45,7 +45,7 @@ export const Header = () => {
     <Container boxSize="full" maxW="container.xl">
       <Flex
         bg={useColorModeValue('white', 'gray.800')}
-        color={useColorModeValue('gray.600', 'white')}
+        color={useColorModeValue('gray.700', 'white')}
         minH="80px"
         py={{ base: 2 }}
         px={{ base: 4 }}
@@ -89,10 +89,13 @@ export const Header = () => {
                 display={{ base: 'none', md: 'inline-flex' }}
                 fontSize="md"
                 fontWeight={600}
-                color="black"
+                color={useColorModeValue('gray.800', 'black')}
                 bg="yellow.400"
                 _hover={{
                   bg: 'yellow.300',
+                }}
+                _active={{
+                  bg: 'yellow.500',
                 }}
                 onClick={() => dispatch(authLogOut())}
               >
@@ -113,12 +116,14 @@ export const Header = () => {
                 <Button
                   onClick={onSignInOpen}
                   display={{ base: 'none', md: 'inline-flex' }}
-                  fontSize="md"
                   fontWeight={600}
-                  color="black"
+                  color={useColorModeValue('gray.800', 'black')}
                   bg="yellow.400"
                   _hover={{
                     bg: 'yellow.300',
+                  }}
+                  _active={{
+                    bg: 'yellow.500',
                   }}
                 >
                   Вход
@@ -126,7 +131,6 @@ export const Header = () => {
               </>
             )}
           <ColorModeSwitcher justifySelf="flex-end" />
-
         </Stack>
       </Flex>
 

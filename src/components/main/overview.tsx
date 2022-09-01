@@ -12,28 +12,27 @@ import { Carousel } from './carousel';
 import { DottedBox } from './dottedBox';
 
 export const Overview = () => (
-  <Container maxW="container.xl" px={{ base: 6, md: 3 }} py={24}>
+  <Container maxW="container.xl" px={{ base: 6, md: 4 }} py={24}>
     <Stack
       direction={{ base: 'column', md: 'row' }}
-      justifyContent="center"
-      spacing={20}
+      justifyContent="space-between"
     >
       <Stack
         direction="column"
         spacing={6}
         justifyContent="center"
-        maxW="450px"
+        maxW="500px"
       >
         <chakra.h1
           fontSize="4xl"
-          lineHeight={1}
+          lineHeight={1.3}
           fontWeight="bold"
           textAlign="left"
         >
-          Занимайся эффективно
+          RS Lang - это лучший способ изучить
           {' '}
           <br />
-          <chakra.span color="teal">в игре!</chakra.span>
+          <chakra.span color="teal">английский язык!</chakra.span>
         </chakra.h1>
         <Text
           fontSize="1.2rem"
@@ -42,14 +41,16 @@ export const Overview = () => (
           fontWeight="400"
           color={useColorModeValue('gray.600', 'gray.400')}
         >
-          Игровая механика доказала свою эффективность для всех возрастов.
+          Учи слова эффективно с помощью интерактивных карточек
+          и запоминай их надолго благодаря повторениям с помощью мини-игр!
+          Отслеживай свои успехи!
         </Text>
         <HStack
           spacing={{ base: 0, sm: 2 }}
           mb={{ base: '3rem !important', sm: 0 }}
           flexWrap="wrap"
         >
-          <Button>Сотреть видео</Button>
+          <Button>Смотреть видео</Button>
         </HStack>
       </Stack>
       <Box ml={{ base: 0, md: 5 }} pos="relative">

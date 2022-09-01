@@ -116,7 +116,7 @@ export const Developers = () => (
   <Container maxW="container.xl">
     <VStack mt={10} mb={8}>
       <Heading alignSelf="center" mb={4}>
-        Разработчики
+        Наша команда
       </Heading>
       <DeveloperCard
         icon={FaCamera}
