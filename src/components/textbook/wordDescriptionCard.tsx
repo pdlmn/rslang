@@ -166,7 +166,7 @@ export const WordDescriptionCard = () => {
         </Stack>
         <Flex direction="column" pt={4} alignSelf="flex-start" gap={3} w="100%">
           <HStack>
-            <Text as="h4" fontSize="xl" fontWeight="500">
+            <Text as="h4" fontSize="xl" fontWeight="500" userSelect="none">
               Ответы в играх
             </Text>
             <BsCheckAll style={iconStyles} />
@@ -175,6 +175,7 @@ export const WordDescriptionCard = () => {
           <Flex justifyContent="space-around">
             <HStack>
               <Text
+                userSelect="none"
                 fontWeight="500"
                 bgColor="gray.700"
                 p={1}
@@ -186,10 +187,11 @@ export const WordDescriptionCard = () => {
               >
                 Аудиовызов
               </Text>
-              <Text pl={3} fontSize="1.1rem">0</Text>
+              <Text pl={3} fontSize="1.1rem" userSelect="none">0</Text>
             </HStack>
             <HStack>
               <Text
+                userSelect="none"
                 fontWeight="500"
                 bgColor="gray.700"
                 p={1}
@@ -201,7 +203,7 @@ export const WordDescriptionCard = () => {
               >
                 Спринт
               </Text>
-              <Text pl={3} fontSize="1.1rem">0</Text>
+              <Text pl={3} fontSize="1.1rem" userSelect="none">0</Text>
             </HStack>
           </Flex>
         </Flex>

@@ -17,6 +17,7 @@ export const TextbookMain = () => (
           'linear-gradient(transparent 50%, #2D3748 50%)',
         )}
         shadow="lg"
+        userSelect="none"
       >
         Учебник
       </Heading>

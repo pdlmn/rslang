@@ -28,7 +28,7 @@ export const GroupButtons = () => {
 
   return (
     <Flex direction="column" gap={4}>
-      <Heading as="h3" size="md">
+      <Heading as="h3" size="md" userSelect="none">
         Выберите уровень сложности
       </Heading>
       <Flex wrap="wrap" gap="1rem">
