@@ -22,7 +22,7 @@ const gameData: Array<GameData> = [
 ];
 
 export const GamesBlock = () => (
-  <Flex direction="column" pt={8}>
+  <Flex direction="column" pt={6}>
     <Heading as="h2" size="lg" userSelect="none">
       Игры
     </Heading>

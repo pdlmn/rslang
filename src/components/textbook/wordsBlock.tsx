@@ -9,7 +9,7 @@ export const WordsBlock = () => {
 
   return (
     <Stack spacing={4}>
-      <Heading as="h3" size="lg" userSelect="none">Слова</Heading>
+      <Heading as="h3" size="lg" userSelect="none" pt={6}>Слова</Heading>
       <Flex justify="space-between">
         <WordsGrid />
         {selectedWord && <WordDescriptionCard />}

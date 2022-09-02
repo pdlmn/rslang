@@ -29,6 +29,7 @@ import {
   getShowComplexWords,
   getShowLearnedWords,
 } from './textbook.selectors';
+import { useTypedSelector } from '../../redux';
 
 export const WordDescriptionCard = () => {
   const group = useSelector(getGroup);
@@ -94,6 +95,7 @@ export const WordDescriptionCard = () => {
   };
 
   const iconStyles = { fontSize: '1.5em' };
+  const { user } = useTypedSelector((state) => state.auth);
 
   return (
     <Flex
@@ -124,26 +126,28 @@ export const WordDescriptionCard = () => {
           </Text>
           {selectedWord && <SoundButton />}
         </HStack>
-        <HStack spacing={4} pt={2} pb={2}>
-          <Button
-            colorScheme={showComplexWords ? 'yellow' : 'green'}
-            lineHeight={1}
-            minW="11rem"
-            onClick={() => handleComplexBtnClick()}
-          >
-            {showComplexWords ? 'в учебник' : 'в сложные слова'}
-          </Button>
-          <Button
-            colorScheme={showLearnedWords ? 'yellow' : 'red'}
-            lineHeight={1}
-            minW="11rem"
-            onClick={() => handleLearnedBtnClick()}
-          >
-            {showLearnedWords ? 'в учебник' : 'в изученные слова'}
-          </Button>
-        </HStack>
-        <Stack>
-          <Text align="center" fontWeight="bold">
+        {user && (
+          <HStack spacing={4} pt={2} pb={2}>
+            <Button
+              colorScheme={showComplexWords ? 'yellow' : 'green'}
+              lineHeight={1}
+              minW="11rem"
+              onClick={() => handleComplexBtnClick()}
+            >
+              {showComplexWords ? 'в учебник' : 'в сложные слова'}
+            </Button>
+            <Button
+              colorScheme={showLearnedWords ? 'yellow' : 'red'}
+              lineHeight={1}
+              minW="11rem"
+              onClick={() => handleLearnedBtnClick()}
+            >
+              {showLearnedWords ? 'в учебник' : 'в изученные слова'}
+            </Button>
+          </HStack>
+        )}
+        <Stack pt={1}>
+          <Text align="left" fontWeight="bold">
             Значение
           </Text>
           <Text
@@ -153,7 +157,7 @@ export const WordDescriptionCard = () => {
             }}
           />
           <Text>{selectedWord?.textMeaningTranslate}</Text>
-          <Text align="center" fontWeight="bold">
+          <Text align="left" fontWeight="bold">
             Пример
           </Text>
           <Text
@@ -164,49 +168,55 @@ export const WordDescriptionCard = () => {
           />
           <Text>{selectedWord?.textExampleTranslate}</Text>
         </Stack>
-        <Flex direction="column" pt={4} alignSelf="flex-start" gap={3} w="100%">
-          <HStack>
-            <Text as="h4" fontSize="xl" fontWeight="500" userSelect="none">
-              Ответы в играх
-            </Text>
-            <BsCheckAll style={iconStyles} />
-          </HStack>
+        {user && (
+          <Flex direction="column" pt={2} gap={3} w="100%">
+            <HStack justifyContent="center">
+              <Text as="h4" fontSize="xl" fontWeight="500" userSelect="none">
+                Ответы в играх
+              </Text>
+              <BsCheckAll style={iconStyles} />
+            </HStack>
 
-          <Flex justifyContent="space-around">
-            <HStack>
-              <Text
-                userSelect="none"
-                fontWeight="500"
-                bgColor="gray.700"
-                p={1}
-                pb={1.5}
-                pl={3}
-                pr={3}
-                rounded="3xl"
-                color={useColorModeValue('white', 'gray.100')}
-              >
-                Аудиовызов
-              </Text>
-              <Text pl={3} fontSize="1.1rem" userSelect="none">0</Text>
-            </HStack>
-            <HStack>
-              <Text
-                userSelect="none"
-                fontWeight="500"
-                bgColor="gray.700"
-                p={1}
-                pb={1.5}
-                pl={3}
-                pr={3}
-                rounded="3xl"
-                color={useColorModeValue('white', 'gray.100')}
-              >
-                Спринт
-              </Text>
-              <Text pl={3} fontSize="1.1rem" userSelect="none">0</Text>
-            </HStack>
+            <Flex justifyContent="space-around">
+              <HStack>
+                <Text
+                  userSelect="none"
+                  fontWeight="500"
+                  bgColor="gray.700"
+                  p={1}
+                  pb={1.5}
+                  pl={3}
+                  pr={3}
+                  rounded="3xl"
+                  color={useColorModeValue('white', 'gray.100')}
+                >
+                  Аудиовызов
+                </Text>
+                <Text pl={3} fontSize="1.1rem" userSelect="none">
+                  0
+                </Text>
+              </HStack>
+              <HStack>
+                <Text
+                  userSelect="none"
+                  fontWeight="500"
+                  bgColor="gray.700"
+                  p={1}
+                  pb={1.5}
+                  pl={3}
+                  pr={3}
+                  rounded="3xl"
+                  color={useColorModeValue('white', 'gray.100')}
+                >
+                  Спринт
+                </Text>
+                <Text pl={3} fontSize="1.1rem" userSelect="none">
+                  0
+                </Text>
+              </HStack>
+            </Flex>
           </Flex>
-        </Flex>
+        )}
       </VStack>
     </Flex>
   );
