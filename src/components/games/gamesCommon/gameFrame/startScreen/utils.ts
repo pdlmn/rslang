@@ -16,7 +16,7 @@ export const loadWords = async (options: LoadWordsOptions): Promise<Array<WordIn
   const group = groupButtonData.find((item) => item.grade === options.grade)?.id as number;
   const page = options.page ? options.page - 1 : Math.floor(Math.random() * 48) + 10;
   const { user } = options;
-  if (!user) {
+  if (!user || !options.page) {
     return addStatAndShuffleWords(await Words.get({ group, page }) as Array<Word>);
   }
 
