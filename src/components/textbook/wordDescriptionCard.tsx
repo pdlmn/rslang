@@ -177,7 +177,7 @@ export const WordDescriptionCard = () => {
               <BsCheckAll style={iconStyles} />
             </HStack>
 
-            <Flex justifyContent="space-around">
+            <Flex gap={8} justifyContent="center">
               <HStack>
                 <Text
                   userSelect="none"
@@ -192,7 +192,10 @@ export const WordDescriptionCard = () => {
                 >
                   Аудиовызов
                 </Text>
-                <Text pl={3} fontSize="1.1rem" userSelect="none">
+                <Text pl={3} fontSize="1.1rem" userSelect="none" color="green.400">
+                  0
+                </Text>
+                <Text pl={3} fontSize="1.1rem" userSelect="none" color="red.400">
                   0
                 </Text>
               </HStack>
@@ -210,7 +213,10 @@ export const WordDescriptionCard = () => {
                 >
                   Спринт
                 </Text>
-                <Text pl={3} fontSize="1.1rem" userSelect="none">
+                <Text pl={3} fontSize="1.1rem" userSelect="none" color="green.400">
+                  0
+                </Text>
+                <Text pl={3} fontSize="1.1rem" userSelect="none" color="red.400">
                   0
                 </Text>
               </HStack>
