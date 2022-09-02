@@ -128,7 +128,7 @@ export const AudioCallGame = () => {
       <Flex columnGap="50px" rowGap="20px" justifyContent="center" wrap="wrap">
         {variants.map((variant, index) => (
           <Button
-            key={variant}
+            key={`${variant}${currentWordIndex}`}
             display={{ base: 'none', md: 'inline-flex' }}
             fontSize="md"
             fontWeight={600}
