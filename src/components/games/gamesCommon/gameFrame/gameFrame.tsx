@@ -1,4 +1,4 @@
-import { Box, Spinner } from '@chakra-ui/react';
+import { Box, Heading, Spinner } from '@chakra-ui/react';
 import { useTypedSelector } from '../../../../redux';
 import { gameComponentByName } from './utils';
 import { StartScreen } from './startScreen/startScreen';
@@ -6,10 +6,17 @@ import { StatisticsScreen } from './statisticsScreen/statisticsScreen';
 
 export const GameFrame = () => {
   const {
-    isStarted, isLoading, isFinished, name,
+    isStarted, isLoading, isFinished, name, error,
   } = useTypedSelector((state) => state.games);
   const game = gameComponentByName(name);
 
+  if (error) {
+    return (
+      <Heading>
+        {`Произошла ошибка при загрузке данных ${isFinished ? 'на сервер' : 'с сервера'}: ${error.message}`}
+      </Heading>
+    );
+  }
   if (isLoading) {
     return (
       <Box p="7rem">

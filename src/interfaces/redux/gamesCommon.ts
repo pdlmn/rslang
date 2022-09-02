@@ -11,18 +11,23 @@ export enum GamesActionTypes {
   StopLoading = 'games/stopLoading',
   StartFullscreen = 'games/startFullscreen',
   StopFullscreen = 'games/stopFullscreen',
+  StartFromTextbook = 'games/startFromTextbook',
+  StartFromMenu = 'games/startFromMenu',
+  ShowError = 'games/showError',
+  ResetError = 'games/resetError',
 }
 
 export interface GamesState {
   name: GameNames | '';
   description: string;
   level: Levels;
-  fromPage: number;
+  fromTextbook: boolean;
   isMuted: boolean;
   isLoading: boolean;
   isStarted: boolean;
   isFinished: boolean;
   isFullscreen: boolean;
+  error: Error | null;
 }
 
 export type SelectLevelAction = {
@@ -67,9 +72,28 @@ export type StopFullscreenAction = {
   type: GamesActionTypes.StopFullscreen
 };
 
+export type StartFromTextbookAction = {
+  type: GamesActionTypes.StartFromTextbook
+};
+
+export type StartFromMenuAction = {
+  type: GamesActionTypes.StartFromMenu
+};
+
+export type ShowErrorAction = {
+  type: GamesActionTypes.ShowError,
+  payload: { error: Error }
+};
+
+export type ResetErrorAction = {
+  type: GamesActionTypes.ResetError
+};
+
 export type GamesAction =
 SelectLevelAction | SelectGameAction |
 MuteAction | UnmuteAction |
 StartGameAction | FinishGameAction |
 StartLoadingAction | StopLoadingAction |
-StartFullscreenAction | StopFullscreenAction;
+StartFullscreenAction | StopFullscreenAction |
+StartFromTextbookAction | StartFromMenuAction |
+ShowErrorAction | ResetErrorAction;

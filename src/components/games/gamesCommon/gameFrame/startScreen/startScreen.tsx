@@ -2,27 +2,24 @@ import {
   Button, Flex, Heading, VStack,
 } from '@chakra-ui/react';
 import { useAction } from '../../../../../hooks/useAction';
-import { Word } from '../../../../../interfaces/services';
 import { useTypedSelector } from '../../../../../redux';
-import { Words } from '../../../../../services/words';
-import { addStatAndShuffleWords } from '../statisticsScreen/utils';
 import { levelsButtons } from './levelsButtons';
 import { StartScreenBtn } from './startScreenBtn';
+import { loadWords } from './utils';
 
 export const StartScreen = () => {
   const {
-    name, description, fromPage, level,
+    name, description, fromTextbook, level,
   } = useTypedSelector((state) => state.games);
+  const { page } = useTypedSelector((state) => state.textbook);
+  const { grade } = useTypedSelector((state) => state.textbook.group);
   const {
-    startGame, startLoading, stopLoading, setWords,
+    startGame, startLoading, stopLoading, setWords, showError,
   } = useAction();
-  const levelSelector = fromPage
+  const levelSelector = fromTextbook
     ? (
       <p>
-        Игра со словами со страницы учебника
-        {level}
-        -
-        {fromPage}
+        {`Игра со словами из раздела ${grade} страница ${page}`}
       </p>
     )
     : levelsButtons.map((levelBtn) => (
@@ -31,8 +28,15 @@ export const StartScreen = () => {
 
   const getWordsAndStart = async () => {
     startLoading();
-    const words = addStatAndShuffleWords(await Words.get() as Array<Word>);
-    setWords({ words });
+    try {
+      const words = await (fromTextbook ? loadWords({ grade, page }) : loadWords({ grade: level }));
+      setWords({ words });
+    } catch (error) {
+      if (error instanceof Error) {
+        showError({ error });
+        return;
+      }
+    }
     stopLoading();
     startGame();
   };

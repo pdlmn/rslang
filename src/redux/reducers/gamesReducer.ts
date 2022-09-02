@@ -5,12 +5,13 @@ const initialState: GamesState = {
   name: '',
   description: '',
   level: Levels.A1,
-  fromPage: 0,
+  fromTextbook: false,
   isMuted: false,
   isLoading: false,
   isStarted: false,
   isFinished: false,
   isFullscreen: false,
+  error: null,
 };
 
 export const gamesReducer = (state = initialState, action: GamesAction) => {
@@ -64,6 +65,26 @@ export const gamesReducer = (state = initialState, action: GamesAction) => {
       return {
         ...state,
         isFullscreen: false,
+      };
+    case GamesActionTypes.StartFromTextbook:
+      return {
+        ...state,
+        fromTextbook: true,
+      };
+    case GamesActionTypes.StartFromMenu:
+      return {
+        ...state,
+        fromTextbook: false,
+      };
+    case GamesActionTypes.ShowError:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case GamesActionTypes.ResetError:
+      return {
+        ...state,
+        error: null,
       };
 
     default:
