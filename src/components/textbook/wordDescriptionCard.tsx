@@ -6,15 +6,20 @@ import {
   HStack,
   VStack,
   Stack,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AnyAction } from 'redux';
+import { BsCheckAll } from 'react-icons/bs';
 import { Word } from '../../interfaces/services';
 import { API_URI } from '../../services/common';
 import { SoundButton } from './soundButton';
 import {
-  removeComplexWord, removeLearnedWord, setComplexWord, setLearnedWord,
+  removeComplexWord,
+  removeLearnedWord,
+  setComplexWord,
+  setLearnedWord,
 } from './textbook.actions';
 import {
   getComplexWords,
@@ -55,10 +60,16 @@ export const WordDescriptionCard = () => {
       return dispatchRemoveComplexWord(selectedWord!);
     }
     if (showLearnedWords) {
-      return (dispatchRemoveLearnedWord(selectedWord!), dispatchSetComplexWord(selectedWord!));
+      return (
+        dispatchRemoveLearnedWord(selectedWord!),
+        dispatchSetComplexWord(selectedWord!)
+      );
     }
     if (learnedWords.some((el) => el.id === selectedWord!.id)) {
-      return (dispatchRemoveLearnedWord(selectedWord!), dispatchSetComplexWord(selectedWord!));
+      return (
+        dispatchRemoveLearnedWord(selectedWord!),
+        dispatchSetComplexWord(selectedWord!)
+      );
     }
     return dispatchSetComplexWord(selectedWord!);
   };
@@ -68,13 +79,21 @@ export const WordDescriptionCard = () => {
       return dispatchRemoveLearnedWord(selectedWord!);
     }
     if (showComplexWords) {
-      return (dispatchRemoveComplexWord(selectedWord!), dispatchSetLearnedWord(selectedWord!));
+      return (
+        dispatchRemoveComplexWord(selectedWord!),
+        dispatchSetLearnedWord(selectedWord!)
+      );
     }
     if (complexWords.some((el) => el.id === selectedWord!.id)) {
-      return (dispatchRemoveComplexWord(selectedWord!), dispatchSetLearnedWord(selectedWord!));
+      return (
+        dispatchRemoveComplexWord(selectedWord!),
+        dispatchSetLearnedWord(selectedWord!)
+      );
     }
     return dispatchSetLearnedWord(selectedWord!);
   };
+
+  const iconStyles = { fontSize: '1.5em' };
 
   return (
     <Flex
@@ -145,6 +164,47 @@ export const WordDescriptionCard = () => {
           />
           <Text>{selectedWord?.textExampleTranslate}</Text>
         </Stack>
+        <Flex direction="column" pt={4} alignSelf="flex-start" gap={3} w="100%">
+          <HStack>
+            <Text as="h4" fontSize="xl" fontWeight="500">
+              Ответы в играх
+            </Text>
+            <BsCheckAll style={iconStyles} />
+          </HStack>
+
+          <Flex justifyContent="space-around">
+            <HStack>
+              <Text
+                fontWeight="500"
+                bgColor="gray.700"
+                p={1}
+                pb={1.5}
+                pl={3}
+                pr={3}
+                rounded="3xl"
+                color={useColorModeValue('white', 'gray.100')}
+              >
+                Аудиовызов
+              </Text>
+              <Text pl={3} fontSize="1.1rem">0</Text>
+            </HStack>
+            <HStack>
+              <Text
+                fontWeight="500"
+                bgColor="gray.700"
+                p={1}
+                pb={1.5}
+                pl={3}
+                pr={3}
+                rounded="3xl"
+                color={useColorModeValue('white', 'gray.100')}
+              >
+                Спринт
+              </Text>
+              <Text pl={3} fontSize="1.1rem">0</Text>
+            </HStack>
+          </Flex>
+        </Flex>
       </VStack>
     </Flex>
   );
