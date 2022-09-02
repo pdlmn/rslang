@@ -14,9 +14,9 @@ interface LoadWordsOptions {
 
 export const loadWords = async (options: LoadWordsOptions): Promise<Array<WordInfo>> => {
   const group = groupButtonData.find((item) => item.grade === options.grade)?.id as number;
-  const page = options.page ? options.page - 1 : Math.floor(Math.random() * 48) + 10;
+  const page = options.page ? options.page - 1 : Math.trunc(Math.random() * 29);
   const { user } = options;
-  if (!user || !options.page) {
+  if (!user) {
     return addStatAndShuffleWords(await Words.get({ group, page }) as Array<Word>);
   }
 
