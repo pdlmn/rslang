@@ -14,17 +14,10 @@ interface LoadWordsOptions {
 
 export const loadWords = async (options: LoadWordsOptions): Promise<Array<WordInfo>> => {
   const group = groupButtonData.find((item) => item.grade === options.grade)?.id as number;
-  const page = options.page ? options.page - 1 : undefined;
+  const page = options.page ? options.page - 1 : Math.floor(Math.random() * 48) + 10;
   const { user } = options;
-  const groupWords = await Words.get({ group }) as Array<Word>;
   if (!user) {
-    if (!page) {
-      return addStatAndShuffleWords(groupWords);
-    }
-    return [
-      ...addStatAndShuffleWords(groupWords.filter((word) => word.page === page)),
-      ...addStatAndShuffleWords(groupWords.filter((word) => word.page < page)),
-    ];
+    return addStatAndShuffleWords(await Words.get({ group, page }) as Array<Word>);
   }
 
   return [];
