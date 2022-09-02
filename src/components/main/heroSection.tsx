@@ -14,6 +14,7 @@ export const HeroSection = () => (
     minH={{ base: 'unset', md: '60vh' }}
   >
     <VStack
+      userSelect="none"
       bg="whiteAlpha.500"
       p={6}
       w="xl"

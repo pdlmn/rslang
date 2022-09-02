@@ -114,7 +114,7 @@ const DeveloperCard = ({
 
 export const Developers = () => (
   <Container maxW="container.xl">
-    <VStack mt={10} mb={8}>
+    <VStack mt={10} mb={8} userSelect="none">
       <Heading alignSelf="center" mb={4}>
         Наша команда
       </Heading>

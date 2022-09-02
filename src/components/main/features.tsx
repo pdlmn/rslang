@@ -36,6 +36,7 @@ export const Features = () => (
     maxW="1280px"
     m="0 auto"
     justify="space-between"
+    userSelect="none"
   >
     <Feature
       icon={<Icon as={FcDonate} w={10} h={10} />}
