@@ -8,6 +8,7 @@ import { StartScreenBtn } from './startScreenBtn';
 import { loadWords } from './utils';
 
 export const StartScreen = () => {
+  const { user } = useTypedSelector((state) => state.auth);
   const {
     name, description, fromTextbook, level,
   } = useTypedSelector((state) => state.games);
@@ -29,7 +30,9 @@ export const StartScreen = () => {
   const getWordsAndStart = async () => {
     startLoading();
     try {
-      const words = await (fromTextbook ? loadWords({ grade, page }) : loadWords({ grade: level }));
+      const words = await (fromTextbook
+        ? loadWords({ grade, user, page })
+        : loadWords({ grade: level, user }));
       setWords({ words });
     } catch (error) {
       if (error instanceof Error) {
