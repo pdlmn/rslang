@@ -4,7 +4,6 @@ import { AuthAction, AuthActionTypes } from '../../interfaces/redux/auth';
 export const saveUserToStorage: Middleware = (
   () => (next) => (action: AuthAction) => {
     if (action.type === AuthActionTypes.LogIn) {
-      console.log(action.payload);
       const user = action.payload;
       localStorage.setItem('user', JSON.stringify(user));
     }

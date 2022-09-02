@@ -118,6 +118,19 @@ export const setShowLearnedWords = (showLearnedWordsAction: boolean) => ({
   payload: showLearnedWordsAction,
 });
 
+// SET_CURRENT_PAGE_WORDS
+export const SET_CURRENT_PAGE_WORDS = 'SET_CURRENT_PAGE_WORDS';
+
+export type SetCurrentPageWordsAction = {
+  type: string;
+  payload: Array<Word>;
+};
+
+export const setCurrentPageWords = (currentPageWords: Array<Word>) => ({
+  type: SET_CURRENT_PAGE_WORDS,
+  payload: currentPageWords,
+});
+
 export type TextbookAction =
   | SetGroupAction
   | SetSelectedWordAction
@@ -127,4 +140,5 @@ export type TextbookAction =
   | SetShowLearnedWordsAction
   | SetPageAction
   | RemoveComplexWordAction
-  | RemoveLearnedWordAction;
+  | RemoveLearnedWordAction
+  | SetCurrentPageWordsAction;
