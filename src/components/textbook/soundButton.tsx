@@ -51,11 +51,12 @@ export const SoundButton = () => {
   return (
     <Tooltip label="Озвучить" placement="right-start" rounded="md">
       <Button
-        backgroundColor="transparent"
+        backgroundColor="yellow.400"
+        rounded="full"
         p={2}
-        color={useColorModeValue('gray.700', 'gray.400')}
+        color={useColorModeValue('gray.700', 'gray.800')}
         _hover={{ bgColor: 'yellow.300', rounded: 'full', color: useColorModeValue('gray.700', 'gray.800') }}
-        _active={{ bgColor: 'yellow.400', rounded: 'full' }}
+        _active={{ bgColor: 'yellow.500', rounded: 'full' }}
         onClick={() => {
           stopAll();
           playAudio();

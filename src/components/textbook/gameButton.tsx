@@ -42,10 +42,11 @@ export const GameButton = ({
       >
         <Text
           bgColor="yellow.400"
-          p={1}
+          p={0.5}
+          pb={1}
           pl={2}
           pr={2}
-          rounded="3xl"
+          rounded="md"
           color={useColorModeValue('white', 'black')}
         >
           {gameMiniDescription}
