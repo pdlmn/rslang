@@ -18,16 +18,16 @@ export enum GamesActionTypes {
 }
 
 export interface GamesState {
-  name: GameNames | '';
-  description: string;
-  level: Levels;
-  fromTextbook: boolean;
-  isMuted: boolean;
-  isLoading: boolean;
-  isStarted: boolean;
-  isFinished: boolean;
-  isFullscreen: boolean;
-  error: Error | null;
+  name: GameNames | '',
+  description: string,
+  level: Levels,
+  fromTextbook: boolean,
+  isMuted: boolean,
+  isLoading: boolean,
+  isStarted: boolean,
+  isFinished: boolean,
+  isFullscreen: boolean,
+  error: Error | null,
 }
 
 export type SelectLevelAction = {

@@ -51,12 +51,12 @@ type AggregatedWord = Omit<Word, 'id'> & {
 };
 
 // an object with two arrays
-type AggregatedObject = {
+type AggregatedObject = [{
   paginatedResults: AggregatedWord[],
   totalCount: [{
     count: number
   }],
-};
+}];
 
 type Token = {
   token: string,
