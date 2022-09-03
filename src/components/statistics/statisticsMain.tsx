@@ -20,7 +20,7 @@ export const StatisticsMain = () => {
     <Container maxW="container.xl" p="2rem 1rem">
       <Stack spacing="16">
         <TodayStatistics
-          accuracy={90}
+          accuracy={100}
         />
         <AllTimeStatistics
           data={wordsPerDayData}

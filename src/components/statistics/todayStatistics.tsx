@@ -81,16 +81,6 @@ export const TodayStatistics = ({
       flexDirection={{ base: 'column', md: 'row' }}
     >
       <StatCard
-        heading="Спринт"
-        icon={GiSprint}
-        learnedWords={20}
-        accuracy={88}
-        correctAnswersInARow={17}
-        lightMode="green.200"
-        darkMode="green.600"
-      />
-
-      <StatCard
         heading="Аудиовызов"
         icon={FaHeadphones}
         learnedWords={13}
@@ -98,6 +88,16 @@ export const TodayStatistics = ({
         correctAnswersInARow={8}
         lightMode="pink.200"
         darkMode="pink.600"
+      />
+
+      <StatCard
+        heading="Спринт"
+        icon={GiSprint}
+        learnedWords={20}
+        accuracy={88}
+        correctAnswersInARow={17}
+        lightMode="green.200"
+        darkMode="green.600"
       />
     </Flex>
   </Box>
