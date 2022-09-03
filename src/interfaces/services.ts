@@ -37,10 +37,12 @@ type Word = {
   textExampleTranslate: string
 };
 
+type Optional = Record<string, string | boolean | number>;
+
 type UserWord = {
   id: string,
   difficulty: string,
-  optional?: Record<string, string | boolean>,
+  optional?: Optional,
 };
 
 type AggregatedWord = Omit<Word, 'id'> & {
@@ -74,12 +76,12 @@ type FilterObject = {
 
 type Statistic = {
   learnedWords: number,
-  optional?: Record<string, string>,
+  optional?: Optional,
 };
 
 type UserSettings = {
   wordsPerDay: number,
-  optional?: Record<string, string>,
+  optional?: Optional,
 };
 
 export type {
