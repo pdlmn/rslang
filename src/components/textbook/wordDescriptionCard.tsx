@@ -30,6 +30,12 @@ import {
   getShowLearnedWords,
 } from './textbook.selectors';
 import { useTypedSelector } from '../../redux';
+import {
+  addToComplex,
+  addToLearned,
+  removeFromComplex,
+  removeFromLearned,
+} from '../../services/utilsFuncs';
 
 export const WordDescriptionCard = () => {
   const group = useSelector(getGroup);
@@ -41,61 +47,103 @@ export const WordDescriptionCard = () => {
   const dispatch = useDispatch();
   const dispatchSetComplexWord = useCallback(
     (cw: Word): AnyAction => dispatch(setComplexWord(cw)),
-    [dispatch],
+    [dispatch]
   );
   const dispatchSetLearnedWord = useCallback(
     (lw: Word): AnyAction => dispatch(setLearnedWord(lw)),
-    [dispatch],
+    [dispatch]
   );
   const dispatchRemoveComplexWord = useCallback(
     (cw: Word): AnyAction => dispatch(removeComplexWord(cw)),
-    [dispatch],
+    [dispatch]
   );
   const dispatchRemoveLearnedWord = useCallback(
     (cw: Word): AnyAction => dispatch(removeLearnedWord(cw)),
-    [dispatch],
+    [dispatch]
   );
 
+  const whiteGray100 = useColorModeValue('white', 'gray.100');
+
+  const { user } = useTypedSelector((state) => state.auth);
+
   const handleComplexBtnClick = () => {
-    if (showComplexWords) {
-      return dispatchRemoveComplexWord(selectedWord!);
-    }
-    if (showLearnedWords) {
+    if (selectedWord) {
+      if (showComplexWords) {
+        return (
+          dispatchRemoveComplexWord(selectedWord!),
+          // удалить из userWords -> в учебник
+          removeFromComplex({ selectedWord, user })
+        );
+      }
+      if (showLearnedWords) {
+        return (
+          dispatchRemoveLearnedWord(selectedWord!),
+          dispatchSetComplexWord(selectedWord!),
+          // удалить из learned -> в сложные слова (вкладка Изученные)
+          // { difficulty: 'hard', optional: { learned: false } }
+          addToComplex({ selectedWord, user })
+        );
+      }
+      if (learnedWords.some((el) => el.id === selectedWord!.id)) {
+        return (
+          dispatchRemoveLearnedWord(selectedWord!),
+          dispatchSetComplexWord(selectedWord!),
+          // удалить из learned -> в сложные слова (основные группы)
+          // { difficulty: 'hard', optional: { learned: false } }
+          addToComplex({ selectedWord, user })
+        );
+      }
+
       return (
-        dispatchRemoveLearnedWord(selectedWord!),
-        dispatchSetComplexWord(selectedWord!)
+        dispatchSetComplexWord(selectedWord!),
+        // добавить в сложные слова (основные группы)
+        // { difficulty: 'hard', optional: { learned: false } }
+        addToComplex({ selectedWord, user })
       );
     }
-    if (learnedWords.some((el) => el.id === selectedWord!.id)) {
-      return (
-        dispatchRemoveLearnedWord(selectedWord!),
-        dispatchSetComplexWord(selectedWord!)
-      );
-    }
-    return dispatchSetComplexWord(selectedWord!);
+
+    return null;
   };
 
   const handleLearnedBtnClick = () => {
-    if (showLearnedWords) {
-      return dispatchRemoveLearnedWord(selectedWord!);
-    }
-    if (showComplexWords) {
+    if (selectedWord) {
+      if (showLearnedWords) {
+        return (
+          dispatchRemoveLearnedWord(selectedWord!),
+          // удалить из learnedWords -> в учебник (вкладка Изученные)
+          removeFromLearned({ selectedWord, user })
+        );
+      }
+      if (showComplexWords) {
+        return (
+          dispatchRemoveComplexWord(selectedWord!),
+          dispatchSetLearnedWord(selectedWord!),
+          // удалить из complex -> в изученные слова (вкладка Сложные)
+          // { difficulty: 'easy', optional: { learned: true } }
+          addToLearned({ selectedWord, user })
+        );
+      }
+      if (complexWords.some((el) => el.id === selectedWord!.id)) {
+        return (
+          dispatchRemoveComplexWord(selectedWord!),
+          dispatchSetLearnedWord(selectedWord!),
+          // удалить из complex -> в изученные слова (основные группы)
+          // { difficulty: 'easy', optional: { learned: true } }
+          addToLearned({ selectedWord, user })
+        );
+      }
       return (
-        dispatchRemoveComplexWord(selectedWord!),
-        dispatchSetLearnedWord(selectedWord!)
+        dispatchSetLearnedWord(selectedWord!),
+        // добавить в изученные слова (основные группы)
+        // { difficulty: 'easy', optional: { learned: true } }
+        addToLearned({ selectedWord, user })
       );
     }
-    if (complexWords.some((el) => el.id === selectedWord!.id)) {
-      return (
-        dispatchRemoveComplexWord(selectedWord!),
-        dispatchSetLearnedWord(selectedWord!)
-      );
-    }
-    return dispatchSetLearnedWord(selectedWord!);
+
+    return null;
   };
 
   const iconStyles = { fontSize: '1.5em' };
-  const { user } = useTypedSelector((state) => state.auth);
 
   return (
     <Flex
@@ -188,14 +236,24 @@ export const WordDescriptionCard = () => {
                   pl={3}
                   pr={3}
                   rounded="3xl"
-                  color={useColorModeValue('white', 'gray.100')}
+                  color={whiteGray100}
                 >
                   Аудиовызов
                 </Text>
-                <Text pl={3} fontSize="1.1rem" userSelect="none" color="green.400">
+                <Text
+                  pl={3}
+                  fontSize="1.1rem"
+                  userSelect="none"
+                  color="green.400"
+                >
                   0
                 </Text>
-                <Text pl={3} fontSize="1.1rem" userSelect="none" color="red.400">
+                <Text
+                  pl={3}
+                  fontSize="1.1rem"
+                  userSelect="none"
+                  color="red.400"
+                >
                   0
                 </Text>
               </HStack>
@@ -209,14 +267,24 @@ export const WordDescriptionCard = () => {
                   pl={3}
                   pr={3}
                   rounded="3xl"
-                  color={useColorModeValue('white', 'gray.100')}
+                  color={whiteGray100}
                 >
                   Спринт
                 </Text>
-                <Text pl={3} fontSize="1.1rem" userSelect="none" color="green.400">
+                <Text
+                  pl={3}
+                  fontSize="1.1rem"
+                  userSelect="none"
+                  color="green.400"
+                >
                   0
                 </Text>
-                <Text pl={3} fontSize="1.1rem" userSelect="none" color="red.400">
+                <Text
+                  pl={3}
+                  fontSize="1.1rem"
+                  userSelect="none"
+                  color="red.400"
+                >
                   0
                 </Text>
               </HStack>

@@ -40,7 +40,7 @@ type Word = {
 type UserWord = {
   id: string,
   difficulty: string,
-  optional?: Record<string, string>,
+  optional?: Record<string, string | boolean>,
 };
 
 type AggregatedWord = Omit<Word, 'id'> & {
