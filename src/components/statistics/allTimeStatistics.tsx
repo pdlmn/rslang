@@ -26,7 +26,7 @@ export const AllTimeStatistics = ({
     useColorModeValue('red.500', 'red.400'),
     useColorModeValue('gray.200', 'gray.700'),
     useColorModeValue('yellow.400', 'yellow.200'),
-    useColorModeValue('yellow.400', 'gray.800'),
+    useColorModeValue('white', 'gray.800'),
   ]);
 
   const generateOprions = (showWordsPerDayThreshold: boolean): ChartOptions<'line'> => ({
