@@ -23,8 +23,8 @@ const get = async (
   };
 
   const queryString = buildQueryString(`${API_URI}/users/${userId}/aggregatedWords`, params);
-  const data = await fetchData<AggregatedObject>(queryString, requestOptions);
-  return data;
+  const data = await fetchData<AggregatedObject[]>(queryString, requestOptions);
+  return data as AggregatedObject[];
 };
 
 const getOne = async (userId: string, wordId: string, authToken: string) => {

@@ -4,9 +4,11 @@ import {
   REMOVE_COMPLEX_WORD,
   REMOVE_LEARNED_WORD,
   SET_COMPLEX_WORD,
+  SET_COMPLEX_WORDS,
   SET_CURRENT_PAGE_WORDS,
   SET_GROUP,
   SET_LEARNED_WORD,
+  SET_LEARNED_WORDS,
   SET_PAGE,
   SET_SELECTED_WORD,
   SET_SHOW_COMPLEX_WORDS,
@@ -66,6 +68,8 @@ export const textbookReducer = (
         return state;
       }
       return { ...state, complexWords: [...state.complexWords, payload as Word] };
+    case SET_COMPLEX_WORDS:
+        return { ...state, complexWords: (payload as Array<Word>) };
     case REMOVE_COMPLEX_WORD:
       return {
         ...state,
@@ -78,6 +82,8 @@ export const textbookReducer = (
         return state;
       }
       return { ...state, learnedWords: [...state.learnedWords, payload as Word] };
+    case SET_LEARNED_WORDS:
+        return { ...state, learnedWords: payload as Array<Word> };
     case REMOVE_LEARNED_WORD:
       return {
         ...state,

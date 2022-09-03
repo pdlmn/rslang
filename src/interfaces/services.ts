@@ -69,7 +69,7 @@ type UserToken = {
 
 // filter object for mongodb queries
 type FilterObject = {
-  [key: string]: string | FilterObject | FilterObject[] | null
+  [key: string]: string | FilterObject | FilterObject[] | null | boolean
 };
 
 type Statistic = {

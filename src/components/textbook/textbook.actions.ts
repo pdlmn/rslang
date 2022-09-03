@@ -53,6 +53,19 @@ export const setComplexWord = (complexWord: Word) => ({
   payload: complexWord,
 });
 
+// SET_COMPLEX_WORDS
+export const SET_COMPLEX_WORDS = 'SET_COMPLEX_WORDS';
+
+export type SetComplexWordsAction = {
+  type: string;
+  payload: Array<Word>;
+};
+
+export const setComplexWords = (complexWords: Array<Word>) => ({
+  type: SET_COMPLEX_WORDS,
+  payload: complexWords,
+});
+
 // REMOVE_COMPLEX_WORD
 export const REMOVE_COMPLEX_WORD = 'REMOVE_COMPLEX_WORD';
 
@@ -77,6 +90,19 @@ export type SetLearnedWordAction = {
 export const setLearnedWord = (learnedWord: Word) => ({
   type: SET_LEARNED_WORD,
   payload: learnedWord,
+});
+
+// SET_LEARNED_WORDS
+export const SET_LEARNED_WORDS = 'SET_LEARNED_WORDS';
+
+export type SetLearnedWordsAction = {
+  type: string;
+  payload: Array<Word>;
+};
+
+export const setLearnedWords = (learnedWords: Array<Word>) => ({
+  type: SET_LEARNED_WORDS,
+  payload: learnedWords,
 });
 
 // REMOVE_LEARNED_WORD
@@ -141,4 +167,6 @@ export type TextbookAction =
   | SetPageAction
   | RemoveComplexWordAction
   | RemoveLearnedWordAction
-  | SetCurrentPageWordsAction;
+  | SetCurrentPageWordsAction
+  | SetComplexWordsAction
+  | SetLearnedWordsAction;
