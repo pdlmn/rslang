@@ -22,11 +22,11 @@ const gameData: Array<GameData> = [
 ];
 
 export const GamesBlock = () => (
-  <Flex direction="column" pt={8}>
-    <Heading as="h2" size="lg">
+  <Flex direction="column" pt={6}>
+    <Heading as="h2" size="lg" userSelect="none">
       Игры
     </Heading>
-    <Text as="h3" fontSize="lg" fontWeight="500">
+    <Text as="h3" fontSize="lg" fontWeight="500" userSelect="none">
       Закрепи новые слова при помощи игр
     </Text>
     <Flex gap={8} pt={10} justify="space-around">

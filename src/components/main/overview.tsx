@@ -21,7 +21,8 @@ export const Overview = () => (
         direction="column"
         spacing={6}
         justifyContent="center"
-        maxW="500px"
+        maxW="450px"
+        userSelect="none"
       >
         <chakra.h1
           fontSize="4xl"

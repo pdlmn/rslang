@@ -6,15 +6,20 @@ import {
   HStack,
   VStack,
   Stack,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AnyAction } from 'redux';
+import { BsCheckAll } from 'react-icons/bs';
 import { Word } from '../../interfaces/services';
 import { API_URI } from '../../services/common';
 import { SoundButton } from './soundButton';
 import {
-  removeComplexWord, removeLearnedWord, setComplexWord, setLearnedWord,
+  removeComplexWord,
+  removeLearnedWord,
+  setComplexWord,
+  setLearnedWord,
 } from './textbook.actions';
 import {
   getComplexWords,
@@ -24,6 +29,13 @@ import {
   getShowComplexWords,
   getShowLearnedWords,
 } from './textbook.selectors';
+import { useTypedSelector } from '../../redux';
+import {
+  addToComplex,
+  addToLearned,
+  removeFromComplex,
+  removeFromLearned,
+} from '../../services/utilsFuncs';
 
 export const WordDescriptionCard = () => {
   const group = useSelector(getGroup);
@@ -35,46 +47,103 @@ export const WordDescriptionCard = () => {
   const dispatch = useDispatch();
   const dispatchSetComplexWord = useCallback(
     (cw: Word): AnyAction => dispatch(setComplexWord(cw)),
-    [dispatch],
+    [dispatch]
   );
   const dispatchSetLearnedWord = useCallback(
     (lw: Word): AnyAction => dispatch(setLearnedWord(lw)),
-    [dispatch],
+    [dispatch]
   );
   const dispatchRemoveComplexWord = useCallback(
     (cw: Word): AnyAction => dispatch(removeComplexWord(cw)),
-    [dispatch],
+    [dispatch]
   );
   const dispatchRemoveLearnedWord = useCallback(
     (cw: Word): AnyAction => dispatch(removeLearnedWord(cw)),
-    [dispatch],
+    [dispatch]
   );
 
+  const whiteGray100 = useColorModeValue('white', 'gray.100');
+
+  const { user } = useTypedSelector((state) => state.auth);
+
   const handleComplexBtnClick = () => {
-    if (showComplexWords) {
-      return dispatchRemoveComplexWord(selectedWord!);
+    if (selectedWord) {
+      if (showComplexWords) {
+        return (
+          dispatchRemoveComplexWord(selectedWord!),
+          // удалить из userWords -> в учебник
+          removeFromComplex({ selectedWord, user })
+        );
+      }
+      if (showLearnedWords) {
+        return (
+          dispatchRemoveLearnedWord(selectedWord!),
+          dispatchSetComplexWord(selectedWord!),
+          // удалить из learned -> в сложные слова (вкладка Изученные)
+          // { difficulty: 'hard', optional: { learned: false } }
+          addToComplex({ selectedWord, user })
+        );
+      }
+      if (learnedWords.some((el) => el.id === selectedWord!.id)) {
+        return (
+          dispatchRemoveLearnedWord(selectedWord!),
+          dispatchSetComplexWord(selectedWord!),
+          // удалить из learned -> в сложные слова (основные группы)
+          // { difficulty: 'hard', optional: { learned: false } }
+          addToComplex({ selectedWord, user })
+        );
+      }
+
+      return (
+        dispatchSetComplexWord(selectedWord!),
+        // добавить в сложные слова (основные группы)
+        // { difficulty: 'hard', optional: { learned: false } }
+        addToComplex({ selectedWord, user })
+      );
     }
-    if (showLearnedWords) {
-      return (dispatchRemoveLearnedWord(selectedWord!), dispatchSetComplexWord(selectedWord!));
-    }
-    if (learnedWords.some((el) => el.id === selectedWord!.id)) {
-      return (dispatchRemoveLearnedWord(selectedWord!), dispatchSetComplexWord(selectedWord!));
-    }
-    return dispatchSetComplexWord(selectedWord!);
+
+    return null;
   };
 
   const handleLearnedBtnClick = () => {
-    if (showLearnedWords) {
-      return dispatchRemoveLearnedWord(selectedWord!);
+    if (selectedWord) {
+      if (showLearnedWords) {
+        return (
+          dispatchRemoveLearnedWord(selectedWord!),
+          // удалить из learnedWords -> в учебник (вкладка Изученные)
+          removeFromLearned({ selectedWord, user })
+        );
+      }
+      if (showComplexWords) {
+        return (
+          dispatchRemoveComplexWord(selectedWord!),
+          dispatchSetLearnedWord(selectedWord!),
+          // удалить из complex -> в изученные слова (вкладка Сложные)
+          // { difficulty: 'easy', optional: { learned: true } }
+          addToLearned({ selectedWord, user })
+        );
+      }
+      if (complexWords.some((el) => el.id === selectedWord!.id)) {
+        return (
+          dispatchRemoveComplexWord(selectedWord!),
+          dispatchSetLearnedWord(selectedWord!),
+          // удалить из complex -> в изученные слова (основные группы)
+          // { difficulty: 'easy', optional: { learned: true } }
+          addToLearned({ selectedWord, user })
+        );
+      }
+      return (
+        dispatchSetLearnedWord(selectedWord!),
+        // добавить в изученные слова (основные группы)
+        // { difficulty: 'easy', optional: { learned: true } }
+        addToLearned({ selectedWord, user })
+      );
     }
-    if (showComplexWords) {
-      return (dispatchRemoveComplexWord(selectedWord!), dispatchSetLearnedWord(selectedWord!));
-    }
-    if (complexWords.some((el) => el.id === selectedWord!.id)) {
-      return (dispatchRemoveComplexWord(selectedWord!), dispatchSetLearnedWord(selectedWord!));
-    }
-    return dispatchSetLearnedWord(selectedWord!);
+
+    return null;
   };
+
+  const iconStyles = { fontSize: '1.5em' };
 
   return (
     <Flex
@@ -105,26 +174,28 @@ export const WordDescriptionCard = () => {
           </Text>
           {selectedWord && <SoundButton />}
         </HStack>
-        <HStack spacing={4} pt={2} pb={2}>
-          <Button
-            colorScheme={showComplexWords ? 'yellow' : 'green'}
-            lineHeight={1}
-            minW="11rem"
-            onClick={() => handleComplexBtnClick()}
-          >
-            {showComplexWords ? 'в учебник' : 'в сложные слова'}
-          </Button>
-          <Button
-            colorScheme={showLearnedWords ? 'yellow' : 'red'}
-            lineHeight={1}
-            minW="11rem"
-            onClick={() => handleLearnedBtnClick()}
-          >
-            {showLearnedWords ? 'в учебник' : 'в изученные слова'}
-          </Button>
-        </HStack>
-        <Stack>
-          <Text align="center" fontWeight="bold">
+        {user && (
+          <HStack spacing={4} pt={2} pb={2}>
+            <Button
+              colorScheme={showComplexWords ? 'yellow' : 'green'}
+              lineHeight={1}
+              minW="11rem"
+              onClick={() => handleComplexBtnClick()}
+            >
+              {showComplexWords ? 'в учебник' : 'в сложные слова'}
+            </Button>
+            <Button
+              colorScheme={showLearnedWords ? 'yellow' : 'red'}
+              lineHeight={1}
+              minW="11rem"
+              onClick={() => handleLearnedBtnClick()}
+            >
+              {showLearnedWords ? 'в учебник' : 'в изученные слова'}
+            </Button>
+          </HStack>
+        )}
+        <Stack pt={1}>
+          <Text align="left" fontWeight="bold">
             Значение
           </Text>
           <Text
@@ -134,7 +205,7 @@ export const WordDescriptionCard = () => {
             }}
           />
           <Text>{selectedWord?.textMeaningTranslate}</Text>
-          <Text align="center" fontWeight="bold">
+          <Text align="left" fontWeight="bold">
             Пример
           </Text>
           <Text
@@ -145,6 +216,81 @@ export const WordDescriptionCard = () => {
           />
           <Text>{selectedWord?.textExampleTranslate}</Text>
         </Stack>
+        {user && (
+          <Flex direction="column" pt={2} gap={3} w="100%">
+            <HStack justifyContent="center">
+              <Text as="h4" fontSize="xl" fontWeight="500" userSelect="none">
+                Ответы в играх
+              </Text>
+              <BsCheckAll style={iconStyles} />
+            </HStack>
+
+            <Flex gap={8} justifyContent="center">
+              <HStack>
+                <Text
+                  userSelect="none"
+                  fontWeight="500"
+                  bgColor="gray.700"
+                  p={1}
+                  pb={1.5}
+                  pl={3}
+                  pr={3}
+                  rounded="3xl"
+                  color={whiteGray100}
+                >
+                  Аудиовызов
+                </Text>
+                <Text
+                  pl={3}
+                  fontSize="1.1rem"
+                  userSelect="none"
+                  color="green.400"
+                >
+                  0
+                </Text>
+                <Text
+                  pl={3}
+                  fontSize="1.1rem"
+                  userSelect="none"
+                  color="red.400"
+                >
+                  0
+                </Text>
+              </HStack>
+              <HStack>
+                <Text
+                  userSelect="none"
+                  fontWeight="500"
+                  bgColor="gray.700"
+                  p={1}
+                  pb={1.5}
+                  pl={3}
+                  pr={3}
+                  rounded="3xl"
+                  color={whiteGray100}
+                >
+                  Спринт
+                </Text>
+                <Text
+                  pl={3}
+                  fontSize="1.1rem"
+                  userSelect="none"
+                  color="green.400"
+                >
+                  0
+                </Text>
+                <Text
+                  pl={3}
+                  fontSize="1.1rem"
+                  userSelect="none"
+                  color="red.400"
+                >
+                  0
+                </Text>
+              </HStack>
+            </Flex>
+          </Flex>
+        )}
       </VStack>
     </Flex>
   );

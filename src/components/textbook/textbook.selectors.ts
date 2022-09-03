@@ -13,3 +13,5 @@ export const getLearnedWords = (state: RootState) => state.textbook.learnedWords
 export const getShowComplexWords = (state: RootState) => state.textbook.showComplexWords;
 
 export const getShowLearnedWords = (state: RootState) => state.textbook.showLearnedWords;
+
+export const getCurrentPageWords = (state: RootState) => state.textbook.currentPageWords;

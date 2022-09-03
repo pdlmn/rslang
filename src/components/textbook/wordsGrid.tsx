@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import {
   Flex, Stack, useColorModeValue, Text,
 } from '@chakra-ui/react';
@@ -19,28 +19,41 @@ import { Word } from '../../interfaces/services';
 import { Words as wordsService } from '../../services/words';
 import {
   getComplexWords,
-  getGroup, getLearnedWords, getSelectedWord, getShowComplexWords, getShowLearnedWords,
+  getGroup,
+  getLearnedWords,
+  getSelectedWord,
+  getPage,
+  getShowComplexWords,
+  getShowLearnedWords,
+  getCurrentPageWords,
 } from './textbook.selectors';
-import { setPage, setSelectedWord } from './textbook.actions';
+import { setCurrentPageWords, setPage, setSelectedWord } from './textbook.actions';
 import { Card } from './card';
+// import { useTypedSelector } from '../../redux';
 
 const outerLimit = 1;
 const innerLimit = 1;
 
 export const WordsGrid = () => {
-  const [words, setWords] = useState<Array<Word>>([]);
-
+  const currentPageWords = useSelector(getCurrentPageWords);
   const group = useSelector(getGroup);
   const selectedWord = useSelector(getSelectedWord);
   const complexWords = useSelector(getComplexWords);
   const learnedWords = useSelector(getLearnedWords);
   const showComplexWords = useSelector(getShowComplexWords);
   const showLearnedWords = useSelector(getShowLearnedWords);
+  const storedPage = useSelector(getPage);
   const dispatch = useDispatch();
   const dispatchSetSelectedWord = useCallback(
     (s: Word): AnyAction => dispatch(setSelectedWord(s)),
     [dispatch],
   );
+  const dispatchSetCurrentPageWords = useCallback(
+    (w: Array<Word>): AnyAction => dispatch(setCurrentPageWords(w)),
+    [dispatch],
+  );
+
+  // const { user } = useTypedSelector((state) => state.auth);
 
   const {
     pages, pagesCount, currentPage, setCurrentPage,
@@ -60,27 +73,22 @@ export const WordsGrid = () => {
       wordsService
         .get({ group: group.id, page: currentPage - 1 })
         .then((data) => {
-          setWords(data as Array<Word>);
+          dispatchSetCurrentPageWords(data as Array<Word>);
         });
     }
   }, [group, currentPage, showComplexWords, showLearnedWords]);
 
   useEffect(() => {
     if (showComplexWords) {
-      setWords(complexWords);
+      dispatchSetCurrentPageWords(complexWords);
     } else if (showLearnedWords) {
-      setWords(learnedWords);
+      dispatchSetCurrentPageWords(learnedWords);
     }
   }, [showComplexWords, showLearnedWords, complexWords, learnedWords]);
 
   useEffect(() => {
-    setCurrentPage(1);
-    dispatch(setPage(1));
-  }, [group, setCurrentPage]);
-
-  useEffect(() => {
-    dispatchSetSelectedWord(words[0]);
-  }, [words]);
+    setCurrentPage(storedPage);
+  }, [storedPage]);
 
   const handlePageChange = useCallback(
     (nextPage: number): void => {
@@ -91,10 +99,14 @@ export const WordsGrid = () => {
     [setCurrentPage],
   );
 
+    const gray50700 = useColorModeValue('gray.50', 'gray.700');
+    const gray100600 = useColorModeValue('gray.100', 'gray.600');
+    const whietegray800 = useColorModeValue('white', 'gray.800');
+
   return (
     <Flex wrap="wrap" maxW="850px" alignContent="flex-start" gap={6}>
-      {(words.length === 0) && <Text as="i" fontSize="xl" fontWeight="400" pb={14}>В этом разделе еще нет слов.</Text>}
-      {(words.length !== 0) && words.map((word) => (
+      {(currentPageWords.length === 0) && <Text as="i" fontSize="xl" fontWeight="400" pb={14}>В этом разделе еще нет слов.</Text>}
+      {(currentPageWords.length !== 0) && currentPageWords.map((word) => (
         <Card
           key={word.id}
           word={word}
@@ -118,8 +130,8 @@ export const WordsGrid = () => {
               p={2}
               rounded="full"
               bg="transparent"
-              _hover={{ bg: useColorModeValue('gray.50', 'gray.700') }}
-              _active={{ bg: useColorModeValue('gray.100', 'gray.600') }}
+              _hover={{ bg: gray50700 }}
+              _active={{ bg: gray100600 }}
             >
               <AiOutlineLeft />
             </PaginationPrevious>
@@ -128,7 +140,7 @@ export const WordsGrid = () => {
               align="center"
               separator={(
                 <PaginationSeparator
-                  bg={useColorModeValue('white', 'gray.800')}
+                  bg={whietegray800}
                   fontSize="sm"
                   w={10}
                   jumpSize={8}
@@ -163,8 +175,8 @@ export const WordsGrid = () => {
               p={2}
               rounded="full"
               bg="transparent"
-              _hover={{ bg: useColorModeValue('gray.50', 'gray.700') }}
-              _active={{ bg: useColorModeValue('gray.100', 'gray.600') }}
+              _hover={{ bg: gray50700 }}
+              _active={{ bg: gray100600 }}
             >
               <AiOutlineRight />
             </PaginationNext>

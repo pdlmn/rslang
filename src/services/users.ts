@@ -1,12 +1,17 @@
 import {
-  Token, User, UserToken, UserWithoutPassword,
+  Token,
+  User,
+  UserToken,
+  UserWithoutPassword,
 } from '../interfaces/services';
 import { API_URI, fetchData, genericGet } from './common';
 
 // without authorization, users can be ONLY created
 // user can update or delete only themselves, hence why they need authTokens
 
-const get = genericGet<UserWithoutPassword>((userId) => `${API_URI}/users/${userId}`);
+const get = genericGet<UserWithoutPassword>(
+  (userId) => `${API_URI}/users/${userId}`
+);
 
 const create = async (user: Omit<User, 'id'>) => {
   const requestOptions = {
@@ -17,11 +22,18 @@ const create = async (user: Omit<User, 'id'>) => {
     },
   };
 
-  const data = await fetchData<Omit<User, 'password'>>(`${API_URI}/users`, requestOptions);
+  const data = await fetchData<Omit<User, 'password'>>(
+    `${API_URI}/users`,
+    requestOptions
+  );
   return data;
 };
 
-const update = async (userId: string, authToken: string, user: Omit<User, 'id'>) => {
+const update = async (
+  userId: string,
+  authToken: string,
+  user: Omit<User, 'id'>
+) => {
   const requestOptions = {
     method: 'PUT',
     body: JSON.stringify(user),
@@ -31,7 +43,10 @@ const update = async (userId: string, authToken: string, user: Omit<User, 'id'>)
     },
   };
 
-  const data = await fetchData<UserWithoutPassword>(`${API_URI}/users/${userId}`, requestOptions);
+  const data = await fetchData<UserWithoutPassword>(
+    `${API_URI}/users/${userId}`,
+    requestOptions
+  );
   return data;
 };
 
@@ -55,7 +70,10 @@ const getToken = async (userId: string, refreshToken: string) => {
     },
   };
 
-  const data = await fetchData<Token>(`${API_URI}/users/${userId}/tokens`, requestOptions);
+  const data = await fetchData<Token>(
+    `${API_URI}/users/${userId}/tokens`,
+    requestOptions
+  );
   return data;
 };
 

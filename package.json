@@ -16,11 +16,9 @@
     "@types/node": "^12.0.0",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.4",
-    "chart.js": "^3.9.1",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "framer-motion": "^6.5.1",
     "react": "^18.1.0",
-    "react-chartjs-2": "^4.3.1",
     "react-dom": "^18.1.0",
     "react-icons": "^3.0.0",
     "react-redux": "^8.0.2",
@@ -59,8 +57,11 @@
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "19.0.4",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.28.0",
-    "eslint-plugin-react-hooks": "^4.3.0"
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "prettier": "2.7.1"
   }
 }
