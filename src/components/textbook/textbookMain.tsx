@@ -13,7 +13,7 @@ import AggregatedWords from '../../services/aggregatedWords';
 import { ComplexButtons } from './complexButtons';
 import { GamesBlock } from './gamesBlock';
 import { GroupButtons } from './groupButtons';
-import { setComplexWords, setLearnedWords } from './textbook.actions';
+import { setComplexWords, setLearnedWords, setShowComplexWords, setShowLearnedWords } from './textbook.actions';
 import { WordsBlock } from './wordsBlock';
 
 export const TextbookMain = () => {
@@ -25,6 +25,14 @@ export const TextbookMain = () => {
   );
   const dispatchSetLearnedWords = useCallback(
     (lw: Array<Word>): AnyAction => dispatch(setLearnedWords(lw)),
+    [dispatch]
+  );
+  const dispatchSetShowComplexWords = useCallback(
+    (flag: boolean): AnyAction => dispatch(setShowComplexWords(flag)),
+    [dispatch]
+  );
+  const dispatchSetShowLearnedWords = useCallback(
+    (flag: boolean): AnyAction => dispatch(setShowLearnedWords(flag)),
     [dispatch]
   );
 
@@ -49,6 +57,11 @@ export const TextbookMain = () => {
           )
         );
       });
+    } else {
+      dispatchSetComplexWords([]);
+      dispatchSetLearnedWords([]);
+      dispatchSetShowComplexWords(false);
+      dispatchSetShowLearnedWords(false);
     }
   }, [user]);
 

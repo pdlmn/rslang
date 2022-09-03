@@ -29,6 +29,7 @@ import {
 } from './textbook.selectors';
 import { setCurrentPageWords, setPage, setSelectedWord } from './textbook.actions';
 import { Card } from './card';
+// import { useTypedSelector } from '../../redux';
 
 const outerLimit = 1;
 const innerLimit = 1;
@@ -52,6 +53,8 @@ export const WordsGrid = () => {
     [dispatch],
   );
 
+  // const { user } = useTypedSelector((state) => state.auth);
+
   const {
     pages, pagesCount, currentPage, setCurrentPage,
   } = usePagination({
@@ -73,7 +76,7 @@ export const WordsGrid = () => {
           dispatchSetCurrentPageWords(data as Array<Word>);
         });
     }
-  }, [group, 1, showComplexWords, showLearnedWords]);
+  }, [group, currentPage, showComplexWords, showLearnedWords]);
 
   useEffect(() => {
     if (showComplexWords) {
