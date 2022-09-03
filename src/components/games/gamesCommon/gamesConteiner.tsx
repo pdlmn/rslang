@@ -41,6 +41,7 @@ export const GamesConteiner = () => {
     <Container
       maxW="container.md"
       h="calc(100vh - 100px)"
+      overflow="auto"
       bgColor={bgColor}
       ref={conteiner}
       boxShadow="inset 0 0 1em gray"

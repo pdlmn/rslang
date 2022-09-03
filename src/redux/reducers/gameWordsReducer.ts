@@ -3,6 +3,8 @@ import { GameWordsActions, GameWordsActionTypes, GameWordsState } from '../../in
 const initialState: GameWordsState = {
   words: [],
   currentWordIndex: 0,
+  correctAnswersRow: 0,
+  correctAnswersRowMax: 0,
 };
 
 export const gameWordsReducer = (state = initialState, action: GameWordsActions) => {
@@ -25,6 +27,7 @@ export const gameWordsReducer = (state = initialState, action: GameWordsActions)
     case GameWordsActionTypes.RightAnswer:
       return {
         ...state,
+        correctAnswersRow: state.correctAnswersRow + 1,
         words: [
           ...state.words.slice(0, state.currentWordIndex),
           { ...state.words[state.currentWordIndex], isAnswered: true, isCorrect: true },
@@ -34,6 +37,10 @@ export const gameWordsReducer = (state = initialState, action: GameWordsActions)
     case GameWordsActionTypes.WrongAnswer:
       return {
         ...state,
+        correctAnswersRowMax: state.correctAnswersRow > state.correctAnswersRowMax
+          ? state.correctAnswersRow
+          : state.correctAnswersRowMax,
+        correctAnswersRow: 0,
         words: [
           ...state.words.slice(0, state.currentWordIndex),
           { ...state.words[state.currentWordIndex], isAnswered: true, isCorrect: false },

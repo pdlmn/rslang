@@ -5,9 +5,9 @@ import { useEffect } from 'react';
 import { Home } from './pages/home';
 import { Textbook } from './pages/textbook';
 import { Statistics } from './components/statistics/statistics';
-import { Sprint } from './components/games/sprint/sprint';
-import { AudioCall } from './components/games/audioCall/audioCall';
-import { Games } from './components/games/games';
+import { Sprint } from './pages/games/sprint';
+import { AudioCall } from './pages/games/audioCall';
+import { Games } from './pages/games/games';
 import {
   useAppDispatch,
   useTypedSelector,

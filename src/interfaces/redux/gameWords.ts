@@ -11,6 +11,8 @@ export enum GameWordsActionTypes {
 export interface GameWordsState {
   words: Array<WordInfo>,
   currentWordIndex: number,
+  correctAnswersRow: number,
+  correctAnswersRowMax: number,
 }
 
 export type SetWordsAction = ({

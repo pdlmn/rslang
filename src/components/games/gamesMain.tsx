@@ -1,7 +1,12 @@
 import {
-  Button, Container, Heading, HStack, VStack,
+  Box,
+  Container, Heading, HStack, VStack,
 } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { DottedBox } from '../main/dottedBox';
+import { GameButton } from '../textbook/gameButton';
+import { gameData } from '../textbook/gamesBlock';
+
+const gamesData = gameData.map((game) => ({ ...game, isFromTextBook: false }));
 
 export const GamesMain = () => (
   <Container maxW="container.xl" p="2rem 1rem">
@@ -9,16 +14,12 @@ export const GamesMain = () => (
       <Heading as="h1">Мини-игры</Heading>
 
       <HStack spacing={24}>
-        <Link to="/audiogame">
-          <Button w="400px" h="300px" shadow="md" colorScheme="green">
-            <Heading>Аудиовызов</Heading>
-          </Button>
-        </Link>
-        <Link to="/sprintgame">
-          <Button w="400px" h="300px" shadow="md" colorScheme="pink">
-            <Heading>Спринт</Heading>
-          </Button>
-        </Link>
+        {gamesData.map((game) => (
+          <Box position="relative" key={game.gameName}>
+            <DottedBox height="270" left="-62px" />
+            <GameButton {...game} />
+          </Box>
+        ))}
       </HStack>
     </VStack>
   </Container>

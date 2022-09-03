@@ -11,3 +11,11 @@ export const gameComponentByName = (name: GameNames | '') => {
 
   return games[name as GameNames] || <p>Game not found</p>;
 };
+
+// TODO
+export const sendGameStatistic = async () => {
+  console.log('send game stat');
+  return new Promise((resolve) => {
+    setTimeout(() => resolve('stat sended'), 2000);
+  });
+};

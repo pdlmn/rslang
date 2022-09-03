@@ -42,3 +42,20 @@ export const startFullscreen = () => ({
 export const stopFullscreen = () => ({
   type: GamesActionTypes.StopFullscreen,
 });
+
+export const startFromMenu = () => ({
+  type: GamesActionTypes.StartFromMenu,
+});
+
+export const startFromTextbook = () => ({
+  type: GamesActionTypes.StartFromTextbook,
+});
+
+export const showError = (payload: { error: Error }) => ({
+  type: GamesActionTypes.ShowError,
+  payload,
+});
+
+export const resetError = () => ({
+  type: GamesActionTypes.ResetError,
+});

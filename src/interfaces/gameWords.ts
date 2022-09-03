@@ -1,6 +1,8 @@
-import { Word } from './services';
+import { AggregatedWord } from './services';
 
-export interface WordInfo extends Word {
-  isAnswered: boolean,
-  isCorrect: boolean,
+export interface WordInfo extends AggregatedWord {
+  id: string,
+  isAnswered?: boolean,
+  isCorrect?: boolean,
+  combo?: number,
 }

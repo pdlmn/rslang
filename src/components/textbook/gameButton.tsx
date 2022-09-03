@@ -2,6 +2,7 @@ import {
   Button, Flex, useColorModeValue, Stack, Heading, Text, Box,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { useAction } from '../../hooks/useAction';
 
 export type GameData = {
   gameMiniDescription: string;
@@ -9,6 +10,7 @@ export type GameData = {
   gameDescription: string;
   img: string;
   href: string;
+  isFromTextBook: boolean;
 };
 
 export const GameButton = ({
@@ -17,9 +19,16 @@ export const GameButton = ({
   gameDescription,
   img,
   href,
+  isFromTextBook,
 }: GameData) => {
   const navigate = useNavigate();
+  const { startFromTextbook, startFromMenu } = useAction();
   const routeChange = () => {
+    if (isFromTextBook) {
+      startFromTextbook();
+    } else {
+      startFromMenu();
+    }
     navigate(href);
   };
 
