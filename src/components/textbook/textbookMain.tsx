@@ -40,9 +40,11 @@ export const TextbookMain = () => {
     if (user) {
       Promise.all([
         AggregatedWords.get(user!.userId, user!.token, {
+          wordsPerPage: 9999,
           filter: { 'userWord.difficulty': 'hard' },
         }),
         AggregatedWords.get(user!.userId, user!.token, {
+          wordsPerPage: 9999,
           filter: { 'userWord.optional.learned': true },
         }),
       ]).then(([hardWords, learnedWords]) => {

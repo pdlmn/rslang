@@ -1,7 +1,10 @@
 import {
   Button, Flex, useColorModeValue, Stack, Heading, Text, Box,
 } from '@chakra-ui/react';
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { getComplexWords, getCurrentPageWords, getLearnedWords, getShowComplexWords, getShowLearnedWords } from './textbook.selectors';
 
 export type GameData = {
   gameMiniDescription: string;
@@ -22,6 +25,21 @@ export const GameButton = ({
   const routeChange = () => {
     navigate(href);
   };
+  
+  const currentPageWords = useSelector(getCurrentPageWords);
+  const complexWords = useSelector(getComplexWords);
+  const learnedWords = useSelector(getLearnedWords);
+  const showComplexWords = useSelector(getShowComplexWords);
+  const showLearnedWords = useSelector(getShowLearnedWords);
+  const pageLearned = useMemo(
+    () =>
+      currentPageWords.every(
+        (w) =>
+          complexWords.find((cw) => w.id === cw.id) ||
+          learnedWords.find((lw) => w.id === lw.id)
+      ),
+    [complexWords, learnedWords, currentPageWords]
+  );
 
   return (
     <Button
@@ -31,6 +49,7 @@ export const GameButton = ({
       justifyContent="flex-start"
       alignContent="flex-start"
       onClick={routeChange}
+      disabled={pageLearned && !(showComplexWords || showLearnedWords)}
     >
       <Flex
         direction="column"

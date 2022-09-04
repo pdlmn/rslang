@@ -180,7 +180,9 @@ export const WordDescriptionCard = () => {
               colorScheme={showComplexWords ? 'yellow' : 'green'}
               lineHeight={1}
               minW="11rem"
-              onClick={() => handleComplexBtnClick()}
+              onClick={() => {
+                handleComplexBtnClick();
+              }}
             >
               {showComplexWords ? 'в учебник' : 'в сложные слова'}
             </Button>
@@ -188,7 +190,9 @@ export const WordDescriptionCard = () => {
               colorScheme={showLearnedWords ? 'yellow' : 'red'}
               lineHeight={1}
               minW="11rem"
-              onClick={() => handleLearnedBtnClick()}
+              onClick={() => {
+                handleLearnedBtnClick();
+              }}
             >
               {showLearnedWords ? 'в учебник' : 'в изученные слова'}
             </Button>
