@@ -45,7 +45,7 @@ export const GameFrame = () => {
         learnedWords: wordsLearned,
         correctAnswers,
         incorrectAnswers,
-      }).then(() => console.log(" send stat done")).catch((err) => {
+      }).catch((err) => {
       if (error instanceof Error) {
         showError({ error: err });
       }

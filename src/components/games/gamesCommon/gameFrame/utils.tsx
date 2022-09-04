@@ -17,8 +17,8 @@ export const gameComponentByName = (name: GameNames | '') => {
 
 export const sendGameStatistic = async (user: UserAuthData, body: GameStatistic) => {
   await gameStatistics.send(user.userId, user.token, body);
-  const res = await gameStatistics.get(user.userId, user.token);
-  console.log(res);
+  // const res = await gameStatistics.get(user.userId, user.token);
+  // console.log(res);
 };
 
 
