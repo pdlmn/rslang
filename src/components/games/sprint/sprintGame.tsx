@@ -10,8 +10,7 @@ import { SoundUrl } from '../gamesCommon/constants';
 import { shadowFromMultipler } from './utils';
 
 export const SprintGame = () => {
-  const { words, currentWordIndex } = useTypedSelector((state) => state.gameWords);
-  const { isMuted } = useTypedSelector((state) => state.games);
+  const { isMuted, words, currentWordIndex } = useTypedSelector((state) => state.games);
   const [points, setPoints] = useState(0);
   const [multipler, setMultipler] = useState(1);
   const [time, setTime] = useState(60);

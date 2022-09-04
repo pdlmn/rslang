@@ -9,7 +9,7 @@ import { useTypedSelector } from '../../../../../redux';
 import { SoundBtn } from './soundBtn';
 
 export const StatisticsScreen = () => {
-  const { words, correctAnswersRowMax } = useTypedSelector((state) => state.gameWords);
+  const { words, correctAnswersRowMax } = useTypedSelector((state) => state.games);
   const rightWords = words
     .filter((word) => word.isAnswered)
     .filter((word) => word.isCorrect);

@@ -10,13 +10,14 @@ export const GameFrame = () => {
   const {
     isStarted, isLoading, isFinished, name, error,
   } = useTypedSelector((state) => state.games);
+  const { user } = useTypedSelector((state) => state.auth)
   const { startLoading, stopLoading, showError } = useAction();
   const game = gameComponentByName(name);
 
   useEffect(() => {
-    if (!isFinished) return;
+    if (!isFinished || !user) return;
     startLoading();
-    sendGameStatistic().then((data) => console.log(data)).catch((err) => {
+    sendGameStatistic({ user }).then(() => console.log(" send stat done")).catch((err) => {
       if (error instanceof Error) {
         showError({ error: err });
       }

@@ -1,4 +1,5 @@
 import { GameNames, Levels } from '../gamesCommon';
+import { WordInfo } from '../gameWords';
 
 export enum GamesActionTypes {
   StartGame = 'games/startGame',
@@ -15,6 +16,11 @@ export enum GamesActionTypes {
   StartFromMenu = 'games/startFromMenu',
   ShowError = 'games/showError',
   ResetError = 'games/resetError',
+  SetWords = 'gameWords/setWords',
+  NextWord = 'gameWords/nextWord',
+  PrevWord = 'gameWords/prevWord',
+  RightAnswer = 'gameWords/rightAnswer',
+  WrongAnswer = 'gameWords/wrongAnswer',
 }
 
 export interface GamesState {
@@ -28,6 +34,11 @@ export interface GamesState {
   isFinished: boolean,
   isFullscreen: boolean,
   error: Error | null,
+  words: Array<WordInfo>,
+  currentWordIndex: number,
+  correctAnswersRow: number,
+  correctAnswersRowMax: number,
+  wordsLearned: number,
 }
 
 export type SelectLevelAction = {
@@ -89,6 +100,27 @@ export type ResetErrorAction = {
   type: GamesActionTypes.ResetError
 };
 
+export type SetWordsAction = ({
+  type: GamesActionTypes.SetWords,
+  payload: Array<WordInfo>
+});
+
+export type NextWordAction = ({
+  type: GamesActionTypes.NextWord,
+});
+
+export type PrevWordAction = ({
+  type: GamesActionTypes.PrevWord,
+});
+
+export type RightAnswerAction = ({
+  type: GamesActionTypes.RightAnswer,
+});
+
+export type WrongAnswerAction = ({
+  type: GamesActionTypes.WrongAnswer,
+});
+
 export type GamesAction =
 SelectLevelAction | SelectGameAction |
 MuteAction | UnmuteAction |
@@ -96,4 +128,7 @@ StartGameAction | FinishGameAction |
 StartLoadingAction | StopLoadingAction |
 StartFullscreenAction | StopFullscreenAction |
 StartFromTextbookAction | StartFromMenuAction |
-ShowErrorAction | ResetErrorAction;
+ShowErrorAction | ResetErrorAction |
+SetWordsAction |
+NextWordAction | PrevWordAction |
+RightAnswerAction | WrongAnswerAction;
