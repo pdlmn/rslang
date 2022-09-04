@@ -16,7 +16,7 @@ export const StatisticsScreen = () => {
   const wrongWords = words
     .filter((word) => word.isAnswered)
     .filter((word) => !word.isCorrect);
-  const accuracy = Math.floor((rightWords.length / (rightWords.length + wrongWords.length)) * 100);
+  const accuracy = Math.floor((rightWords.length / (rightWords.length + wrongWords.length)) * 100) || 0;
 
   return (
     <Tabs isFitted variant="enclosed" h="100%" w="100%">
