@@ -1,5 +1,8 @@
 import { useMemo } from 'react';
 import { GameNames } from '../../../../interfaces/gamesCommon';
+import { UserAuthData } from '../../../../interfaces/redux/auth';
+import { GameStatistic } from '../../../../interfaces/services';
+import gameStatistics from '../../../../services/gameStatistics';
 import { AudioCallGame } from '../../audioCall/audioCallGame';
 import { SprintGame } from '../../sprint/sprintGame';
 
@@ -12,10 +15,10 @@ export const gameComponentByName = (name: GameNames | '') => {
   return games[name as GameNames] || <p>Game not found</p>;
 };
 
-// TODO
-export const sendGameStatistic = async () => {
-  console.log('send game stat');
-  return new Promise((resolve) => {
-    setTimeout(() => resolve('stat sended'), 2000);
-  });
+export const sendGameStatistic = async (user: UserAuthData, body: GameStatistic) => {
+  await gameStatistics.send(user.userId, user.token, body);
+  // const res = await gameStatistics.get(user.userId, user.token);
+  // console.log(res);
 };
+
+

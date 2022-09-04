@@ -28,12 +28,11 @@ export const loadWords = async (options: LoadWordsOptions): Promise<Array<WordIn
       }) as AggregatedObject[])[0].paginatedResults).slice(-20);
   }
 
-  // TODO: add filter obj or filter func before slice to remove learned words
   const result = (await AggregatedWords
     .get(user.userId, user.token, {
       group, page: 0, wordsPerPage: 20 * (page + 1),
     }) as AggregatedObject[])[0].paginatedResults
-    .filter((word) => !word.userWord.optional || !word.userWord.optional.learned).slice(-20);
+    .filter((word) => !word.userWord?.optional?.learned).slice(-20);
 
   return addStatAndShuffleAggregatedWords(result);
 };
