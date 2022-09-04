@@ -9,11 +9,17 @@ import UserWords from '../../../../services/usersWords';
 
 export const GameFrame = () => {
   const {
-    isStarted, isLoading, isFinished, name, error, words, currentWordIndex,
+    isStarted, isLoading, isFinished, name, error, words, currentWordIndex, wordsLearned,
   } = useTypedSelector((state) => state.games);
   const { user } = useTypedSelector((state) => state.auth);
   const { startLoading, stopLoading, showError } = useAction();
   const game = gameComponentByName(name);
+  const correctAnswers = words
+    .filter((word) => word.isAnswered)
+    .filter((word) => word.isCorrect).length;
+  const incorrectAnswers = words
+    .filter((word) => word.isAnswered)
+    .filter((word) => !word.isCorrect).length;
 
   useEffect(() => {
     if (!user || !currentWordIndex) return;
@@ -34,7 +40,12 @@ export const GameFrame = () => {
       UserWords.create(user.userId, words[currentWordIndex].id, user.token, words[currentWordIndex].userWord);
       }
     }
-    sendGameStatistic({ user }).then(() => console.log(" send stat done")).catch((err) => {
+    sendGameStatistic(user, {
+        gameName: name.toLowerCase(),
+        learnedWords: wordsLearned,
+        correctAnswers,
+        incorrectAnswers,
+      }).then(() => console.log(" send stat done")).catch((err) => {
       if (error instanceof Error) {
         showError({ error: err });
       }

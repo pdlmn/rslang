@@ -115,6 +115,7 @@ export const gamesReducer = (state = initialState, action: GamesAction) => {
             ? state.correctAnswersRow + 1
             : state.correctAnswersRowMax,
           correctAnswersRow: state.correctAnswersRow + 1,
+          wordsLearned: state.wordsLearned + (state.words[state.currentWordIndex].userWord.optional.combo < comboNum - 1 ? 0 : 1),
           words: [
             ...state.words.slice(0, state.currentWordIndex),
             { 

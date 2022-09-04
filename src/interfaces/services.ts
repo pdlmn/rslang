@@ -100,6 +100,14 @@ type UserSettings = {
   optional?: Optional,
 };
 
+type GameStatistic = {
+  gameName: string,
+  learnedWords: number,
+  correctAnswers: number,
+  incorrectAnswers: number,
+  date?: number,
+}
+
 export type {
   User,
   UserCreateErrorResponse,
@@ -113,4 +121,5 @@ export type {
   FilterObject,
   Statistic,
   UserSettings,
+  GameStatistic,
 };
