@@ -2,6 +2,7 @@
 import { Container, Heading, Stack, useColorModeValue } from '@chakra-ui/react';
 import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { AnyAction } from 'redux';
 import {
   AggregatedObject,
@@ -18,6 +19,7 @@ import { WordsBlock } from './wordsBlock';
 
 export const TextbookMain = () => {
   const { user } = useTypedSelector((state) => state.auth);
+  const location = useLocation();
   const dispatch = useDispatch();
   const dispatchSetComplexWords = useCallback(
     (cw: Array<Word>): AnyAction => dispatch(setComplexWords(cw)),
@@ -40,9 +42,11 @@ export const TextbookMain = () => {
     if (user) {
       Promise.all([
         AggregatedWords.get(user!.userId, user!.token, {
+          wordsPerPage: 9999,
           filter: { 'userWord.difficulty': 'hard' },
         }),
         AggregatedWords.get(user!.userId, user!.token, {
+          wordsPerPage: 9999,
           filter: { 'userWord.optional.learned': true },
         }),
       ]).then(([hardWords, learnedWords]) => {
@@ -63,7 +67,7 @@ export const TextbookMain = () => {
       dispatchSetShowComplexWords(false);
       dispatchSetShowLearnedWords(false);
     }
-  }, [user]);
+  }, [user, location.pathname]);
 
   return (
     <Container maxW="container.xl" p="1rem 1rem">

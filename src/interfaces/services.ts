@@ -37,17 +37,33 @@ type Word = {
   textExampleTranslate: string
 };
 
-type Optional = Record<string, string | boolean | number>;
+type Optional = Record<string, string | boolean | number | { rightAnswers: number, wrongAnswers: number}>;
+
+export type UserWordOptional = {
+  learned?: boolean,
+  combo?: number,
+  gameSprint?: {
+    rightAnswers: number,
+    wrongAnswers: number
+  },
+  gameAudiocall?: {
+    rightAnswers: number,
+    wrongAnswers: number
+  },
+}
 
 type UserWord = {
   id: string,
   difficulty: string,
-  optional?: Optional,
+  optional?: UserWordOptional,
 };
 
 type AggregatedWord = Omit<Word, 'id'> & {
   _id: string,
-  userWord: Omit<UserWord, 'id'>,
+  userWord?: {
+    difficulty: string,
+    optional: UserWordOptional,
+  },
 };
 
 // an object with two arrays

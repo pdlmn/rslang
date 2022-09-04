@@ -1,8 +1,7 @@
 import { useMemo } from 'react';
 import { GameNames } from '../../../../interfaces/gamesCommon';
 import { UserAuthData } from '../../../../interfaces/redux/auth';
-import { Statistic } from '../../../../interfaces/services';
-import Statistics from '../../../../services/statistics';
+import AggregatedWords from '../../../../services/aggregatedWords';
 import { AudioCallGame } from '../../audioCall/audioCallGame';
 import { SprintGame } from '../../sprint/sprintGame';
 
@@ -21,7 +20,9 @@ export const gameComponentByName = (name: GameNames | '') => {
 
 // TODO
 export const sendGameStatistic = async ({ user }: SendStatOptions) => {
-  console.log('send game stat');
-  const stat = await Statistics.get(user.userId, user.token) as Statistic;
-  console.log(stat);
+  console.log(await AggregatedWords
+    .get(user.userId, user.token, {
+      wordsPerPage: 20,
+    }))
 };
+

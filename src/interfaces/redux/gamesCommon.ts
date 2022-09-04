@@ -1,5 +1,5 @@
 import { GameNames, Levels } from '../gamesCommon';
-import { WordInfo } from '../gameWords';
+import { WordInfo, WordInfoPlus } from '../gameWords';
 
 export enum GamesActionTypes {
   StartGame = 'games/startGame',
@@ -34,7 +34,7 @@ export interface GamesState {
   isFinished: boolean,
   isFullscreen: boolean,
   error: Error | null,
-  words: Array<WordInfo>,
+  words: Array<WordInfoPlus>,
   currentWordIndex: number,
   correctAnswersRow: number,
   correctAnswersRowMax: number,

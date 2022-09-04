@@ -24,15 +24,15 @@ export const SprintGame = () => {
   const [playAudioMultiplerGain] = useSound(SoundUrl.MultiplerGain, { volume: 0.4 });
   const [playAudioMultiplerLoss] = useSound(SoundUrl.MultiplerLoss, { volume: 0.4 });
   const prng = Math.sin(
-    words[currentWordIndex].word.length * currentWordIndex * multipler * points + combo,
+    (words[currentWordIndex]?.word?.length || 42) * currentWordIndex * multipler * points + combo,
   ) * 10000;
   const translate = Math.floor(
     prng - Math.floor(prng) + 0.5,
   )
-    ? words[currentWordIndex].wordTranslate
+    ? (words[currentWordIndex]?.wordTranslate)
     : words[
       Math.trunc((prng - Math.floor(prng)) * 100) % words.length
-    ].wordTranslate;
+    ]?.wordTranslate;
 
   const right = () => {
     if (!isMuted) {
@@ -89,7 +89,7 @@ export const SprintGame = () => {
   }, [time]);
 
   useEffect(() => {
-    if (currentWordIndex >= words.length - 1) {
+    if (currentWordIndex >= words.length) {
       if (!isMuted) playAudioFinish();
       finishGame();
     }
@@ -122,7 +122,7 @@ export const SprintGame = () => {
         </CircularProgress>
       </Flex>
       <Text fontSize="3xl" fontWeight="bold">
-        {words[currentWordIndex].word}
+        {words[currentWordIndex]?.word}
       </Text>
       <Text fontSize="xl" fontWeight="500">
         {translate}
@@ -137,7 +137,7 @@ export const SprintGame = () => {
           _hover={{
             bg: 'red.500',
           }}
-          onClick={words[currentWordIndex].wordTranslate === translate ? wrong : right}
+          onClick={words[currentWordIndex]?.wordTranslate === translate ? wrong : right}
         >
           Неверно
         </Button>
@@ -150,7 +150,7 @@ export const SprintGame = () => {
           _hover={{
             bg: 'green.500',
           }}
-          onClick={words[currentWordIndex].wordTranslate === translate ? right : wrong}
+          onClick={words[currentWordIndex]?.wordTranslate === translate ? right : wrong}
         >
           Верно
         </Button>
