@@ -9,14 +9,8 @@ import UserWords from '../../../../services/usersWords';
 
 export const GameFrame = () => {
   const {
-    isStarted,
-    isLoading,
-    isFinished,
-    name,
-    error,
-    words,
-    currentWordIndex,
-    wordsLearned,
+    isStarted, isLoading, isFinished, name, error,
+    words, currentWordIndex, wordsLearned, correctAnswersRowMax,
   } = useTypedSelector((state) => state.games);
   const { user } = useTypedSelector((state) => state.auth);
   const { startLoading, stopLoading, showError } = useAction();
@@ -70,18 +64,14 @@ export const GameFrame = () => {
     sendGameStatistic(user, {
       gameName: name.toLowerCase(),
       learnedWords: wordsLearned,
+      correctAnswersInARow: correctAnswersRowMax,
       correctAnswers,
       incorrectAnswers,
-      correctAnswersInARow: 0,
-    })
-      .catch((err) => {
-        if (error instanceof Error) {
-          showError({ error: err });
-        }
-      })
-      .finally(() => {
-        stopLoading();
-      });
+    }).catch((err) => {
+      if (error instanceof Error) {
+        showError({ error: err });
+      }
+    }).finally(() => { stopLoading(); });
   }, [isFinished]);
 
   if (error) {
