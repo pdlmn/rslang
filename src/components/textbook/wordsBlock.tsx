@@ -4,16 +4,24 @@ import { getSelectedWord } from './textbook.selectors';
 import { WordDescriptionCard } from './wordDescriptionCard';
 import { WordsGrid } from './wordsGrid';
 
-export const WordsBlock = () => {
+export const WordsBlock = (user: any) => {
   const selectedWord = useSelector(getSelectedWord);
 
   return (
-    <Stack spacing={4}>
-      <Heading as="h3" size="lg" userSelect="none" pt={6}>Слова</Heading>
-      <Flex justify="space-between">
+    <Flex
+      justify="space-between"
+      pt={user ? 2 : 6}
+      wrap={{ base: 'wrap', lg: 'nowrap' }}
+      gap={6}
+      direction={{base: 'column', lg: 'row'}}
+    >
+      <Stack spacing={4} maxW="content">
+        <Heading as="h3" size="lg" userSelect="none">
+          Слова
+        </Heading>
         <WordsGrid />
-        {selectedWord && <WordDescriptionCard />}
-      </Flex>
-    </Stack>
+      </Stack>
+      {selectedWord && <WordDescriptionCard />}
+    </Flex>
   );
 };

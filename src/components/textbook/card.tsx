@@ -184,9 +184,10 @@ export const Card = ({
   return (
     <Button
       p={2}
-      h="7rem"
+      h={{base: '6rem', md: '6rem', lg: '6rem', xl: '7rem'}}
       w="11.5rem"
       variant="outline"
+      flexGrow={1}
       color={textColor({
         showComplexWords,
         showLearnedWords,
