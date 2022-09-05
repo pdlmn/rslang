@@ -68,11 +68,7 @@ const DesktopSubNav = ({ label, href }: NavItem) => (
   >
     <Stack direction="row" align="center">
       <Box>
-        <Text
-          transition="all .3s ease"
-          fontWeight={500}
-          mr={4}
-        >
+        <Text transition="all .3s ease" fontWeight={500} mr={4}>
           {label}
         </Text>
       </Box>
@@ -147,22 +143,22 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
 
   return (
     <Stack spacing={4} onClick={children && onToggle}>
-      <Flex
-        py={2}
-        as={Link}
-        href={href ?? '#'}
-        justify="space-between"
-        align="center"
-        _hover={{
-          textDecoration: 'none',
-        }}
-      >
-        <Text
-          fontWeight={600}
-          color={useColorModeValue('gray.600', 'gray.200')}
+      <Flex justify="space-between" align="center">
+        <Flex
+          py={2}
+          as={Link}
+          href={href ?? '#'}
+          _hover={{
+            textDecoration: 'none',
+          }}
         >
-          {label}
-        </Text>
+          <Text
+            fontWeight={600}
+            color={useColorModeValue('gray.600', 'gray.200')}
+          >
+            {label}
+          </Text>
+        </Flex>
         {children && (
           <Icon
             as={ChevronDownIcon}

@@ -10,8 +10,8 @@ export const rootReducer = combineReducers({
   signIn: signInReducer,
   signUp: signUpReducer,
   auth: authReducer,
-  games: gamesReducer,
   textbook: textbookReducer,
+  games: gamesReducer,
   statistics: statisticsReducer,
 });
 

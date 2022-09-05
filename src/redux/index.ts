@@ -4,15 +4,18 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { rootReducer, RootState } from './reducers';
 import {
-  deleteUserFromStorage, refreshUserInStorage, saveUserToStorage,
+  deleteUserFromStorage,
+  refreshUserInStorage,
+  saveUserToStorage,
 } from './middleware/authLocalStorage';
-import {
-  saveTextbookStateInStorage,
-} from './middleware/textbookLocalStorage';
+import { saveTextbookStateInStorage } from './middleware/textbookLocalStorage';
 import { authLogIn } from './actions/auth';
 import { UserAuthData } from '../interfaces/redux/auth';
 import {
-  setGroup, setPage, setShowComplexWords, setShowLearnedWords,
+  setGroup,
+  setPage,
+  setShowComplexWords,
+  setShowLearnedWords,
 } from '../components/textbook/textbook.actions';
 import { groupButtonData } from '../components/textbook/groupButtonData';
 
@@ -38,9 +41,15 @@ if (userString) {
 const textbookStateString = localStorage.getItem('textbookState');
 if (textbookStateString) {
   const textbookState = JSON.parse(textbookStateString);
-  store.dispatch(setGroup(groupButtonData
-    .find((el) => textbookState.group.id === el.id)));
-  store.dispatch(setPage(textbookState.page));
+  const storedGroup = groupButtonData.find(
+    (el) => textbookState?.group?.id === el.id,
+  );
+  if (storedGroup) {
+    store.dispatch(setGroup(storedGroup));
+  }
+  if (textbookState.page) {
+    store.dispatch(setPage(textbookState.page));
+  }
   store.dispatch(setShowComplexWords(textbookState.showComplexWords));
   store.dispatch(setShowLearnedWords(textbookState.showLearnedWords));
 }
