@@ -41,6 +41,8 @@ interface DeveloperCardProps {
   position: string;
   photo: string;
   text: string;
+  text2?: string;
+  text3?: string;
   prop?: any;
 }
 
@@ -51,6 +53,8 @@ const DeveloperCard = ({
   position,
   photo,
   text,
+  text2,
+  text3,
   prop,
 }: DeveloperCardProps) => (
   <Container maxW="5xl" p={{ base: 4, md: 4 }}>
@@ -75,6 +79,10 @@ const DeveloperCard = ({
       />
       <Stack direction="column" spacing={5}>
         <Text color={useColorModeValue('gray.600', 'gray.300')}>{text}</Text>
+        <Text color={useColorModeValue('gray.600', 'gray.300')}>{text2}</Text>
+        <Text color={useColorModeValue('gray.600', 'gray.300')} mt="0 !important">
+          {text3}
+        </Text>
 
         <Stack>
           <HStack alignSelf="end" mr="3rem !important">
@@ -140,8 +148,10 @@ export const Developers = () => (
         name="Милена"
         gitLink="https://github.com/Milena-Belianova"
         position="Разработчик"
-        photo="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=334&q=80"
-        text={'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}
+        photo={`${process.env.PUBLIC_URL}/assets/milena.jpg`}
+        text="Сверстала главную страницу, учебник, хедер и футер. Также реализовала весь функционал Учебника. "
+        text2="Надеюсь вам понравится наше приложение, мы"
+        text3="очень старались =)"
       />
     </VStack>
   </Container>

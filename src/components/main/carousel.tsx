@@ -27,13 +27,13 @@ export const Carousel = (props: any) => {
 
   const cards = [
     {
-      image: '/assets/capture.png',
+      image: `${process.env.PUBLIC_URL}/assets/textbook.png`,
     },
     {
-      image: '/assets/capture2.png',
+      image: `${process.env.PUBLIC_URL}/assets/audiocall.png`,
     },
     {
-      image: '/assets/capture3.png',
+      image: `${process.env.PUBLIC_URL}/assets/statistics.png`,
     },
   ];
 
