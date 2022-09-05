@@ -3,13 +3,12 @@ import UserWords from './usersWords';
 
 const getExistingOrDefaultUserWord = (
   user: UserToken,
-  selectedWord: Word
-): Promise<UserWord> =>
-  UserWords.getOne(
-    user!.userId,
-    selectedWord!.id,
-    user!.token
-  ) as Promise<UserWord>;
+  selectedWord: Word,
+): Promise<UserWord> => UserWords.getOne(
+  user!.userId,
+  selectedWord!.id,
+  user!.token,
+) as Promise<UserWord>;
 
 const getDefaultWord = () => ({
   optional: {},
@@ -53,7 +52,7 @@ export const removeFromComplex = async ({
 
 const setLearned = async (
   { user, selectedWord }: AddToComplexParams,
-  learned: boolean
+  learned: boolean,
 ) => {
   if (user) {
     const existing = await getExistingOrDefaultUserWord(user, selectedWord);
@@ -68,7 +67,5 @@ const setLearned = async (
   }
 };
 
-export const addToLearned = async (params: AddToComplexParams) =>
-  setLearned(params, true);
-export const removeFromLearned = async (params: AddToComplexParams) =>
-  setLearned(params, false);
+export const addToLearned = async (params: AddToComplexParams) => setLearned(params, true);
+export const removeFromLearned = async (params: AddToComplexParams) => setLearned(params, false);

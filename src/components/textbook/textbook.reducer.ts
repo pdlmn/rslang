@@ -69,7 +69,7 @@ export const textbookReducer = (
       }
       return { ...state, complexWords: [...state.complexWords, payload as Word] };
     case SET_COMPLEX_WORDS:
-        return { ...state, complexWords: (payload as Array<Word>) };
+      return { ...state, complexWords: (payload as Array<Word>) };
     case REMOVE_COMPLEX_WORD:
       return {
         ...state,
@@ -83,7 +83,7 @@ export const textbookReducer = (
       }
       return { ...state, learnedWords: [...state.learnedWords, payload as Word] };
     case SET_LEARNED_WORDS:
-        return { ...state, learnedWords: payload as Array<Word> };
+      return { ...state, learnedWords: payload as Array<Word> };
     case REMOVE_LEARNED_WORD:
       return {
         ...state,
