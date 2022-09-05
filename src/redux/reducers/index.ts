@@ -4,6 +4,7 @@ import { authReducer } from './auth';
 import { gamesReducer } from './gamesReducer';
 import { signInReducer } from './signInReducer';
 import { signUpReducer } from './signUpReducer';
+import { statisticsReducer } from './statistics';
 
 export const rootReducer = combineReducers({
   signIn: signInReducer,
@@ -11,6 +12,7 @@ export const rootReducer = combineReducers({
   auth: authReducer,
   games: gamesReducer,
   textbook: textbookReducer,
+  statistics: statisticsReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

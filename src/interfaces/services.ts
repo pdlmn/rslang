@@ -3,6 +3,7 @@ type User = {
   name: string,
   email: string,
   password: string,
+  signedUp: number,
 };
 
 type UserWithoutPassword = Omit<User, 'password'>;
@@ -86,7 +87,8 @@ type Token = {
 type UserToken = {
   message: string,
   userId: string,
-  name: string
+  name: string,
+  signedUp: number,
 } & Token;
 
 // filter object for mongodb queries
@@ -110,7 +112,7 @@ type GameStatistic = {
   correctAnswers: number,
   incorrectAnswers: number,
   correctAnswersInARow: number,
-  date?: number,
+  date: number,
 };
 
 type WordStatistic = {

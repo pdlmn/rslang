@@ -58,7 +58,7 @@ const checkNameEmptiness = checkFieldEmptiness('name');
 const checkEmailEmptiness = checkFieldEmptiness('email');
 const checkPasswordEmptiness = checkFieldEmptiness('password');
 
-export const signUpSubmit = (payload: Omit<User, 'id'>) => (
+export const signUpSubmit = (payload: Omit<User, 'id' | 'signedUp'>) => (
   async (dispatch: Dispatch<SignUpAction>) => {
     try {
       dispatch({ type: SignUpActionTypes.Submit });

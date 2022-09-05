@@ -19,6 +19,9 @@ import { useAppDispatch, useTypedSelector } from '../../redux';
 import { authLogOut } from '../../redux/actions/auth';
 
 export const Header = () => {
+  const buttonColor = useColorModeValue('gray.800', 'black');
+  const signUpColor = useColorModeValue('gray.800', 'gray.200');
+
   const {
     isOpen: isNavigationOpen,
     onToggle: onNavigationToggle,
@@ -89,7 +92,7 @@ export const Header = () => {
                 display={{ base: 'none', md: 'inline-flex' }}
                 fontSize="md"
                 fontWeight={600}
-                color={useColorModeValue('gray.800', 'black')}
+                color={buttonColor}
                 bg="yellow.400"
                 _hover={{
                   bg: 'yellow.300',
@@ -109,7 +112,7 @@ export const Header = () => {
                   fontSize="md"
                   fontWeight={400}
                   variant="link"
-                  color={useColorModeValue('gray.800', 'gray.200')}
+                  color={signUpColor}
                 >
                   Регистрация
                 </Button>
@@ -118,7 +121,7 @@ export const Header = () => {
                   onClick={onSignInOpen}
                   display={{ base: 'none', md: 'inline-flex' }}
                   fontWeight={600}
-                  color={useColorModeValue('gray.800', 'black')}
+                  color={buttonColor}
                   bg="yellow.400"
                   _hover={{
                     bg: 'yellow.300',
