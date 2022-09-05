@@ -1,11 +1,10 @@
 import { Box, Heading, Spinner } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useTypedSelector } from '../../../../redux';
-import { gameComponentByName, sendGameStatistic } from './utils';
+import { gameComponentByName, sendGameStatistic, sendWordStatistic } from './utils';
 import { StartScreen } from './startScreen/startScreen';
 import { StatisticsScreen } from './statisticsScreen/statisticsScreen';
 import { useAction } from '../../../../hooks/useAction';
-import UserWords from '../../../../services/usersWords';
 
 export const GameFrame = () => {
   const {
@@ -24,42 +23,22 @@ export const GameFrame = () => {
 
   useEffect(() => {
     if (!user || !currentWordIndex) return;
-    if (words[currentWordIndex - 1].hasOptional) {
-      UserWords.update(
-        user.userId,
-        words[currentWordIndex - 1].id,
-        user.token,
-        words[currentWordIndex - 1].userWord,
-      );
-    } else {
-      UserWords.create(
-        user.userId,
-        words[currentWordIndex - 1].id,
-        user.token,
-        words[currentWordIndex - 1].userWord,
-      );
-    }
+    sendWordStatistic(
+      user,
+      { id: words[currentWordIndex - 1].id, userWord: words[currentWordIndex - 1].userWord },
+      words[currentWordIndex - 1].hasOptional,
+    ).catch(() => {});
   }, [currentWordIndex]);
 
   useEffect(() => {
     if (!isFinished || !user) return;
     startLoading();
     if (words[currentWordIndex]?.isAnswered) {
-      if (words[currentWordIndex].hasOptional) {
-        UserWords.update(
-          user.userId,
-          words[currentWordIndex].id,
-          user.token,
-          words[currentWordIndex].userWord,
-        );
-      } else {
-        UserWords.create(
-          user.userId,
-          words[currentWordIndex].id,
-          user.token,
-          words[currentWordIndex].userWord,
-        );
-      }
+      sendWordStatistic(
+        user,
+        { id: words[currentWordIndex].id, userWord: words[currentWordIndex].userWord },
+        words[currentWordIndex].hasOptional,
+      ).catch(() => {});
     }
     sendGameStatistic(user, {
       gameName: name.toLowerCase(),

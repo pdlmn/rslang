@@ -45,15 +45,16 @@ export const StartScreen = () => {
   };
 
   return (
-    <VStack spacing="50px">
-      <Heading as="h1">{name}</Heading>
-      <Heading size="md" textAlign="center">{description}</Heading>
-      <Flex gap="50px">
+    <VStack spacing={{ base: '20px', md: '40px' }}>
+      <Heading size={{ base: 'md', md: 'lg' }} as="h1">{name}</Heading>
+      <Heading size={{ base: 'xs', md: 'md' }} textAlign="center">{description}</Heading>
+      <Flex gap={{ base: 3, sm: 8 }} justify="space-around" wrap="wrap">
         {levelSelector}
       </Flex>
       <Button
-        display={{ base: 'none', md: 'inline-flex' }}
-        fontSize="md"
+        display={{ base: 'inline-flex', md: 'inline-flex' }}
+        fontSize={{ base: 'xs', md: 'md' }}
+        size={{ base: 'xs', md: 'md' }}
         fontWeight={600}
         color="white"
         bg="green.600"

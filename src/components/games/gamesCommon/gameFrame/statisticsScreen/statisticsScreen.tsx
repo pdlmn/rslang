@@ -38,16 +38,14 @@ export const StatisticsScreen = () => {
         <Tab>Статистика</Tab>
         <Tab>Слова</Tab>
       </TabList>
-      <TabPanels h="100%">
+      <TabPanels h="90%">
         <TabPanel h="100%">
-          <Flex gap={10} align="center" h="100%">
+          <Flex gap={{ base: '3', md: '8' }} align="center" h="100%">
             <Stat display="flex" alignItems="center" justifyContent="center">
               <StatNumber fontSize="7xl" textAlign="center">
                 {correctAnswersRowMax}
               </StatNumber>
-              <StatLabel fontSize={{ sm: 'xl', md: '2xl' }} textAlign="center">
-                Серия без ошибок
-              </StatLabel>
+              <StatLabel fontSize={{ sm: 'sm', md: 'xl' }} textAlign="center">Серия без ошибок</StatLabel>
             </Stat>
             <Stat display="flex" alignItems="center" justifyContent="center">
               <StatNumber
@@ -71,31 +69,20 @@ export const StatisticsScreen = () => {
                   </CircularProgressLabel>
                 </CircularProgress>
               </StatNumber>
-              <StatLabel fontSize={{ sm: 'xl', md: '2xl' }} textAlign="center">
-                Правильных ответов
-              </StatLabel>
+              <StatLabel fontSize={{ sm: 'sm', md: 'xl' }} textAlign="center">Правильных ответов</StatLabel>
             </Stat>
           </Flex>
         </TabPanel>
         <TabPanel>
-          <Flex gap={10}>
-            <Flex
-              direction="column"
-              alignItems="flex-start"
-              justify="flex-start"
-              h="100%"
-            >
-              <Heading
-                size="sm"
-                borderBottom="2px solid green"
-                alignSelf="center"
-              >
+          <Flex gap={{ sm: '1', md: '8' }}>
+            <Flex direction="column" alignItems="flex-start" justify="flex-start" h="100%">
+              <Heading size="sm" borderBottom="2px solid green" alignSelf="center">
                 Правильно
               </Heading>
               {rightWords.map((word) => (
                 <HStack key={word.id}>
                   <SoundBtn audio={word.audio} />
-                  <Text>{`${word.word} - ${word.wordTranslate}`}</Text>
+                  <Text fontSize={{ base: 'sm', md: 'lg' }}>{`${word.word} - ${word.wordTranslate}`}</Text>
                 </HStack>
               ))}
             </Flex>
@@ -111,12 +98,13 @@ export const StatisticsScreen = () => {
               >
                 Неправильно
               </Heading>
-              {wrongWords.map((word) => (
-                <HStack key={word.id}>
-                  <SoundBtn audio={word.audio} />
-                  <Text>{`${word.word} - ${word.wordTranslate}`}</Text>
-                </HStack>
-              ))}
+              {wrongWords
+                .map((word) => (
+                  <HStack key={word.id}>
+                    <SoundBtn audio={word.audio} />
+                    <Text fontSize={{ base: 'sm', md: 'lg' }}>{`${word.word} - ${word.wordTranslate}`}</Text>
+                  </HStack>
+                ))}
             </Flex>
           </Flex>
         </TabPanel>

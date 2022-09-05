@@ -13,7 +13,7 @@ export const SprintGame = () => {
   const { isMuted, words, currentWordIndex } = useTypedSelector((state) => state.games);
   const [points, setPoints] = useState(0);
   const [multipler, setMultipler] = useState(1);
-  const [time, setTime] = useState(60);
+  const [time, setTime] = useState(30);
   const [combo, setCombo] = useState(0);
   const {
     nextWord, rightAnswer, wrongAnswer, finishGame,
@@ -117,7 +117,7 @@ export const SprintGame = () => {
         <Spacer />
         <Heading textShadow={shadowFromMultipler(multipler)}>{points}</Heading>
         <Spacer />
-        <CircularProgress size="60px" value={100 - (time / 60) * 100} color="green.400">
+        <CircularProgress size="60px" value={100 - (time / 30) * 100} color="green.400">
           <CircularProgressLabel>{time}</CircularProgressLabel>
         </CircularProgress>
       </Flex>
@@ -127,10 +127,11 @@ export const SprintGame = () => {
       <Text fontSize="xl" fontWeight="500">
         {translate}
       </Text>
-      <HStack spacing={8} pt={2} pb={2}>
+      <HStack spacing={{ base: '2', md: '8' }} pt={2} pb={2}>
         <Button
-          display={{ base: 'none', md: 'inline-flex' }}
-          fontSize="md"
+          display={{ base: 'inline-flex', md: 'inline-flex' }}
+          fontSize={{ base: 'xs', md: 'md' }}
+          size={{ base: 'xs', md: 'md' }}
           fontWeight={600}
           color="white"
           bg="red.600"
@@ -142,8 +143,9 @@ export const SprintGame = () => {
           Неверно
         </Button>
         <Button
-          display={{ base: 'none', md: 'inline-flex' }}
-          fontSize="md"
+          display={{ base: 'inline-flex', md: 'inline-flex' }}
+          fontSize={{ base: 'xs', md: 'md' }}
+          size={{ base: 'xs', md: 'md' }}
           fontWeight={600}
           color="white"
           bg="green.600"
