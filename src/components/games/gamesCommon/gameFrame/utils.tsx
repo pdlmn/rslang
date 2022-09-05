@@ -16,7 +16,7 @@ export const gameComponentByName = (name: GameNames | '') => {
   return games[name as GameNames] || <p>Game not found</p>;
 };
 
-export const sendGameStatistic = async (user: UserAuthData, body: GameStatistic) => {
+export const sendGameStatistic = async (user: UserAuthData, body: Omit<GameStatistic, 'date'>) => {
   await gameStatistics.send(user.userId, user.token, body);
 };
 
