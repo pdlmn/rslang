@@ -51,7 +51,7 @@ export const GamesConteiner = () => {
         <ButtonGroup isAttached size={{ base: 'xs', md: 'md' }} variant="outline" ml="auto">
           <IconButton aria-label="Sound" icon={isMuted ? <BiVolumeMute /> : <BiVolumeFull />} onClick={toggleAudio} />
           <IconButton aria-label="Fullscreen" icon={<BsFullscreen />} onClick={toggleFullscreen} />
-          <Link to="/"><IconButton aria-label="Close" icon={<CloseIcon />} /></Link>
+          <Link to="/rslang"><IconButton aria-label="Close" icon={<CloseIcon />} /></Link>
         </ButtonGroup>
         <Flex height="100%" align="center" justify="center" mt="0px">
           <GameFrame />

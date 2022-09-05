@@ -15,7 +15,7 @@ export const Logo = () => {
 
   return (
     <Link
-      href="/"
+      href="/rslang"
       _hover={{
         textDecoration: 'none',
       }}

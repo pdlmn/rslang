@@ -1,7 +1,7 @@
 {
   "name": "rslang",
-  "homepage": "https://pdlmn.github.io/rslang",
   "version": "0.1.0",
+  "homepage": "https://pdlmn.github.io/rslang",
   "private": true,
   "dependencies": {
     "@ajna/pagination": "^1.4.19",

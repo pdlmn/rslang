@@ -38,9 +38,15 @@ if (userString) {
 const textbookStateString = localStorage.getItem('textbookState');
 if (textbookStateString) {
   const textbookState = JSON.parse(textbookStateString);
-  store.dispatch(setGroup(groupButtonData
-    .find((el) => textbookState.group.id === el.id)));
-  store.dispatch(setPage(textbookState.page));
+  const storedGroup = groupButtonData.find(
+    (el) => textbookState?.group?.id === el.id,
+  );
+  if (storedGroup) {
+    store.dispatch(setGroup(storedGroup));
+  }
+  if (textbookState.page) {
+    store.dispatch(setPage(textbookState.page));
+  }
   store.dispatch(setShowComplexWords(textbookState.showComplexWords));
   store.dispatch(setShowLearnedWords(textbookState.showLearnedWords));
 }
