@@ -31,7 +31,6 @@ import {
   setSelectedWord,
 } from './textbook.actions';
 import { Card } from './card';
-// import { useTypedSelector } from '../../redux';
 
 const outerLimit = 1;
 const innerLimit = 1;
@@ -111,35 +110,36 @@ export const WordsGrid = () => {
   const whietegray800 = useColorModeValue('white', 'gray.800');
 
   return (
-    <Flex wrap="wrap" maxW="808px" alignContent="flex-start" gap={6}>
-      <Flex
-        wrap="wrap"
-        gap={6}
-        rounded="md"
-        bgColor={
-          pageLearned && !(showComplexWords || showLearnedWords)
-            ? 'gray.50'
-            : 'transparent'
-        }
-      >
-        {currentPageWords.length === 0 && (
-          <Text as="i" fontSize="xl" fontWeight="400" pb={14}>
-            В этом разделе еще нет слов.
-          </Text>
-        )}
-        {currentPageWords.length !== 0 &&
-          currentPageWords.map((word) => (
-            <Card
-              key={word.id}
-              word={word}
-              color={group?.color}
-              selected={selectedWord === word}
-              complex={complexWords.some((el) => el.id === word.id)}
-              learned={learnedWords.some((el) => el.id === word.id)}
-              onClick={() => dispatchSetSelectedWord(word)}
-            />
-          ))}
-      </Flex>
+    <Flex wrap="wrap" alignContent="flex-start" gap={6}>
+        <Flex
+          display="inline-flex"
+          wrap="wrap"
+          gap={{base: 2, md: 4, lg: 4, xl: 6}}
+          rounded="md"
+          bgColor={
+            pageLearned && !(showComplexWords || showLearnedWords)
+              ? 'gray.50'
+              : 'transparent'
+          }
+        >
+          {currentPageWords.length === 0 && (
+            <Text as="i" fontSize="xl" fontWeight="400" pb={14}>
+              В этом разделе еще нет слов.
+            </Text>
+          )}
+          {currentPageWords.length !== 0 &&
+            currentPageWords.map((word) => (
+              <Card
+                key={word.id}
+                word={word}
+                color={group?.color}
+                selected={selectedWord === word}
+                complex={complexWords.some((el) => el.id === word.id)}
+                learned={learnedWords.some((el) => el.id === word.id)}
+                onClick={() => dispatchSetSelectedWord(word)}
+              />
+            ))}
+        </Flex>
       {!(showComplexWords || showLearnedWords) && (
         <Stack m="auto">
           <Pagination
@@ -147,11 +147,12 @@ export const WordsGrid = () => {
             currentPage={currentPage}
             onPageChange={handlePageChange}
           >
-            <PaginationContainer justify="space-between" p={2} w="full" gap={1}>
+            <PaginationContainer justify="space-between" p={{base: 0, sm: 2}} w="full" gap={{base: 0, sm: 1}}>
               <PaginationPrevious
                 p={2}
                 rounded="full"
                 bg="transparent"
+                display={{base: 'none', sm: 'block'}}
                 _hover={{ bg: gray50700 }}
                 _active={{ bg: gray100600 }}
               >
@@ -164,7 +165,7 @@ export const WordsGrid = () => {
                   <PaginationSeparator
                     bg={whietegray800}
                     fontSize="sm"
-                    w={10}
+                    w={{base: 8, sm: 10}}
                     jumpSize={8}
                     rounded="full"
                     _active={{ bg: 'gray.100' }}
@@ -173,7 +174,7 @@ export const WordsGrid = () => {
               >
                 {pages.map((page: number) => (
                   <PaginationPage
-                    w={10}
+                  w={{base: 8, sm: 10}}
                     key={`pagination_page_${page}`}
                     page={page}
                     fontSize="sm"
@@ -185,12 +186,12 @@ export const WordsGrid = () => {
                     }}
                     _active={{ bgColor: group?.color.baseColor }}
                     _current={{
-                      bgColor: 
+                      bgColor:
                         pageLearned && !(showComplexWords || showLearnedWords)
                           ? 'gray.100'
                           : group?.color.activeColor,
                       fontSize: 'sm',
-                      w: 10,
+                      w: {base: 8, sm: 10},
                       color: 'gray.800',
                     }}
                   />
@@ -200,6 +201,7 @@ export const WordsGrid = () => {
                 p={2}
                 rounded="full"
                 bg="transparent"
+                display={{base: 'none', sm: 'block'}}
                 _hover={{ bg: gray50700 }}
                 _active={{ bg: gray100600 }}
               >

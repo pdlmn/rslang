@@ -146,156 +146,164 @@ export const WordDescriptionCard = () => {
   const iconStyles = { fontSize: '1.5em' };
 
   return (
-    <Flex
-      w="400px"
-      border="1px solid"
-      borderColor={`${group?.color.baseColor.split('.')[0]}.200`}
-      direction="column"
-      rounded="md"
-    >
-      <Image
-        w="400px"
-        h="230px"
-        objectFit="cover"
-        src={`${API_URI}/${selectedWord?.image}`}
-        alt={selectedWord?.word}
-        roundedTop="md"
-      />
-      <VStack p={4}>
-        <Text fontSize="3xl" fontWeight="bold">
-          {selectedWord?.word}
-        </Text>
-        <Text fontSize="xl" fontWeight="500">
-          {selectedWord?.wordTranslate}
-        </Text>
-        <HStack>
-          <Text fontSize="xl" fontWeight="500">
-            {selectedWord?.transcription}
-          </Text>
-          {selectedWord && <SoundButton />}
-        </HStack>
-        {user && (
-          <HStack spacing={4} pt={2} pb={2}>
-            <Button
-              colorScheme={showComplexWords ? 'yellow' : 'green'}
-              lineHeight={1}
-              minW="11rem"
-              onClick={() => {
-                handleComplexBtnClick();
-              }}
-            >
-              {showComplexWords ? 'в учебник' : 'в сложные слова'}
-            </Button>
-            <Button
-              colorScheme={showLearnedWords ? 'yellow' : 'red'}
-              lineHeight={1}
-              minW="11rem"
-              onClick={() => {
-                handleLearnedBtnClick();
-              }}
-            >
-              {showLearnedWords ? 'в учебник' : 'в изученные слова'}
-            </Button>
-          </HStack>
-        )}
-        <Stack pt={1}>
-          <Text align="left" fontWeight="bold">
-            Значение
-          </Text>
-          <Text
-            align="left"
-            dangerouslySetInnerHTML={{
-              __html: selectedWord?.textMeaning || '',
-            }}
+    <div>
+      <Flex
+        w={{ base: 'full', sm: 'full', md: 'full', lg: '400px' }}
+        border="1px solid"
+        borderColor={`${group?.color.baseColor.split('.')[0]}.200`}
+        direction={{ base: 'column', md: 'row', lg: 'column' }}
+        rounded="md"
+        flexGrow={1}
+      >
+        <VStack>
+          <Image
+             w={{ base: 'full', sm: 'full', md: 'full', lg: '400px' }}
+            h="220px"
+            alignSelf="center"
+            objectFit="cover"
+            src={`${API_URI}/${selectedWord?.image}`}
+            alt={selectedWord?.word}
+            roundedTop="md"
           />
-          <Text>{selectedWord?.textMeaningTranslate}</Text>
-          <Text align="left" fontWeight="bold">
-            Пример
-          </Text>
-          <Text
-            align="start"
-            dangerouslySetInnerHTML={{
-              __html: selectedWord?.textExample || '',
-            }}
-          />
-          <Text>{selectedWord?.textExampleTranslate}</Text>
-        </Stack>
-        {user && (
-          <Flex direction="column" pt={2} gap={3} w="100%">
-            <HStack justifyContent="center">
-              <Text as="h4" fontSize="xl" fontWeight="500" userSelect="none">
-                Ответы в играх
+          <VStack p={4} pt={{base: 0, lg: 2}}>
+            <Text fontSize="3xl" fontWeight="bold">
+              {selectedWord?.word}
+            </Text>
+            <Text fontSize="xl" fontWeight="500" mt="3px !important">
+              {selectedWord?.wordTranslate}
+            </Text>
+            <HStack mt="5px !important">
+              <Text fontSize="xl" fontWeight="500">
+                {selectedWord?.transcription}
               </Text>
-              <BsCheckAll style={iconStyles} />
+              {selectedWord && <SoundButton />}
             </HStack>
+            {user && (
+              <Flex gap={4} pt={2} wrap={{base: 'wrap', sm: 'nowrap'}} justifyContent='center'>
+                <Button
+                  colorScheme={showComplexWords ? 'yellow' : 'green'}
+                  lineHeight={1}
+                  minW="11rem"
+                  onClick={() => {
+                    handleComplexBtnClick();
+                  }}
+                >
+                  {showComplexWords ? 'в учебник' : 'в сложные слова'}
+                </Button>
+                <Button
+                  colorScheme={showLearnedWords ? 'yellow' : 'red'}
+                  lineHeight={1}
+                  minW="11rem"
+                  onClick={() => {
+                    handleLearnedBtnClick();
+                  }}
+                >
+                  {showLearnedWords ? 'в учебник' : 'в изученные слова'}
+                </Button>
+              </Flex>
+            )}
+          </VStack>
+        </VStack>
+        <VStack p={4} pt={2}>
+          <Stack pt={1}>
+            <Text align="left" fontWeight="bold">
+              Значение
+            </Text>
+            <Text
+              align="left"
+              dangerouslySetInnerHTML={{
+                __html: selectedWord?.textMeaning || '',
+              }}
+            />
+            <Text>{selectedWord?.textMeaningTranslate}</Text>
+            <Text align="left" fontWeight="bold">
+              Пример
+            </Text>
+            <Text
+              align="start"
+              dangerouslySetInnerHTML={{
+                __html: selectedWord?.textExample || '',
+              }}
+            />
+            <Text>{selectedWord?.textExampleTranslate}</Text>
+          </Stack>
+          {user && (
+            <Flex direction="column" gap={3} w="100%">
+              <HStack justifyContent="center">
+                <Text as="h4" fontSize="xl" fontWeight="500" userSelect="none">
+                  Ответы в играх
+                </Text>
+                <BsCheckAll style={iconStyles} />
+              </HStack>
 
-            <Flex gap={8} justifyContent="center">
-              <HStack>
-                <Text
-                  userSelect="none"
-                  fontWeight="500"
-                  bgColor="gray.700"
-                  p={1}
-                  pb={1.5}
-                  pl={3}
-                  pr={3}
-                  rounded="3xl"
-                  color={whiteGray100}
-                >
-                  Аудиовызов
-                </Text>
-                <Text
-                  pl={3}
-                  fontSize="1.1rem"
-                  userSelect="none"
-                  color="green.400"
-                >
-                  0
-                </Text>
-                <Text
-                  pl={3}
-                  fontSize="1.1rem"
-                  userSelect="none"
-                  color="red.400"
-                >
-                  0
-                </Text>
-              </HStack>
-              <HStack>
-                <Text
-                  userSelect="none"
-                  fontWeight="500"
-                  bgColor="gray.700"
-                  p={1}
-                  pb={1.5}
-                  pl={3}
-                  pr={3}
-                  rounded="3xl"
-                  color={whiteGray100}
-                >
-                  Спринт
-                </Text>
-                <Text
-                  pl={3}
-                  fontSize="1.1rem"
-                  userSelect="none"
-                  color="green.400"
-                >
-                  0
-                </Text>
-                <Text
-                  pl={3}
-                  fontSize="1.1rem"
-                  userSelect="none"
-                  color="red.400"
-                >
-                  0
-                </Text>
-              </HStack>
+              <Flex gap={{base: 2, sm: 8}} justifyContent="center" wrap='wrap'>
+                <HStack>
+                  <Text
+                    userSelect="none"
+                    fontWeight="500"
+                    bgColor="gray.700"
+                    p={1}
+                    pb={1.5}
+                    pl={3}
+                    pr={3}
+                    rounded="3xl"
+                    color={whiteGray100}
+                  >
+                    Аудиовызов
+                  </Text>
+                  <Text
+                    pl={3}
+                    fontSize="1.1rem"
+                    userSelect="none"
+                    color="green.400"
+                  >
+                    0
+                  </Text>
+                  <Text
+                    pl={3}
+                    fontSize="1.1rem"
+                    userSelect="none"
+                    color="red.400"
+                  >
+                    0
+                  </Text>
+                </HStack>
+                <HStack>
+                  <Text
+                    userSelect="none"
+                    fontWeight="500"
+                    bgColor="gray.700"
+                    p={1}
+                    pb={1.5}
+                    pl={3}
+                    pr={3}
+                    rounded="3xl"
+                    color={whiteGray100}
+                  >
+                    Спринт
+                  </Text>
+                  <Text
+                    pl={3}
+                    fontSize="1.1rem"
+                    userSelect="none"
+                    color="green.400"
+                  >
+                    0
+                  </Text>
+                  <Text
+                    pl={3}
+                    fontSize="1.1rem"
+                    userSelect="none"
+                    color="red.400"
+                  >
+                    0
+                  </Text>
+                </HStack>
+              </Flex>
             </Flex>
-          </Flex>
-        )}
-      </VStack>
-    </Flex>
+          )}
+        </VStack>
+      </Flex>
+    </div>
   );
 };
