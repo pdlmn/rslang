@@ -8,11 +8,11 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AnyAction } from 'redux';
 import { BsCheckAll } from 'react-icons/bs';
-import { Word } from '../../interfaces/services';
+import { AggregatedWord, Word } from '../../interfaces/services';
 import { API_URI } from '../../services/common';
 import { SoundButton } from './soundButton';
 import {
@@ -36,9 +36,11 @@ import {
   removeFromComplex,
   removeFromLearned,
 } from '../../services/utilsFuncs';
+import AggregatedWords from '../../services/aggregatedWords';
 
 export const WordDescriptionCard = () => {
   const group = useSelector(getGroup);
+  const [aggregatedWord, setAggregatedWord] = useState<AggregatedWord>();
   const selectedWord = useSelector(getSelectedWord);
   const complexWords = useSelector(getComplexWords);
   const learnedWords = useSelector(getLearnedWords);
@@ -62,9 +64,24 @@ export const WordDescriptionCard = () => {
     [dispatch],
   );
 
-  const whiteGray100 = useColorModeValue('white', 'gray.100');
-
   const { user } = useTypedSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (user && selectedWord) {
+      AggregatedWords.getOne(user!.userId, selectedWord.id, user!.token).then(
+        (aggrWord: AggregatedWord[] | Response) => {
+          setAggregatedWord((aggrWord as AggregatedWord[])[0]);
+        },
+      );
+    }
+  }, [user, selectedWord]);
+
+  const audiocallRightAnswers = aggregatedWord?.userWord?.optional.gameAudiocall?.rightAnswers;
+  const audiocallWrongAnswers = aggregatedWord?.userWord?.optional.gameAudiocall?.wrongAnswers;
+  const sprintRightAnswers = aggregatedWord?.userWord?.optional.gameSprint?.rightAnswers;
+  const sprintWrongAnswers = aggregatedWord?.userWord?.optional.gameSprint?.wrongAnswers;
+
+  const whiteGray100 = useColorModeValue('white', 'gray.100');
 
   const handleComplexBtnClick = () => {
     if (selectedWord) {
@@ -149,7 +166,10 @@ export const WordDescriptionCard = () => {
     <div>
       <Flex
         w={{
-          base: 'full', sm: 'full', md: 'full', lg: '400px',
+          base: 'full',
+          sm: 'full',
+          md: 'full',
+          lg: '400px',
         }}
         border="1px solid"
         borderColor={`${group?.color.baseColor.split('.')[0]}.200`}
@@ -160,7 +180,10 @@ export const WordDescriptionCard = () => {
         <VStack>
           <Image
             w={{
-              base: 'full', sm: 'full', md: 'full', lg: '400px',
+              base: 'full',
+              sm: 'full',
+              md: 'full',
+              lg: '400px',
             }}
             h="220px"
             alignSelf="center"
@@ -183,7 +206,12 @@ export const WordDescriptionCard = () => {
               {selectedWord && <SoundButton />}
             </HStack>
             {user && (
-              <Flex gap={4} pt={2} wrap={{ base: 'wrap', sm: 'nowrap' }} justifyContent="center">
+              <Flex
+                gap={4}
+                pt={2}
+                wrap={{ base: 'wrap', sm: 'nowrap' }}
+                justifyContent="center"
+              >
                 <Button
                   colorScheme={showComplexWords ? 'yellow' : 'green'}
                   lineHeight={1}
@@ -240,7 +268,11 @@ export const WordDescriptionCard = () => {
                 <BsCheckAll style={iconStyles} />
               </HStack>
 
-              <Flex gap={{ base: 2, sm: 8 }} justifyContent="center" wrap="wrap">
+              <Flex
+                gap={{ base: 2, sm: 8 }}
+                justifyContent="center"
+                wrap="wrap"
+              >
                 <HStack>
                   <Text
                     userSelect="none"
@@ -261,7 +293,7 @@ export const WordDescriptionCard = () => {
                     userSelect="none"
                     color="green.400"
                   >
-                    0
+                    {audiocallRightAnswers || 0}
                   </Text>
                   <Text
                     pl={3}
@@ -269,7 +301,7 @@ export const WordDescriptionCard = () => {
                     userSelect="none"
                     color="red.400"
                   >
-                    0
+                    {audiocallWrongAnswers || 0}
                   </Text>
                 </HStack>
                 <HStack>
@@ -292,7 +324,7 @@ export const WordDescriptionCard = () => {
                     userSelect="none"
                     color="green.400"
                   >
-                    0
+                    {sprintRightAnswers || 0}
                   </Text>
                   <Text
                     pl={3}
@@ -300,7 +332,7 @@ export const WordDescriptionCard = () => {
                     userSelect="none"
                     color="red.400"
                   >
-                    0
+                    {sprintWrongAnswers || 0}
                   </Text>
                 </HStack>
               </Flex>
