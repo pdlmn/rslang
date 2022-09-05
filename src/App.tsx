@@ -48,7 +48,7 @@ export const App = () => {
 
   return (
     <Routes>
-      <Route path="*" element={<Home />} />
+      <Route path="/" element={<Home />} />
       <Route path="textbook" element={<Textbook />} />
       <Route path="statistics" element={<Statistics />} />
       <Route path="sprintgame" element={<Sprint />} />

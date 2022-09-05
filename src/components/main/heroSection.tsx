@@ -6,7 +6,7 @@ export const HeroSection = () => (
   <Stack
     bgImage={{
       base: 'none',
-      md: '/assets/london2.jpg',
+      md: `${process.env.PUBLIC_URL}/assets/london2.jpg`,
     }}
     backgroundSize="cover"
     backgroundPosition="center"
