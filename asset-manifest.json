@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/rslang/static/js/main.ef864d3f.js",
+    "main.js": "/rslang/static/js/main.90ba5e0f.js",
     "static/js/845.0b9292fb.chunk.js": "/rslang/static/js/845.0b9292fb.chunk.js",
     "index.html": "/rslang/index.html",
-    "main.ef864d3f.js.map": "/rslang/static/js/main.ef864d3f.js.map",
+    "main.90ba5e0f.js.map": "/rslang/static/js/main.90ba5e0f.js.map",
     "845.0b9292fb.chunk.js.map": "/rslang/static/js/845.0b9292fb.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.ef864d3f.js"
+    "static/js/main.90ba5e0f.js"
   ]
 }
