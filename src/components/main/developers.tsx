@@ -12,8 +12,9 @@ import {
 } from '@chakra-ui/react';
 import { IconType } from 'react-icons';
 import {
-  FaBicycle, FaCamera, FaCat, FaGithub,
+  FaCamera, FaCat, FaGithub,
 } from 'react-icons/fa';
+import { GiCoffeeCup } from 'react-icons/gi';
 
 const GithubButton = (props: any) => (
   <chakra.button
@@ -122,7 +123,7 @@ const DeveloperCard = ({
 
 export const Developers = () => (
   <Container maxW="container.xl">
-    <VStack mt={10} mb={8} userSelect="none">
+    <VStack mt={{ base: 4, md: 10 }} mb={{ base: 3, md: 8 }} mr="25px" userSelect="none">
       <Heading alignSelf="center" mb={4}>
         Наша команда
       </Heading>
@@ -144,7 +145,7 @@ export const Developers = () => (
         prop={{ ml: 'auto' }}
       />
       <DeveloperCard
-        icon={FaBicycle}
+        icon={GiCoffeeCup}
         name="Милена"
         gitLink="https://github.com/Milena-Belianova"
         position="Разработчик"

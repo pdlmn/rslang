@@ -11,7 +11,11 @@ interface FeatureProps {
 }
 
 const Feature = ({ title, text, icon }: FeatureProps) => (
-  <Stack align="center" justify="start" w={80} h={44}>
+  <Stack
+    align="center"
+    justify={{ base: 'center', md: 'start' }}
+    w={{ base: 'auto', md: '80' }}
+  >
     <Flex
       w={16}
       h={16}
@@ -24,7 +28,7 @@ const Feature = ({ title, text, icon }: FeatureProps) => (
     >
       {icon}
     </Flex>
-    <Text fontWeight={600} fontSize="lg">{title}</Text>
+    <Text align="center" fontWeight={600} fontSize={{ base: 'md', md: 'lg' }}>{title}</Text>
     <Text align="center" color={useColorModeValue('gray.600', 'gray.400')}>{text}</Text>
   </Stack>
 );
@@ -32,11 +36,12 @@ const Feature = ({ title, text, icon }: FeatureProps) => (
 export const Features = () => (
   <Flex
     direction={{ base: 'column', md: 'row' }}
-    p="7rem 1rem 6rem"
+    p={{ base: '1rem 1rem 1rem', md: '7rem 1rem 6rem' }}
     maxW="1280px"
     m="0 auto"
     justify="space-between"
     userSelect="none"
+    gap={2}
   >
     <Feature
       icon={<Icon as={FcDonate} w={10} h={10} />}
