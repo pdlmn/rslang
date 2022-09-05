@@ -1,8 +1,10 @@
+import { Levels } from '../../interfaces/gamesCommon';
+
 export type GroupButtonData = {
   id: number,
   lvl: string;
   numWords: string;
-  grade: string;
+  grade: Levels;
   color: { hoverColor: string; activeColor: string; baseColor: string };
 };
 
@@ -11,7 +13,7 @@ export const groupButtonData: Array<GroupButtonData> = [
     id: 0,
     lvl: 'Easy',
     numWords: '1-600',
-    grade: 'A1',
+    grade: Levels.A1,
     color: {
       hoverColor: 'cyan.50',
       activeColor: 'cyan.100',
@@ -22,7 +24,7 @@ export const groupButtonData: Array<GroupButtonData> = [
     id: 1,
     lvl: 'Easy',
     numWords: '601-1200',
-    grade: 'A2',
+    grade: Levels.A2,
     color: {
       hoverColor: 'green.50',
       activeColor: 'green.100',
@@ -33,7 +35,7 @@ export const groupButtonData: Array<GroupButtonData> = [
     id: 2,
     lvl: 'Medium',
     numWords: '1201-1800',
-    grade: 'B1',
+    grade: Levels.B1,
     color: {
       hoverColor: 'red.50',
       activeColor: 'red.100',
@@ -44,7 +46,7 @@ export const groupButtonData: Array<GroupButtonData> = [
     id: 3,
     lvl: 'Medium',
     numWords: '1801-2400',
-    grade: 'B2',
+    grade: Levels.B2,
     color: {
       hoverColor: 'orange.50',
       activeColor: 'orange.100',
@@ -55,7 +57,7 @@ export const groupButtonData: Array<GroupButtonData> = [
     id: 4,
     lvl: 'Hard',
     numWords: '2401-3000',
-    grade: 'C1',
+    grade: Levels.C1,
     color: {
       hoverColor: 'teal.50',
       activeColor: 'teal.100',
@@ -66,7 +68,7 @@ export const groupButtonData: Array<GroupButtonData> = [
     id: 5,
     lvl: 'Hard',
     numWords: '3001-3600',
-    grade: 'C2',
+    grade: Levels.C2,
     color: {
       hoverColor: 'purple.50',
       activeColor: 'purple.100',

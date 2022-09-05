@@ -10,6 +10,7 @@ import {
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 import {
   getComplexWords,
   getCurrentPageWords,
@@ -18,12 +19,16 @@ import {
   getShowLearnedWords,
 } from './textbook.selectors';
 
+import { useAction } from '../../hooks/useAction';
+
+
 export type GameData = {
   gameMiniDescription: string;
   gameName: string;
   gameDescription: string;
   img: string;
   href: string;
+  isFromTextBook: boolean;
 };
 
 export const GameButton = ({
@@ -32,9 +37,16 @@ export const GameButton = ({
   gameDescription,
   img,
   href,
+  isFromTextBook,
 }: GameData) => {
   const navigate = useNavigate();
+  const { startFromTextbook, startFromMenu } = useAction();
   const routeChange = () => {
+    if (isFromTextBook) {
+      startFromTextbook();
+    } else {
+      startFromMenu();
+    }
     navigate(href);
   };
 

@@ -1,4 +1,5 @@
 import { GameNames, Levels } from '../../interfaces/gamesCommon';
+import { WordInfo } from '../../interfaces/gameWords';
 import { GamesActionTypes } from '../../interfaces/redux/gamesCommon';
 
 export const selectLevel = (payload: { level: Levels }) => ({
@@ -41,4 +42,42 @@ export const startFullscreen = () => ({
 
 export const stopFullscreen = () => ({
   type: GamesActionTypes.StopFullscreen,
+});
+
+export const startFromMenu = () => ({
+  type: GamesActionTypes.StartFromMenu,
+});
+
+export const startFromTextbook = () => ({
+  type: GamesActionTypes.StartFromTextbook,
+});
+
+export const showError = (payload: { error: Error }) => ({
+  type: GamesActionTypes.ShowError,
+  payload,
+});
+
+export const resetError = () => ({
+  type: GamesActionTypes.ResetError,
+});
+
+export const setWords = (payload: { words: Array<WordInfo> }) => ({
+  type: GamesActionTypes.SetWords,
+  payload,
+});
+
+export const nextWord = () => ({
+  type: GamesActionTypes.NextWord,
+});
+
+export const prevWord = () => ({
+  type: GamesActionTypes.PrevWord,
+});
+
+export const rightAnswer = () => ({
+  type: GamesActionTypes.RightAnswer,
+});
+
+export const wrongAnswer = () => ({
+  type: GamesActionTypes.WrongAnswer,
 });

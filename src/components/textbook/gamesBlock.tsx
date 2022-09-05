@@ -4,13 +4,14 @@ import {
 import { DottedBox } from '../main/dottedBox';
 import { GameData, GameButton } from './gameButton';
 
-const gameData: Array<GameData> = [
+export const gameData: Array<GameData> = [
   {
     gameMiniDescription: 'Аудирование',
     gameName: 'Аудиовызов',
     gameDescription: 'Попробуй понять, какое слово было произнесено',
     img: '/assets/audio.jpg',
     href: '/audiogame',
+    isFromTextBook: true,
   },
   {
     gameMiniDescription: 'Перевод на скорость',
@@ -18,6 +19,7 @@ const gameData: Array<GameData> = [
     gameDescription: 'Как можно быстрее определи верный перевод слова',
     img: '/assets/sprint.jpg',
     href: '/sprintgame',
+    isFromTextBook: true,
   },
 ];
 

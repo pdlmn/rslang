@@ -17,7 +17,7 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useEffect, useRef } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
 import { useAppDispatch, useTypedSelector } from '../../redux';
 import { authLogIn } from '../../redux/actions/auth';
 import {
@@ -47,7 +47,8 @@ export const SignUpForm = ({
     dispatch(signUpChange({ [inputName]: value }));
   };
 
-  const sendUserData = () => {
+  const sendUserData = (e: FormEvent) => {
+    e.preventDefault();
     dispatch(signUpSubmit({
       name,
       email,
@@ -76,140 +77,143 @@ export const SignUpForm = ({
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>
-          <Text
-            px={4}
-            textAlign="center"
-            fontStyle="italic"
-            fontWeight="thin"
-          >
-            Начни изучения языка сейчас!
-          </Text>
-          <Text
-            fontSize="x-large"
-            textAlign="center"
-            pt={4}
-          >
-            Регистрация
-          </Text>
-        </ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          {error?.other && (
-          <Alert status="error" mt="3">
-            <AlertIcon />
-            <Box>
-              <AlertTitle>Что-то пошло не так!</AlertTitle>
-              <AlertDescription>Повторите попытку регистрации позже.</AlertDescription>
-            </Box>
-          </Alert>
-          )}
-          <Stack spacing={5}>
-            <FormControl
-              isInvalid={submitted && !user && error?.nameEmpty}
+        <Box as="form">
+          <ModalHeader>
+            <Text
+              px={4}
+              textAlign="center"
+              fontStyle="italic"
+              fontWeight="thin"
             >
-              <Input
-                placeholder="Имя"
-                type="text"
-                size="lg"
-                name="name"
-                ref={signUpRef}
-                onChange={handleSignUpChange}
-                value={name}
-              />
-              {submitted && !user && error?.nameEmpty && (
+              Начни изучения языка сейчас!
+            </Text>
+            <Text
+              fontSize="x-large"
+              textAlign="center"
+              pt={4}
+            >
+              Регистрация
+            </Text>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {error?.other && (
+            <Alert status="error" mt="3">
+              <AlertIcon />
+              <Box>
+                <AlertTitle>Что-то пошло не так!</AlertTitle>
+                <AlertDescription>Повторите попытку регистрации позже.</AlertDescription>
+              </Box>
+            </Alert>
+            )}
+            <Stack spacing={5}>
+              <FormControl
+                isInvalid={submitted && !user && error?.nameEmpty}
+              >
+                <Input
+                  placeholder="Имя"
+                  type="text"
+                  size="lg"
+                  name="name"
+                  ref={signUpRef}
+                  onChange={handleSignUpChange}
+                  value={name}
+                />
+                {submitted && !user && error?.nameEmpty && (
                 <FormErrorMessage>Введите своё имя.</FormErrorMessage>
-              )}
-            </FormControl>
-            <FormControl
-              isInvalid={submitted && !user
+                )}
+              </FormControl>
+              <FormControl
+                isInvalid={submitted && !user
                 && (error?.emailAlreadyExists || error?.emailInvalid || error?.emailEmpty)}
-            >
-              <Input
-                placeholder="Email"
-                type="email"
-                size="lg"
-                name="email"
-                onChange={handleSignUpChange}
-                value={email}
-              />
-              {submitted && !user && error?.emailEmpty && (
+              >
+                <Input
+                  placeholder="Email"
+                  type="email"
+                  size="lg"
+                  name="email"
+                  onChange={handleSignUpChange}
+                  value={email}
+                />
+                {submitted && !user && error?.emailEmpty && (
                 <FormErrorMessage>Введите свой email.</FormErrorMessage>
-              )}
-              {submitted && !user && !error?.emailEmpty && error?.emailInvalid && (
+                )}
+                {submitted && !user && !error?.emailEmpty && error?.emailInvalid && (
                 <FormErrorMessage>Некорректный email.</FormErrorMessage>
-              )}
-              {submitted && !user && error?.emailAlreadyExists && (
+                )}
+                {submitted && !user && error?.emailAlreadyExists && (
                 <FormErrorMessage>Введёный email уже зарегистрирован.</FormErrorMessage>
-              )}
-            </FormControl>
-            <FormControl
-              isInvalid={submitted && !user && (error?.passwordInvalid || error?.passwordEmpty)}
-            >
-              <PasswordInput
-                placeholder="Пароль"
-                size="lg"
-                name="password1"
-                onChange={handleSignUpChange}
-                value={password1}
-              />
-              {submitted && !user && error?.passwordEmpty && (
+                )}
+              </FormControl>
+              <FormControl
+                isInvalid={submitted && !user && (error?.passwordInvalid || error?.passwordEmpty)}
+              >
+                <PasswordInput
+                  placeholder="Пароль"
+                  size="lg"
+                  name="password1"
+                  onChange={handleSignUpChange}
+                  value={password1}
+                />
+                {submitted && !user && error?.passwordEmpty && (
                 <FormErrorMessage>
                   Пожалуйста, введите пароль.
                 </FormErrorMessage>
-              )}
-              {submitted && !user && !error?.passwordEmpty && error?.passwordInvalid && (
+                )}
+                {submitted && !user && !error?.passwordEmpty && error?.passwordInvalid && (
                 <FormErrorMessage>
                   Пароль должен быть длиной в не менее 8 символов.
                 </FormErrorMessage>
-              )}
-            </FormControl>
-            <FormControl isInvalid={!arePasswordsMatch}>
-              <PasswordInput
-                placeholder="Повторите пароль"
-                size="lg"
-                name="password2"
-                onChange={handleSignUpChange}
-                value={password2}
-              />
-              {!arePasswordsMatch && (
+                )}
+              </FormControl>
+              <FormControl isInvalid={!arePasswordsMatch}>
+                <PasswordInput
+                  placeholder="Повторите пароль"
+                  size="lg"
+                  name="password2"
+                  onChange={handleSignUpChange}
+                  value={password2}
+                />
+                {!arePasswordsMatch && (
                 <FormErrorMessage>Пароли должны совпадать.</FormErrorMessage>
-              )}
-            </FormControl>
-          </Stack>
-          <Button
-            mt="7"
-            size="lg"
-            width="100%"
-            fontSize="xl"
-            color={useColorModeValue('gray.800', 'black')}
-            bg="yellow.400"
-            _hover={{
-              bg: 'yellow.300',
-            }}
-            _active={{
-              bg: 'yellow.500',
-            }}
-            isDisabled={!arePasswordsMatch}
-            isLoading={loading}
-            onClick={sendUserData}
-          >
-            Создать аккаунт
-          </Button>
-        </ModalBody>
-        <ModalFooter justifyContent="center">
-          <Button
-            variant="link"
-            color="blue.200"
-            fontWeight="medium"
-            onClick={() => {
-              onSignUpClose();
-              altHandler();
-            }}
-          >
-            У меня уже есть аккаунт
-          </Button>
-        </ModalFooter>
+                )}
+              </FormControl>
+            </Stack>
+            <Button
+              type="submit"
+              mt="7"
+              size="lg"
+              width="100%"
+              fontSize="xl"
+              color={useColorModeValue('gray.800', 'black')}
+              bg="yellow.400"
+              _hover={{
+                bg: 'yellow.300',
+              }}
+              _active={{
+                bg: 'yellow.500',
+              }}
+              isDisabled={!arePasswordsMatch}
+              isLoading={loading}
+              onClick={sendUserData}
+            >
+              Создать аккаунт
+            </Button>
+          </ModalBody>
+          <ModalFooter justifyContent="center">
+            <Button
+              variant="link"
+              color={useColorModeValue('blue.400', 'blue.200')}
+              fontWeight="medium"
+              onClick={() => {
+                onSignUpClose();
+                altHandler();
+              }}
+            >
+              У меня уже есть аккаунт
+            </Button>
+          </ModalFooter>
+        </Box>
       </ModalContent>
     </Modal>
   );

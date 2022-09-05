@@ -47,19 +47,19 @@ export const WordDescriptionCard = () => {
   const dispatch = useDispatch();
   const dispatchSetComplexWord = useCallback(
     (cw: Word): AnyAction => dispatch(setComplexWord(cw)),
-    [dispatch]
+    [dispatch],
   );
   const dispatchSetLearnedWord = useCallback(
     (lw: Word): AnyAction => dispatch(setLearnedWord(lw)),
-    [dispatch]
+    [dispatch],
   );
   const dispatchRemoveComplexWord = useCallback(
     (cw: Word): AnyAction => dispatch(removeComplexWord(cw)),
-    [dispatch]
+    [dispatch],
   );
   const dispatchRemoveLearnedWord = useCallback(
     (cw: Word): AnyAction => dispatch(removeLearnedWord(cw)),
-    [dispatch]
+    [dispatch],
   );
 
   const whiteGray100 = useColorModeValue('white', 'gray.100');

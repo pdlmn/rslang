@@ -13,8 +13,7 @@ import { SoundUrl } from '../gamesCommon/constants';
 import { getVariants, variantBtnColor } from './utils';
 
 export const AudioCallGame = () => {
-  const { words, currentWordIndex } = useTypedSelector((state) => state.gameWords);
-  const { isMuted } = useTypedSelector((state) => state.games);
+  const { isMuted, words, currentWordIndex } = useTypedSelector((state) => state.games);
   const {
     nextWord, rightAnswer, wrongAnswer, finishGame,
   } = useAction();
@@ -128,7 +127,7 @@ export const AudioCallGame = () => {
       <Flex columnGap="50px" rowGap="20px" justifyContent="center" wrap="wrap">
         {variants.map((variant, index) => (
           <Button
-            key={variant}
+            key={`${variant}${currentWordIndex}`}
             display={{ base: 'none', md: 'inline-flex' }}
             fontSize="md"
             fontWeight={600}

@@ -1,6 +1,6 @@
 import { ChakraProvider, theme } from '@chakra-ui/react';
-import { Header } from '../../header/header';
-import { AudioCallMain } from './audioCallMain';
+import { Header } from '../../components/header/header';
+import { AudioCallMain } from '../../components/games/audioCall/audioCallMain';
 
 export const AudioCall = () => (
   <ChakraProvider theme={theme}>
