@@ -5,7 +5,7 @@ import {
 export const HeroSection = () => (
   <Stack
     bgImage={{
-      base: 'none',
+      base: `${process.env.PUBLIC_URL}/assets/london2.jpg`,
       md: `${process.env.PUBLIC_URL}/assets/london2.jpg`,
     }}
     backgroundSize="cover"
@@ -16,21 +16,21 @@ export const HeroSection = () => (
     <VStack
       userSelect="none"
       bg="whiteAlpha.800"
-      p={6}
-      w="xl"
+      p={{ base: '2', md: '6' }}
+      w={{ base: 'auto', md: 'xl' }}
       rounded="md"
       alignSelf="center"
       zIndex={2}
-      mt={6}
-      ml={44}
+      mt={{ base: '2', md: '6' }}
+      ml={{ base: '10', md: '44' }}
     >
       <Heading
         as="h1"
         color={useColorModeValue('gray.800', 'gray.800')}
-        fontSize={{ base: '4xl', sm: '5xl' }}
+        fontSize={{ base: '2xl', md: '5xl' }}
         fontWeight="bold"
         textAlign="center"
-        maxW="600px"
+        maxW={{ base: '250px', md: '600px' }}
       >
         Изучай английский
         {' '}
@@ -41,7 +41,7 @@ export const HeroSection = () => (
           онлайн
         </chakra.span>
       </Heading>
-      <Text maxW="550px" fontSize="xl" textAlign="center" color="gray.600">
+      <Text maxW={{ base: '200px', md: '550px' }} fontSize={{ base: 'md', md: 'xl' }} textAlign="center" color="gray.600">
         RS Lang - это эффективный сервис для увлекательного изучения
         Английского языка. Присоединяйся!
       </Text>
@@ -56,9 +56,8 @@ export const HeroSection = () => (
           background="transparent"
           color="teal.600"
           rounded="md"
-          size="lg"
-          height="3.5rem"
-          fontSize="1.2rem"
+          size={{ base: 'sm', md: 'lg' }}
+          fontSize={{ base: 'sm', md: 'lg' }}
           _hover={{ bg: 'teal.50' }}
         >
           Начать заниматься

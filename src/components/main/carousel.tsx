@@ -40,8 +40,8 @@ export const Carousel = (props: any) => {
   return (
     <Box
       position="relative"
-      height="400px"
-      width="710px"
+      maxHeight={{ base: '170px', sm: '280px', md: '400px' }}
+      maxWidth={{ base: '300px', sm: '460px', md: '710px' }}
       overflow="hidden"
       rounded="md"
       border="1px solid"

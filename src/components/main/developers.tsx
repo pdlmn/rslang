@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { IconType } from 'react-icons';
 import {
-  FaBicycle, FaCamera, FaDrum, FaGithub,
+  FaBicycle, FaCamera, FaCat, FaGithub,
 } from 'react-icons/fa';
 
 const GithubButton = (props: any) => (
@@ -122,7 +122,7 @@ const DeveloperCard = ({
 
 export const Developers = () => (
   <Container maxW="container.xl">
-    <VStack mt={10} mb={8} userSelect="none">
+    <VStack mt={{ base: 4, md: 10 }} mb={{ base: 3, md: 8 }} mr="25px" userSelect="none">
       <Heading alignSelf="center" mb={4}>
         Наша команда
       </Heading>
@@ -135,12 +135,12 @@ export const Developers = () => (
         text={'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}
       />
       <DeveloperCard
-        icon={FaDrum}
+        icon={FaCat}
         name="Саша"
         gitLink="https://github.com/XHHJlT"
         position="Разработчик"
-        photo="https://images.unsplash.com/photo-1606513542745-97629752a13b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
-        text={'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}
+        photo={`${process.env.PUBLIC_URL}/assets/mm7bF-9lzIc.jpg`}
+        text="Игры Спринт и Аудиовызов, стартовый экран и экран статистики для них, а так же обмен игровыми данными с сервером"
         prop={{ ml: 'auto' }}
       />
       <DeveloperCard
