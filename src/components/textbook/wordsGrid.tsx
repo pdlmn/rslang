@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import { Flex, Stack, useColorModeValue, Text } from '@chakra-ui/react';
+import {
+  Flex, Stack, useColorModeValue, Text,
+} from '@chakra-ui/react';
 import {
   Pagination,
   usePagination,
@@ -44,26 +46,26 @@ export const WordsGrid = () => {
   const showComplexWords = useSelector(getShowComplexWords);
   const showLearnedWords = useSelector(getShowLearnedWords);
   const pageLearned = useMemo(
-    () =>
-      currentPageWords.every(
-        (w) =>
-          complexWords.find((cw) => w.id === cw.id) ||
-          learnedWords.find((lw) => w.id === lw.id)
-      ),
-    [complexWords, learnedWords, currentPageWords]
+    () => currentPageWords.every(
+      (w) => complexWords.find((cw) => w.id === cw.id)
+          || learnedWords.find((lw) => w.id === lw.id),
+    ),
+    [complexWords, learnedWords, currentPageWords],
   );
   const storedPage = useSelector(getPage);
   const dispatch = useDispatch();
   const dispatchSetSelectedWord = useCallback(
     (s: Word): AnyAction => dispatch(setSelectedWord(s)),
-    [dispatch]
+    [dispatch],
   );
   const dispatchSetCurrentPageWords = useCallback(
     (w: Array<Word>): AnyAction => dispatch(setCurrentPageWords(w)),
-    [dispatch]
+    [dispatch],
   );
 
-  const { pages, pagesCount, currentPage, setCurrentPage } = usePagination({
+  const {
+    pages, pagesCount, currentPage, setCurrentPage,
+  } = usePagination({
     pagesCount: 30,
     limits: {
       outer: outerLimit,
@@ -102,7 +104,7 @@ export const WordsGrid = () => {
       // прокидываю текущую страницу в стейт
       dispatch(setPage(nextPage));
     },
-    [setCurrentPage]
+    [setCurrentPage],
   );
 
   const gray50700 = useColorModeValue('gray.50', 'gray.700');
@@ -111,24 +113,26 @@ export const WordsGrid = () => {
 
   return (
     <Flex wrap="wrap" alignContent="flex-start" gap={6}>
-        <Flex
-          display="inline-flex"
-          wrap="wrap"
-          gap={{base: 2, md: 4, lg: 4, xl: 6}}
-          rounded="md"
-          bgColor={
+      <Flex
+        display="inline-flex"
+        wrap="wrap"
+        gap={{
+          base: 2, md: 4, lg: 4, xl: 6,
+        }}
+        rounded="md"
+        bgColor={
             pageLearned && !(showComplexWords || showLearnedWords)
               ? 'gray.50'
               : 'transparent'
           }
-        >
-          {currentPageWords.length === 0 && (
-            <Text as="i" fontSize="xl" fontWeight="400" pb={14}>
-              В этом разделе еще нет слов.
-            </Text>
-          )}
-          {currentPageWords.length !== 0 &&
-            currentPageWords.map((word) => (
+      >
+        {currentPageWords.length === 0 && (
+        <Text as="i" fontSize="xl" fontWeight="400" pb={14}>
+          В этом разделе еще нет слов.
+        </Text>
+        )}
+        {currentPageWords.length !== 0
+            && currentPageWords.map((word) => (
               <Card
                 key={word.id}
                 word={word}
@@ -139,7 +143,7 @@ export const WordsGrid = () => {
                 onClick={() => dispatchSetSelectedWord(word)}
               />
             ))}
-        </Flex>
+      </Flex>
       {!(showComplexWords || showLearnedWords) && (
         <Stack m="auto">
           <Pagination
@@ -147,12 +151,12 @@ export const WordsGrid = () => {
             currentPage={currentPage}
             onPageChange={handlePageChange}
           >
-            <PaginationContainer justify="space-between" p={{base: 0, sm: 2}} w="full" gap={{base: 0, sm: 1}}>
+            <PaginationContainer justify="space-between" p={{ base: 0, sm: 2 }} w="full" gap={{ base: 0, sm: 1 }}>
               <PaginationPrevious
                 p={2}
                 rounded="full"
                 bg="transparent"
-                display={{base: 'none', sm: 'block'}}
+                display={{ base: 'none', sm: 'block' }}
                 _hover={{ bg: gray50700 }}
                 _active={{ bg: gray100600 }}
               >
@@ -161,20 +165,20 @@ export const WordsGrid = () => {
               <PaginationPageGroup
                 isInline
                 align="center"
-                separator={
+                separator={(
                   <PaginationSeparator
                     bg={whietegray800}
                     fontSize="sm"
-                    w={{base: 8, sm: 10}}
+                    w={{ base: 8, sm: 10 }}
                     jumpSize={8}
                     rounded="full"
                     _active={{ bg: 'gray.100' }}
                   />
-                }
+                )}
               >
                 {pages.map((page: number) => (
                   <PaginationPage
-                  w={{base: 8, sm: 10}}
+                    w={{ base: 8, sm: 10 }}
                     key={`pagination_page_${page}`}
                     page={page}
                     fontSize="sm"
@@ -191,7 +195,7 @@ export const WordsGrid = () => {
                           ? 'gray.100'
                           : group?.color.activeColor,
                       fontSize: 'sm',
-                      w: {base: 8, sm: 10},
+                      w: { base: 8, sm: 10 },
                       color: 'gray.800',
                     }}
                   />
@@ -201,7 +205,7 @@ export const WordsGrid = () => {
                 p={2}
                 rounded="full"
                 bg="transparent"
-                display={{base: 'none', sm: 'block'}}
+                display={{ base: 'none', sm: 'block' }}
                 _hover={{ bg: gray50700 }}
                 _active={{ bg: gray100600 }}
               >

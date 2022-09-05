@@ -20,5 +20,3 @@ export const sendGameStatistic = async (user: UserAuthData, body: GameStatistic)
   // const res = await gameStatistics.get(user.userId, user.token);
   // console.log(res);
 };
-
-

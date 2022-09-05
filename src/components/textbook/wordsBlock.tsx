@@ -13,7 +13,7 @@ export const WordsBlock = (user: any) => {
       pt={user ? 2 : 6}
       wrap={{ base: 'wrap', lg: 'nowrap' }}
       gap={6}
-      direction={{base: 'column', lg: 'row'}}
+      direction={{ base: 'column', lg: 'row' }}
     >
       <Stack spacing={4} maxW="content">
         <Heading as="h3" size="lg" userSelect="none">

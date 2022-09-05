@@ -77,7 +77,9 @@ export const GameFrame = () => {
   if (error) {
     return (
       <Heading>
-        {`Произошла ошибка при загрузке данных ${isFinished ? 'на сервер' : 'с сервера'}: ${error.message}`}
+        {`Произошла ошибка при загрузке данных ${
+          isFinished ? 'на сервер' : 'с сервера'
+        }: ${error.message}`}
       </Heading>
     );
   }
@@ -95,17 +97,7 @@ export const GameFrame = () => {
     );
   }
   if (isFinished) {
-    return (
-      <StatisticsScreen />
-    );
+    return <StatisticsScreen />;
   }
-  return (
-    <Box>
-      {isStarted
-        ? game
-        : (
-          <StartScreen />
-        )}
-    </Box>
-  );
+  return <Box>{isStarted ? game : <StartScreen />}</Box>;
 };
