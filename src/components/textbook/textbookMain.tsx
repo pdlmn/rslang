@@ -74,7 +74,7 @@ export const TextbookMain = () => {
   }, [user, location.pathname]);
 
   return (
-    <Container maxW="container.xl" p={{base: "0.3rem 0.3rem", sm: "1rem 1rem"}}>
+    <Container maxW="container.xl" p={{ base: '0.3rem 0.3rem', sm: '1rem 1rem' }}>
       <Stack spacing={4}>
         <Heading
           as="h1"

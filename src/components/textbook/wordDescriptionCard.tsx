@@ -148,7 +148,9 @@ export const WordDescriptionCard = () => {
   return (
     <div>
       <Flex
-        w={{ base: 'full', sm: 'full', md: 'full', lg: '400px' }}
+        w={{
+          base: 'full', sm: 'full', md: 'full', lg: '400px',
+        }}
         border="1px solid"
         borderColor={`${group?.color.baseColor.split('.')[0]}.200`}
         direction={{ base: 'column', md: 'row', lg: 'column' }}
@@ -157,7 +159,9 @@ export const WordDescriptionCard = () => {
       >
         <VStack>
           <Image
-             w={{ base: 'full', sm: 'full', md: 'full', lg: '400px' }}
+            w={{
+              base: 'full', sm: 'full', md: 'full', lg: '400px',
+            }}
             h="220px"
             alignSelf="center"
             objectFit="cover"
@@ -165,7 +169,7 @@ export const WordDescriptionCard = () => {
             alt={selectedWord?.word}
             roundedTop="md"
           />
-          <VStack p={4} pt={{base: 0, lg: 2}}>
+          <VStack p={4} pt={{ base: 0, lg: 2 }}>
             <Text fontSize="3xl" fontWeight="bold">
               {selectedWord?.word}
             </Text>
@@ -179,7 +183,7 @@ export const WordDescriptionCard = () => {
               {selectedWord && <SoundButton />}
             </HStack>
             {user && (
-              <Flex gap={4} pt={2} wrap={{base: 'wrap', sm: 'nowrap'}} justifyContent='center'>
+              <Flex gap={4} pt={2} wrap={{ base: 'wrap', sm: 'nowrap' }} justifyContent="center">
                 <Button
                   colorScheme={showComplexWords ? 'yellow' : 'green'}
                   lineHeight={1}
@@ -236,7 +240,7 @@ export const WordDescriptionCard = () => {
                 <BsCheckAll style={iconStyles} />
               </HStack>
 
-              <Flex gap={{base: 2, sm: 8}} justifyContent="center" wrap='wrap'>
+              <Flex gap={{ base: 2, sm: 8 }} justifyContent="center" wrap="wrap">
                 <HStack>
                   <Text
                     userSelect="none"

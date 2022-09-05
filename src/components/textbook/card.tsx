@@ -184,7 +184,9 @@ export const Card = ({
   return (
     <Button
       p={2}
-      h={{base: '6rem', md: '6rem', lg: '6rem', xl: '7rem'}}
+      h={{
+        base: '6rem', md: '6rem', lg: '6rem', xl: '7rem',
+      }}
       w="11.5rem"
       variant="outline"
       flexGrow={1}

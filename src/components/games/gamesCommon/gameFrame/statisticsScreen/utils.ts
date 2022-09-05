@@ -12,29 +12,28 @@ export function shuffle<T>(arr: Array<T>): Array<T> {
   return result as Array<T>;
 }
 
-const updateUserWord = (word: WordInfo): WordInfoPlus => {
-  return {
-    ...word,
-    isAnswered: false,
-    isCorrect: false,
-    hasOptional: !!word.userWord?.optional,
-    userWord: {
-      difficulty: word.userWord?.difficulty ? word.userWord.difficulty : 'easy',
-      optional: {
-        learned: false,
-        combo: 0,
-        gameSprint: {
-          rightAnswers: 0,
-          wrongAnswers: 0
-        },
-        gameAudiocall: {
-          rightAnswers: 0,
-          wrongAnswers: 0
-        },
-        ...(word.userWord?.optional || {}),
-      }
-    }};
-}
+const updateUserWord = (word: WordInfo): WordInfoPlus => ({
+  ...word,
+  isAnswered: false,
+  isCorrect: false,
+  hasOptional: !!word.userWord?.optional,
+  userWord: {
+    difficulty: word.userWord?.difficulty ? word.userWord.difficulty : 'easy',
+    optional: {
+      learned: false,
+      combo: 0,
+      gameSprint: {
+        rightAnswers: 0,
+        wrongAnswers: 0,
+      },
+      gameAudiocall: {
+        rightAnswers: 0,
+        wrongAnswers: 0,
+      },
+      ...(word.userWord?.optional || {}),
+    },
+  },
+});
 
 export const addStatAndShuffleWords = (words: Array<Word>): Array<WordInfoPlus> => shuffle(words)
   .map((word) => updateUserWord(word));

@@ -9,7 +9,14 @@ import UserWords from '../../../../services/usersWords';
 
 export const GameFrame = () => {
   const {
-    isStarted, isLoading, isFinished, name, error, words, currentWordIndex, wordsLearned,
+    isStarted,
+    isLoading,
+    isFinished,
+    name,
+    error,
+    words,
+    currentWordIndex,
+    wordsLearned,
   } = useTypedSelector((state) => state.games);
   const { user } = useTypedSelector((state) => state.auth);
   const { startLoading, stopLoading, showError } = useAction();
@@ -24,38 +31,65 @@ export const GameFrame = () => {
   useEffect(() => {
     if (!user || !currentWordIndex) return;
     if (words[currentWordIndex - 1].hasOptional) {
-      UserWords.update(user.userId, words[currentWordIndex - 1].id, user.token, words[currentWordIndex - 1].userWord);
+      UserWords.update(
+        user.userId,
+        words[currentWordIndex - 1].id,
+        user.token,
+        words[currentWordIndex - 1].userWord,
+      );
     } else {
-      UserWords.create(user.userId, words[currentWordIndex - 1].id, user.token, words[currentWordIndex - 1].userWord);
+      UserWords.create(
+        user.userId,
+        words[currentWordIndex - 1].id,
+        user.token,
+        words[currentWordIndex - 1].userWord,
+      );
     }
-  },[currentWordIndex]);
+  }, [currentWordIndex]);
 
   useEffect(() => {
     if (!isFinished || !user) return;
     startLoading();
     if (words[currentWordIndex]?.isAnswered) {
       if (words[currentWordIndex].hasOptional) {
-      UserWords.update(user.userId, words[currentWordIndex].id, user.token, words[currentWordIndex].userWord);
+        UserWords.update(
+          user.userId,
+          words[currentWordIndex].id,
+          user.token,
+          words[currentWordIndex].userWord,
+        );
       } else {
-      UserWords.create(user.userId, words[currentWordIndex].id, user.token, words[currentWordIndex].userWord);
+        UserWords.create(
+          user.userId,
+          words[currentWordIndex].id,
+          user.token,
+          words[currentWordIndex].userWord,
+        );
       }
     }
     sendGameStatistic(user, {
-        gameName: name.toLowerCase(),
-        learnedWords: wordsLearned,
-        correctAnswers,
-        incorrectAnswers,
-      }).catch((err) => {
-      if (error instanceof Error) {
-        showError({ error: err });
-      }
-    }).finally(() => { stopLoading(); });
+      gameName: name.toLowerCase(),
+      learnedWords: wordsLearned,
+      correctAnswers,
+      incorrectAnswers,
+      correctAnswersInARow: 0,
+    })
+      .catch((err) => {
+        if (error instanceof Error) {
+          showError({ error: err });
+        }
+      })
+      .finally(() => {
+        stopLoading();
+      });
   }, [isFinished]);
 
   if (error) {
     return (
       <Heading>
-        {`Произошла ошибка при загрузке данных ${isFinished ? 'на сервер' : 'с сервера'}: ${error.message}`}
+        {`Произошла ошибка при загрузке данных ${
+          isFinished ? 'на сервер' : 'с сервера'
+        }: ${error.message}`}
       </Heading>
     );
   }
@@ -73,17 +107,7 @@ export const GameFrame = () => {
     );
   }
   if (isFinished) {
-    return (
-      <StatisticsScreen />
-    );
+    return <StatisticsScreen />;
   }
-  return (
-    <Box>
-      {isStarted
-        ? game
-        : (
-          <StartScreen />
-        )}
-    </Box>
-  );
+  return <Box>{isStarted ? game : <StartScreen />}</Box>;
 };

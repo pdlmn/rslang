@@ -13,7 +13,7 @@ export const DottedBox = ({ height, left }: DottedBoxProps) => (
     height="full"
     maxW="700px"
     zIndex={-1}
-    display={{base: 'none', sm: 'block'}}
+    display={{ base: 'none', sm: 'block' }}
   >
     <svg
       color={useColorModeValue('rgba(55,65,81, 0.1)', 'rgba(55,65,81, 0.7)')}
