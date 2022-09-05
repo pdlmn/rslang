@@ -33,12 +33,25 @@ ChartJS.register(
   Legend,
 );
 
+type StatObject = {
+  learnedWords: number,
+  accuracy: number,
+};
+
+type GameStatObject = StatObject & {
+  correctAnswersInARow: number
+};
+
 interface TodayStatisticsProps {
-  accuracy: number;
+  overallStatistics: StatObject;
+  sprintStatistics: GameStatObject;
+  audiocallStatistics: GameStatObject;
 }
 
 export const TodayStatistics = ({
-  accuracy,
+  overallStatistics,
+  sprintStatistics,
+  audiocallStatistics,
 }: TodayStatisticsProps) => (
   <Box>
     <Heading as="h2" size="2xl" textAlign="center">
@@ -48,23 +61,23 @@ export const TodayStatistics = ({
     <Flex alignItems="center" height="44" mt="4">
       <Stat width="24" display="flex" alignItems="center" justifyContent="center">
         <StatNumber fontSize="7xl" textAlign="center">
-          15
+          {overallStatistics.learnedWords}
         </StatNumber>
         <StatLabel fontSize={{ sm: 'xl', md: '2xl' }} textAlign="center">Новых выученных слов</StatLabel>
       </Stat>
       <Stat width="24" display="flex" alignItems="center" justifyContent="center">
         <StatNumber fontSize={{ sm: '4xl', md: '6xl' }} textAlign="center">
           <CircularProgress
-            color={accuracy === 100
+            color={overallStatistics.accuracy === 100
               ? useColorModeValue('green.400', 'green.300')
               : useColorModeValue('yellow.400', 'yellow.300')}
             trackColor={useColorModeValue('gray.200', 'gray.600')}
             thickness="7px"
-            value={accuracy}
+            value={overallStatistics.accuracy}
             size="110px"
           >
             <CircularProgressLabel fontSize="3xl">
-              {accuracy}
+              {overallStatistics.accuracy}
               %
             </CircularProgressLabel>
           </CircularProgress>
@@ -83,9 +96,9 @@ export const TodayStatistics = ({
       <StatCard
         heading="Аудиовызов"
         icon={FaHeadphones}
-        learnedWords={13}
-        accuracy={74}
-        correctAnswersInARow={8}
+        learnedWords={audiocallStatistics.learnedWords}
+        accuracy={audiocallStatistics.accuracy}
+        correctAnswersInARow={audiocallStatistics.correctAnswersInARow}
         lightMode="pink.200"
         darkMode="pink.600"
       />
@@ -93,9 +106,9 @@ export const TodayStatistics = ({
       <StatCard
         heading="Спринт"
         icon={GiSprint}
-        learnedWords={20}
-        accuracy={88}
-        correctAnswersInARow={17}
+        learnedWords={sprintStatistics.learnedWords}
+        accuracy={sprintStatistics.accuracy}
+        correctAnswersInARow={sprintStatistics.correctAnswersInARow}
         lightMode="green.200"
         darkMode="green.600"
       />

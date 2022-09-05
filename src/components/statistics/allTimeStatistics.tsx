@@ -3,7 +3,7 @@ import {
 } from '@chakra-ui/react';
 import { ChartData, ChartOptions } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { formatDate } from '../../utils/date';
+import { formatDate, isFutureDate, isPastDate } from '../../utils/date';
 
 type DailyStatistics = {
   date: number,
@@ -13,11 +13,13 @@ type DailyStatistics = {
 interface AllTimeStatisticsProps {
   data: DailyStatistics[];
   wordsPerDayGoal: number;
+  userSigningUpDate: number;
 }
 
 export const AllTimeStatistics = ({
   data,
   wordsPerDayGoal,
+  userSigningUpDate,
 }: AllTimeStatisticsProps) => {
   const chartStepSize = 10;
 
@@ -38,6 +40,20 @@ export const AllTimeStatistics = ({
       },
       tooltip: {
         displayColors: false,
+        callbacks: {
+          beforeLabel: (context) => {
+            if (isFutureDate(data[context.dataIndex].date)) {
+              return 'Этот день ещё не наступил...\n';
+            }
+            if (isPastDate(data[context.dataIndex].date, new Date(userSigningUpDate))) {
+              return 'Вы тогда ещё не были зарегистрированы\n';
+            }
+            if (data[context.dataIndex].learnedWords < wordsPerDayGoal) {
+              return 'В этот день вы не достигли цели\n';
+            }
+            return 'В этот день вы выучили достаточно слов!\n';
+          },
+        },
         caretSize: 7,
         caretPadding: 9,
         intersect: false,
@@ -87,7 +103,11 @@ export const AllTimeStatistics = ({
       },
       point: {
         borderColor: (context) => {
-          if (data[context.dataIndex].learnedWords < wordsPerDayGoal) {
+          if (isPastDate(data[context.dataIndex].date, new Date(userSigningUpDate))) {
+            return gridColor;
+          } if (isFutureDate(data[context.dataIndex].date)) {
+            return lineColor;
+          } if (data[context.dataIndex].learnedWords < wordsPerDayGoal) {
             return failColor;
           }
           return successColor;
@@ -99,7 +119,7 @@ export const AllTimeStatistics = ({
     },
   });
 
-  const data1: ChartData<'line'> = {
+  const perDay: ChartData<'line'> = {
     labels: data.map((ds) => formatDate(ds.date)),
     datasets: [
       {
@@ -109,7 +129,7 @@ export const AllTimeStatistics = ({
     ],
   };
 
-  const data2: ChartData<'line'> = {
+  const overall: ChartData<'line'> = {
     labels: data.map((ds) => formatDate(ds.date)),
     datasets: [
       {
@@ -119,8 +139,12 @@ export const AllTimeStatistics = ({
 
           let j = 0;
           for (let i = 0; i < data.length; i += 1) {
-            j += data[i].learnedWords;
-            result.push(j);
+            if (isFutureDate(data[i].date)) {
+              result.push(0);
+            } else {
+              j += data[i].learnedWords;
+              result.push(j);
+            }
           }
 
           return result;
@@ -146,13 +170,13 @@ export const AllTimeStatistics = ({
           <Text fontStyle="italic" textAlign="center">
             Сколько слов вы учили за день.
           </Text>
-          <Line data={data1} options={generateOprions(true)} />
+          <Line data={perDay} options={generateOprions(true)} />
         </Box>
         <Box width="100%" minW="360px" maxW="500px" height="250px" position="relative">
           <Text fontStyle="italic" textAlign="center">
             Сколько слов вы выучили всего.
           </Text>
-          <Line data={data2} options={generateOprions(false)} />
+          <Line data={overall} options={generateOprions(false)} />
         </Box>
       </Flex>
     </Box>

@@ -99,9 +99,9 @@ export const WordsGrid = () => {
     [setCurrentPage],
   );
 
-    const gray50700 = useColorModeValue('gray.50', 'gray.700');
-    const gray100600 = useColorModeValue('gray.100', 'gray.600');
-    const whietegray800 = useColorModeValue('white', 'gray.800');
+  const gray50700 = useColorModeValue('gray.50', 'gray.700');
+  const gray100600 = useColorModeValue('gray.100', 'gray.600');
+  const whietegray800 = useColorModeValue('white', 'gray.800');
 
   return (
     <Flex wrap="wrap" maxW="850px" alignContent="flex-start" gap={6}>

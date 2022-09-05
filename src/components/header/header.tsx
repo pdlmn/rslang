@@ -109,6 +109,7 @@ export const Header = () => {
                   fontSize="md"
                   fontWeight={400}
                   variant="link"
+                  color={useColorModeValue('gray.800', 'gray.200')}
                 >
                   Регистрация
                 </Button>
