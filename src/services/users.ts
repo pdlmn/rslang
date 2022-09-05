@@ -13,7 +13,7 @@ const get = genericGet<UserWithoutPassword>(
   (userId) => `${API_URI}/users/${userId}`,
 );
 
-const create = async (user: Omit<User, 'id'>) => {
+const create = async (user: Omit<User, 'id' | 'signedUp'>) => {
   const requestOptions = {
     method: 'POST',
     body: JSON.stringify(user),

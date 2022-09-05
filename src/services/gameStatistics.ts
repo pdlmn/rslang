@@ -1,14 +1,34 @@
 import { GameStatistic } from '../interfaces/services';
-import { API_URI, fetchData, genericGet } from './common';
+import {
+  API_URI, buildQueryString, fetchData,
+} from './common';
 
-const get = genericGet<GameStatistic>((userId) => `${API_URI}/users/${userId}/gameStatistics`);
+type GetGameStatisticsParams = {
+  from: number,
+  to: number,
+};
+const get = async (
+  userId: string,
+  authToken: string,
+  params?: GetGameStatisticsParams,
+) => {
+  const requestOptions = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
+
+  const queryString = buildQueryString(`${API_URI}/users/${userId}/gameStatistics`, (params || {}));
+  const data = await fetchData<GameStatistic[]>(queryString, requestOptions);
+  return data as GameStatistic[];
+};
 
 const send = async (
   userId: string,
   authToken: string,
   {
     gameName, learnedWords, correctAnswers, incorrectAnswers, correctAnswersInARow,
-  }: GameStatistic,
+  }: Omit<GameStatistic, 'date'>,
 ) => {
   const requestOptions = {
     method: 'POST',

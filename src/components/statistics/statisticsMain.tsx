@@ -1,111 +1,60 @@
 import { Container, Stack } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { GameStatistic } from '../../interfaces/services';
+import { useAppDispatch, useTypedSelector } from '../../redux';
+import { statisticsSetLoader } from '../../redux/actions/statistics';
+import gameStatistics from '../../services/gameStatistics';
 import { getDatesOfWeek } from '../../utils/date';
 import { AllTimeStatistics } from './allTimeStatistics';
 import { TodayStatistics } from './todayStatistics';
 
 export const StatisticsMain = () => {
-  const data = [
-    {
-      gameName: 'sprint',
-      learnedWords: 13,
-      date: Number(new Date('2022-08-31')),
-      correctAnswers: 13,
-      incorrectAnswers: 7,
-      correctAnswersInARow: 6,
-    },
-    {
-      gameName: 'audiocall',
-      learnedWords: 18,
-      date: Number(new Date('2022-09-01')),
-      correctAnswers: 18,
-      incorrectAnswers: 2,
-      correctAnswersInARow: 16,
-    },
-    {
-      gameName: 'audiocall',
-      learnedWords: 15,
-      date: Number(new Date('2022-09-01')),
-      correctAnswers: 15,
-      incorrectAnswers: 5,
-      correctAnswersInARow: 9,
-    },
-    {
-      gameName: 'sprint',
-      learnedWords: 11,
-      date: Number(new Date('2022-09-02')),
-      correctAnswers: 11,
-      incorrectAnswers: 9,
-      correctAnswersInARow: 6,
-    },
-    {
-      gameName: 'sprint',
-      learnedWords: 13,
-      date: Number(new Date('2022-09-02')),
-      correctAnswers: 13,
-      incorrectAnswers: 7,
-      correctAnswersInARow: 6,
-    },
-    {
-      gameName: 'audiocall',
-      learnedWords: 18,
-      date: Number(new Date('2022-09-02')),
-      correctAnswers: 18,
-      incorrectAnswers: 2,
-      correctAnswersInARow: 16,
-    },
-    {
-      gameName: 'audiocall',
-      learnedWords: 15,
-      date: Number(new Date('2022-09-03')),
-      correctAnswers: 15,
-      incorrectAnswers: 5,
-      correctAnswersInARow: 9,
-    },
-    {
-      gameName: 'sprint',
-      learnedWords: 11,
-      date: Number(new Date('2022-09-04')),
-      correctAnswers: 11,
-      incorrectAnswers: 9,
-      correctAnswersInARow: 6,
-    },
-    {
-      gameName: 'sprint',
-      learnedWords: 16,
-      date: Number(new Date('2022-09-04')),
-      correctAnswers: 16,
-      incorrectAnswers: 4,
-      correctAnswersInARow: 10,
-    },
-    {
-      gameName: 'sprint',
-      learnedWords: 19,
-      date: Number(new Date('2022-09-05').setHours(2, 3, 4, 5)),
-      correctAnswers: 19,
-      incorrectAnswers: 1,
-      correctAnswersInARow: 10,
-    },
-    {
-      gameName: 'sprint',
-      learnedWords: 11,
-      date: Number(new Date('2022-09-05')),
-      correctAnswers: 11,
-      incorrectAnswers: 9,
-      correctAnswersInARow: 6,
-    },
-    {
-      gameName: 'audiocall',
-      learnedWords: 16,
-      date: Number(new Date('2022-09-05')),
-      correctAnswers: 16,
-      incorrectAnswers: 4,
-      correctAnswersInARow: 10,
-    },
-  ];
   type GameName = 'sprint' | 'audiocall';
-  const todayStatistics = data
-    .filter((gs) => gs.date < new Date().setHours(23, 59, 59, 999)
-        && gs.date > new Date().setHours(0, 0, 0, 0));
+
+  const { user } = useTypedSelector((state) => state.auth);
+  const { date: selectedDate } = useTypedSelector((state) => state.statistics);
+  const dispatch = useAppDispatch();
+
+  const [todayStatistics, setTodayStatistics] = useState<GameStatistic[]>([]);
+  const [weeklyStatistics, setWeeklyStatistics] = useState<GameStatistic[]>([]);
+
+  useEffect(() => {
+    if (!user) {
+      setTodayStatistics([]);
+      setWeeklyStatistics([]);
+      return;
+    }
+
+    const fetchTodayStatistics = async () => {
+      const response = await gameStatistics.get(user.userId, user.token, {
+        from: new Date().setHours(0, 0, 0, 0),
+        to: new Date().setHours(23, 59, 59, 999),
+      });
+      if (Array.isArray(response)) {
+        setTodayStatistics(response);
+      }
+    };
+
+    const fetchWeeklyStatistics = async () => {
+      const datesOfWeek = getDatesOfWeek(selectedDate);
+      const response = await gameStatistics.get(user.userId, user.token, {
+        from: Number(datesOfWeek[0]),
+        to: datesOfWeek[6].setHours(23, 59, 59, 999),
+      });
+      if (Array.isArray(response)) {
+        setWeeklyStatistics(response);
+      }
+    };
+
+    const fetchStatistics = async () => {
+      dispatch(statisticsSetLoader(true));
+      await fetchTodayStatistics();
+      await fetchWeeklyStatistics();
+      dispatch(statisticsSetLoader(false));
+    };
+
+    fetchStatistics();
+  }, [selectedDate, user]);
 
   const sumByProp = <T, K extends keyof T>(prop: K, arr: T[]) => (
     // @ts-ignore
@@ -117,7 +66,8 @@ export const StatisticsMain = () => {
     const incorrectAnswers = sumByProp('incorrectAnswers', todayStatistics);
 
     const learnedWords = sumByProp('learnedWords', todayStatistics);
-    const accuracy = +((correctAnswers * 100) / (correctAnswers + incorrectAnswers)).toFixed(0);
+    const accuracy = +((correctAnswers * 100) / (correctAnswers + incorrectAnswers)).toFixed(0)
+      || 0;
 
     return { learnedWords, accuracy };
   };
@@ -129,7 +79,8 @@ export const StatisticsMain = () => {
     const incorrectAnswers = sumByProp('incorrectAnswers', todayGameStats);
 
     const learnedWords = sumByProp('learnedWords', todayGameStats);
-    const accuracy = +((correctAnswers * 100) / (correctAnswers + incorrectAnswers)).toFixed(0);
+    const accuracy = +((correctAnswers * 100) / (correctAnswers + incorrectAnswers)).toFixed(0)
+      || 0;
     const correctAnswersInARow = todayGameStats.reduce((acc, cur) => (
       acc > cur.correctAnswersInARow ? acc : cur.correctAnswersInARow
     ), 0);
@@ -142,7 +93,7 @@ export const StatisticsMain = () => {
     learnedWords: number,
   };
 
-  const points = data.reduce((acc: Point[], cur) => {
+  const points = weeklyStatistics.reduce((acc: Point[], cur) => {
     const date = new Date(cur.date).setHours(0, 0, 0, 0);
     const pointInArray = acc.find((point) => point.date === date);
     if (pointInArray) {
@@ -154,7 +105,7 @@ export const StatisticsMain = () => {
   }, []);
 
   const getWeeklyStats = (dateOrMs: Date | number = new Date()) => {
-    const date = dateOrMs instanceof Date ? dateOrMs : new Date(dateOrMs);
+    const date = new Date(dateOrMs);
     const week = getDatesOfWeek(date);
     return week.map((weekday) => {
       const pointInData = points.find((d) => d.date === +weekday);
@@ -172,11 +123,11 @@ export const StatisticsMain = () => {
           overallStatistics={getOverallTodayStatistics()}
           audiocallStatistics={getGameStatistics('audiocall')}
           sprintStatistics={getGameStatistics('sprint')}
+          wordsPerDayGoal={30}
         />
         <AllTimeStatistics
-          data={getWeeklyStats(new Date('2022-09-02'))}
+          data={getWeeklyStats(selectedDate)}
           wordsPerDayGoal={30}
-          userSigningUpDate={Number(new Date('2022-08-31'))}
         />
       </Stack>
     </Container>

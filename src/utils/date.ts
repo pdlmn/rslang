@@ -21,7 +21,7 @@ export const getMonday = (dateOrMs: Date | number) => {
 };
 
 export const getDatesOfWeek = (dateOrMs: Date | number) => {
-  const date = dateOrMs instanceof Date ? dateOrMs : new Date(dateOrMs);
+  const date = new Date(dateOrMs);
   const monday = getMonday(date);
   const week = [];
   for (let i = 0; i < 7; i += 1) {
@@ -31,6 +31,12 @@ export const getDatesOfWeek = (dateOrMs: Date | number) => {
     week.push(dayOfTheWeek);
   }
   return week;
+};
+
+export const dateInThisWeek = (dateOrMs: Date | number, weekDate: Date | number) => {
+  const date = new Date(dateOrMs);
+  const week = getDatesOfWeek(weekDate);
+  return week[0] < date && date < week[week.length - 1];
 };
 
 const compareDates = (greaterThan: boolean) => (
@@ -49,3 +55,15 @@ const compareDates = (greaterThan: boolean) => (
 export const isFutureDate = compareDates(true);
 
 export const isPastDate = compareDates(false);
+
+export const getLastWeeksDate = (dateOrMs: number | Date = new Date()) => {
+  const date = new Date(dateOrMs);
+  date.setDate(date.getDate() - 7);
+  return date;
+};
+
+export const getNextWeeksDate = (dateOrMs: number | Date = new Date()) => {
+  const date = new Date(dateOrMs);
+  date.setDate(date.getDate() + 7);
+  return date;
+};

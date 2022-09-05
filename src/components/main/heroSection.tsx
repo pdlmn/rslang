@@ -15,7 +15,7 @@ export const HeroSection = () => (
   >
     <VStack
       userSelect="none"
-      bg="whiteAlpha.500"
+      bg="whiteAlpha.800"
       p={6}
       w="xl"
       rounded="md"
