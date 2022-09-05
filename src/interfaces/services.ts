@@ -37,7 +37,11 @@ type Word = {
   textExampleTranslate: string
 };
 
-type Optional = Record<string, string | boolean | number | { rightAnswers: number, wrongAnswers: number}>;
+type Optional = Record<string,
+string |
+boolean |
+number |
+{ rightAnswers: number, wrongAnswers: number }>;
 
 export type UserWordOptional = {
   learned?: boolean,
@@ -50,7 +54,7 @@ export type UserWordOptional = {
     rightAnswers: number,
     wrongAnswers: number
   },
-}
+};
 
 type UserWord = {
   id: string,
@@ -105,8 +109,9 @@ type GameStatistic = {
   learnedWords: number,
   correctAnswers: number,
   incorrectAnswers: number,
+  correctAnswersInARow: number,
   date?: number,
-}
+};
 
 export type {
   User,

@@ -11,10 +11,10 @@ import {
 } from './middleware/textbookLocalStorage';
 import { authLogIn } from './actions/auth';
 import { UserAuthData } from '../interfaces/redux/auth';
-// import {
-//   setGroup, setPage, setShowComplexWords, setShowLearnedWords,
-// } from '../components/textbook/textbook.actions';
-// import { groupButtonData } from '../components/textbook/groupButtonData';
+import {
+  setGroup, setPage, setShowComplexWords, setShowLearnedWords,
+} from '../components/textbook/textbook.actions';
+import { groupButtonData } from '../components/textbook/groupButtonData';
 
 export const store = createStore(
   rootReducer,
@@ -35,15 +35,15 @@ if (userString) {
   store.dispatch(authLogIn(user));
 }
 
-// const textbookStateString = localStorage.getItem('textbookState');
-// if (textbookStateString) {
-//   const textbookState = JSON.parse(textbookStateString);
-//   store.dispatch(setGroup(groupButtonData
-//     .find((el) => textbookState.group.id === el.id)));
-//   store.dispatch(setPage(textbookState.page));
-//   store.dispatch(setShowComplexWords(textbookState.showComplexWords));
-//   store.dispatch(setShowLearnedWords(textbookState.showLearnedWords));
-// }
+const textbookStateString = localStorage.getItem('textbookState');
+if (textbookStateString) {
+  const textbookState = JSON.parse(textbookStateString);
+  store.dispatch(setGroup(groupButtonData
+    .find((el) => textbookState.group.id === el.id)));
+  store.dispatch(setPage(textbookState.page));
+  store.dispatch(setShowComplexWords(textbookState.showComplexWords));
+  store.dispatch(setShowLearnedWords(textbookState.showLearnedWords));
+}
 
 type PermitedActions = ReturnType<typeof store.dispatch>;
 type AppDispatch = ThunkDispatch<RootState, any, PermitedActions>;
