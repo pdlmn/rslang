@@ -12,10 +12,11 @@ import { Carousel } from './carousel';
 import { DottedBox } from './dottedBox';
 
 export const Overview = () => (
-  <Container maxW="container.xl" px={{ base: 6, md: 4 }} py={24}>
+  <Container maxW="container.xl" px={{ base: 2, md: 4 }} py={{ base: '12px', md: '24px' }}>
     <Stack
-      direction={{ base: 'column', md: 'row' }}
+      direction={{ base: 'column', xl: 'row' }}
       justifyContent="space-between"
+      align="center"
     >
       <Stack
         direction="column"
@@ -25,7 +26,7 @@ export const Overview = () => (
         userSelect="none"
       >
         <chakra.h1
-          fontSize="4xl"
+          fontSize={{ base: '2xl', md: '4xl' }}
           lineHeight={1.3}
           fontWeight="bold"
           textAlign="left"
@@ -36,7 +37,7 @@ export const Overview = () => (
           <chakra.span color="teal">английский язык!</chakra.span>
         </chakra.h1>
         <Text
-          fontSize="1.2rem"
+          fontSize={{ base: 'md', md: 'xl' }}
           textAlign="left"
           lineHeight="1.375"
           fontWeight="400"
@@ -50,11 +51,18 @@ export const Overview = () => (
           spacing={{ base: 0, sm: 2 }}
           mb={{ base: '3rem !important', sm: 0 }}
           flexWrap="wrap"
+          justify="center"
         >
           <Button>Смотреть видео</Button>
         </HStack>
       </Stack>
-      <Box ml={{ base: 0, md: 5 }} pos="relative">
+      <Box
+        display={{ base: 'none', md: 'block' }}
+        ml={{ base: 0, md: 5 }}
+        pos="relative"
+        maxHeight="400px"
+        maxWidth="710px"
+      >
         <DottedBox height="420" left="-45px" />
         <Carousel />
       </Box>
