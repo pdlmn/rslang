@@ -48,7 +48,7 @@ export const GamesConteiner = () => {
       rounded="xl"
     >
       <VStack height={isFullscreen ? '100vh' : '100%'} p="1em">
-        <ButtonGroup isAttached size="lg" variant="outline" ml="auto">
+        <ButtonGroup isAttached size={{ base: 'xs', md: 'md' }} variant="outline" ml="auto">
           <IconButton aria-label="Sound" icon={isMuted ? <BiVolumeMute /> : <BiVolumeFull />} onClick={toggleAudio} />
           <IconButton aria-label="Fullscreen" icon={<BsFullscreen />} onClick={toggleFullscreen} />
           <Link to="/"><IconButton aria-label="Close" icon={<CloseIcon />} /></Link>

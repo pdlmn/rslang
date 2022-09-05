@@ -91,11 +91,11 @@ export const AudioCallGame = () => {
 
   return (
     <VStack
-      p={4}
+      p={{ base: '1', md: '4' }}
       divider={<StackDivider borderColor="gray.350" />}
-      spacing={4}
+      spacing={{ base: '1', md: '4' }}
     >
-      <Flex h="200px" gap="5px">
+      <Flex gap="5px" maxH="200px">
         <VStack>
           <Button
             size="xl"
@@ -111,12 +111,17 @@ export const AudioCallGame = () => {
           >
             <ImVolumeMedium size={90} />
           </Button>
-          <Heading size="md">
+          <Heading size="md" lineHeight={10}>
             {isAnswered ? words[currentWordIndex].word.toUpperCase() : '_ '.repeat(words[currentWordIndex].word.length)}
           </Heading>
         </VStack>
         {isAnswered ? (
           <Image
+            w="full"
+            maxH={{
+              base: '95px', md: '190px',
+            }}
+            alignSelf="center"
             objectFit="cover"
             src={`${API_URI}/${words[currentWordIndex].image}`}
             alt={words[currentWordIndex].word}
@@ -124,12 +129,13 @@ export const AudioCallGame = () => {
           />
         ) : null}
       </Flex>
-      <Flex columnGap="50px" rowGap="20px" justifyContent="center" wrap="wrap">
+      <Flex columnGap={{ base: '10px', md: '30px' }} rowGap={{ base: '2px', md: '20px' }} justifyContent="center" wrap="wrap">
         {variants.map((variant, index) => (
           <Button
             key={`${variant}${currentWordIndex}`}
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize="md"
+            display={{ base: 'inline-flex', md: 'inline-flex' }}
+            fontSize={{ base: 'xs', md: 'md' }}
+            size={{ base: 'xs', md: 'md' }}
             fontWeight={600}
             minW="150px"
             rounded="full"
@@ -152,9 +158,10 @@ export const AudioCallGame = () => {
         onBlur={() => {
           btnNext.current?.focus();
         }}
-        display={{ base: 'none', md: 'inline-flex' }}
+        display={{ base: 'inline-flex', md: 'inline-flex' }}
+        fontSize={{ base: 'xs', md: 'md' }}
+        size={{ base: 'xs', md: 'md' }}
         mt="auto"
-        fontSize="md"
         fontWeight={600}
         color="white"
         bg={`${isAnswered ? 'blue' : 'purple'}.600`}

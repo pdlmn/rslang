@@ -113,6 +113,14 @@ type GameStatistic = {
   date?: number,
 };
 
+type WordStatistic = {
+  id: string,
+  userWord: {
+    difficulty: string;
+    optional: Required<UserWordOptional>;
+  }
+};
+
 export type {
   User,
   UserCreateErrorResponse,
@@ -127,4 +135,5 @@ export type {
   Statistic,
   UserSettings,
   GameStatistic,
+  WordStatistic,
 };

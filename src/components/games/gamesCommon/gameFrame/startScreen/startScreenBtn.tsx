@@ -9,8 +9,9 @@ export const StartScreenBtn = ({ label, color }: StartScreenBtnProps) => {
 
   return (
     <Button
-      display={{ base: 'none', md: 'inline-flex' }}
-      fontSize="md"
+      display={{ base: 'inline-flex', md: 'inline-flex' }}
+      fontSize={{ base: 'xs', md: 'md' }}
+      size={{ base: 'xs', md: 'md' }}
       fontWeight={600}
       color="white"
       bg={`${color}.300`}
