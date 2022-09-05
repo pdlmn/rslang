@@ -5,7 +5,7 @@ import {
 import { useRef } from 'react';
 import { BiVolumeFull, BiVolumeMute } from 'react-icons/bi';
 import { BsFullscreen } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAction } from '../../../hooks/useAction';
 import { useTypedSelector } from '../../../redux';
 import { GameFrame } from './gameFrame/gameFrame';
@@ -17,6 +17,12 @@ export const GamesConteiner = () => {
   } = useAction();
   const conteiner = useRef(null);
   const bgColor = useColorModeValue('white', 'gray.800');
+
+  const navigate = useNavigate();
+
+  const routeChange = () => {
+    navigate('/textbook');
+  };
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -51,7 +57,7 @@ export const GamesConteiner = () => {
         <ButtonGroup isAttached size={{ base: 'xs', md: 'md' }} variant="outline" ml="auto">
           <IconButton aria-label="Sound" icon={isMuted ? <BiVolumeMute /> : <BiVolumeFull />} onClick={toggleAudio} />
           <IconButton aria-label="Fullscreen" icon={<BsFullscreen />} onClick={toggleFullscreen} />
-          <Link to="/rslang"><IconButton aria-label="Close" icon={<CloseIcon />} /></Link>
+          <IconButton aria-label="Close" icon={<CloseIcon />} onClick={routeChange} />
         </ButtonGroup>
         <Flex height="100%" align="center" justify="center" mt="0px">
           <GameFrame />
