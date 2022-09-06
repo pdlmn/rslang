@@ -34,27 +34,27 @@ type NavItem = {
 const NAV_ITEMS: Array<NavItem> = [
   {
     label: 'Учебник',
-    href: '/#/textbook',
+    href: 'rslang/#/textbook',
   },
   {
     label: 'Игры',
-    href: '/#/games',
+    href: 'rslang/#/games',
     children: [
       {
         label: 'Аудиовызов',
-        href: '/#/audiogame',
+        href: 'rslang/#/audiogame',
         icon: FaHeadphones,
       },
       {
         label: 'Спринт',
-        href: '/#/sprintgame',
+        href: 'rslang/#/sprintgame',
         icon: GiSprint,
       },
     ],
   },
   {
     label: 'Статистика',
-    href: '/#/statistics',
+    href: 'rslang/#/statistics',
   },
 ];
 
