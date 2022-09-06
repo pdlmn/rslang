@@ -9,7 +9,7 @@ import { AllTimeStatistics } from './allTimeStatistics';
 import { TodayStatistics } from './todayStatistics';
 
 export const StatisticsMain = () => {
-  type GameName = 'sprint' | 'audiocall';
+  type GameName = 'спринт' | 'аудиовызов';
 
   const { user } = useTypedSelector((state) => state.auth);
   const { date: selectedDate } = useTypedSelector((state) => state.statistics);
@@ -79,6 +79,7 @@ export const StatisticsMain = () => {
     const incorrectAnswers = sumByProp('incorrectAnswers', todayGameStats);
 
     const learnedWords = sumByProp('learnedWords', todayGameStats);
+
     const accuracy = +((correctAnswers * 100) / (correctAnswers + incorrectAnswers)).toFixed(0)
       || 0;
     const correctAnswersInARow = todayGameStats.reduce((acc, cur) => (
@@ -121,8 +122,8 @@ export const StatisticsMain = () => {
       <Stack spacing="16">
         <TodayStatistics
           overallStatistics={getOverallTodayStatistics()}
-          audiocallStatistics={getGameStatistics('audiocall')}
-          sprintStatistics={getGameStatistics('sprint')}
+          audiocallStatistics={getGameStatistics('аудиовызов')}
+          sprintStatistics={getGameStatistics('спринт')}
           wordsPerDayGoal={30}
         />
         <AllTimeStatistics
