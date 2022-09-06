@@ -17,7 +17,7 @@ export const gameComponentByName = (name: GameNames | '') => {
 };
 
 export const sendGameStatistic = async (user: UserAuthData, body: Omit<GameStatistic, 'date'>) => {
-  await gameStatistics.send(user.userId, user.token, body);
+  gameStatistics.send(user.userId, user.token, body);
 };
 
 export const sendWordStatistic = async (
@@ -26,14 +26,14 @@ export const sendWordStatistic = async (
   hasOptional: boolean,
 ) => {
   if (hasOptional) {
-    await UserWords.update(
+    UserWords.update(
       user.userId,
       body.id,
       user.token,
       body.userWord,
     );
   } else {
-    await UserWords.create(
+    UserWords.create(
       user.userId,
       body.id,
       user.token,
