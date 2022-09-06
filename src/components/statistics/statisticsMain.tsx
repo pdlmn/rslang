@@ -1,6 +1,6 @@
 import { Container, Stack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { GameStatistic } from '../../interfaces/services';
+import { AggregatedWord, GameStatistic } from '../../interfaces/services';
 import { useAppDispatch, useTypedSelector } from '../../redux';
 import { statisticsSetLoader } from '../../redux/actions/statistics';
 import AggregatedWords from '../../services/aggregatedWords';
@@ -18,217 +18,15 @@ export const StatisticsMain = () => {
 
   const [todayGameStatistics, setTodayGameStatistics] = useState<GameStatistic[]>([]);
   const [weeklyGameStatistics, setWeeklyGameStatistics] = useState<GameStatistic[]>([]);
-
-  const todayLearnedWordsFromTextbook = [
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-07')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-07')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-07')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-07')),
-        source: 'textbook',
-      },
-    },
-  ];
-
-  const weeklyLearnedWordsFromTextbook = [
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-07')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-07')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-07')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-08')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-08')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-09')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-09')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-09')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-09')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-10')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-10')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-11')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-11')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-11')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-11')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-11')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-11')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-11')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-11')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-11')),
-        source: 'textbook',
-      },
-    },
-    {
-      asd: 123,
-      wordId: '123',
-      optional: {
-        date: Number(new Date('2022-09-11')),
-        source: 'textbook',
-      },
-    },
-  ];
+  const [todayLearnedFromTextbook, setTodayLearnedFromTextbook] = useState<AggregatedWord[]>([]);
+  const [weeklyLearnedFromTextbook, setWeeklyLearnedFromTextbook] = useState<AggregatedWord[]>([]);
 
   useEffect(() => {
     if (!user) {
       setTodayGameStatistics([]);
       setWeeklyGameStatistics([]);
+      setTodayLearnedFromTextbook([]);
+      setWeeklyLearnedFromTextbook([]);
       return;
     }
 
@@ -253,27 +51,52 @@ export const StatisticsMain = () => {
       }
     };
 
-    const fetchweeklyLearnedWordsFromTextbook = async () => {
+    const fetchTodayLearnedFromTextbook = async () => {
+      const response = await AggregatedWords.get(user.userId, user.token, {
+        filter: {
+          'userWord.optional.date': {
+            $gte: new Date().setHours(0, 0, 0, 0),
+            $lte: new Date().setHours(23, 59, 59, 999),
+          },
+          'userWord.optional.learned': true,
+        },
+      });
+      if (Array.isArray(response)) {
+        setTodayLearnedFromTextbook(response[0].paginatedResults);
+      }
+    };
+
+    const fetchweeklyLearnedFromTextbook = async () => {
       const datesOfWeek = getDatesOfWeek(selectedDate);
       const response = await AggregatedWords.get(user.userId, user.token, {
         filter: {
           'userWord.optional.date': {
-            $gte: 1662336000000,
-            $lte: 1662854400000,
+            $gte: Number(datesOfWeek[0]),
+            $lte: datesOfWeek[6].setHours(23, 59, 59, 999),
           },
+          'userWord.optional.learned': true,
         },
       });
+      if (Array.isArray(response)) {
+        setWeeklyLearnedFromTextbook(response[0].paginatedResults);
+      }
     };
 
     const fetchStatistics = async () => {
       dispatch(statisticsSetLoader(true));
+
       await fetchTodayGameStatistics();
+      await fetchTodayLearnedFromTextbook();
       await fetchWeeklyGameStatistics();
+      await fetchweeklyLearnedFromTextbook();
+
       dispatch(statisticsSetLoader(false));
     };
 
     fetchStatistics();
   }, [selectedDate, user]);
+
+  console.log(todayLearnedFromTextbook);
 
   const sumByProp = <T, K extends keyof T>(prop: K, arr: T[]) => (
     // @ts-ignore
@@ -284,7 +107,7 @@ export const StatisticsMain = () => {
     const correctAnswers = sumByProp('correctAnswers', todayGameStatistics);
     const incorrectAnswers = sumByProp('incorrectAnswers', todayGameStatistics);
 
-    const learnedWords = sumByProp('learnedWords', todayGameStatistics) + todayLearnedWordsFromTextbook.length;
+    const learnedWords = sumByProp('learnedWords', todayGameStatistics) + todayLearnedFromTextbook.length;
     const accuracy = +((correctAnswers * 100) / (correctAnswers + incorrectAnswers)).toFixed(0)
       || 0;
 
@@ -324,8 +147,11 @@ export const StatisticsMain = () => {
     return acc;
   }, []);
 
-  const textBookPoints = weeklyLearnedWordsFromTextbook.reduce((acc: Point[], cur) => {
-    const date = new Date(cur.optional.date).setHours(0, 0, 0, 0);
+  const textBookPoints = weeklyLearnedFromTextbook.reduce((acc: Point[], cur) => {
+    if (!cur.userWord) return acc;
+    if (!cur.userWord.optional) return acc;
+    if (!cur.userWord.optional.date) return acc;
+    const date = new Date(cur.userWord.optional.date).setHours(0, 0, 0, 0);
     const pointInArray = acc.find((point) => point.date === date);
     if (pointInArray) {
       pointInArray.learnedWords += 1;
