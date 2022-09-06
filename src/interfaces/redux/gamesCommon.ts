@@ -21,6 +21,7 @@ export enum GamesActionTypes {
   PrevWord = 'gameWords/prevWord',
   RightAnswer = 'gameWords/rightAnswer',
   WrongAnswer = 'gameWords/wrongAnswer',
+  ResetGame = '',
 }
 
 export interface GamesState {
@@ -121,6 +122,10 @@ export type WrongAnswerAction = ({
   type: GamesActionTypes.WrongAnswer,
 });
 
+export type ResetGame = ({
+  type: GamesActionTypes.ResetGame,
+});
+
 export type GamesAction =
 SelectLevelAction | SelectGameAction |
 MuteAction | UnmuteAction |
@@ -129,6 +134,6 @@ StartLoadingAction | StopLoadingAction |
 StartFullscreenAction | StopFullscreenAction |
 StartFromTextbookAction | StartFromMenuAction |
 ShowErrorAction | ResetErrorAction |
-SetWordsAction |
+SetWordsAction | ResetGame |
 NextWordAction | PrevWordAction |
 RightAnswerAction | WrongAnswerAction;
