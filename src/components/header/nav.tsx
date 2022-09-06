@@ -17,6 +17,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import { FaHeadphones } from 'react-icons/fa';
 import { GiSprint } from 'react-icons/gi';
 import { IconType } from 'react-icons';
+import { useAction } from '../../hooks/useAction';
 
 type NavItemChild = {
   label: string;
@@ -57,28 +58,32 @@ const NAV_ITEMS: Array<NavItem> = [
   },
 ];
 
-const DesktopSubNav = ({ label, href }: NavItem) => (
-  <Link
-    href={href}
-    role="group"
-    display="block"
-    p={2}
-    rounded="md"
-    _hover={{ bg: useColorModeValue('yellow.100', 'gray.100') }}
-  >
-    <Stack direction="row" align="center">
-      <Box>
-        <Text
-          transition="all .3s ease"
-          fontWeight={500}
-          mr={4}
-        >
-          {label}
-        </Text>
-      </Box>
-    </Stack>
-  </Link>
-);
+const DesktopSubNav = ({ label, href }: NavItem) => {
+  const { ResetGame } = useAction();
+  return (
+    <Link
+      href={href}
+      role="group"
+      display="block"
+      p={2}
+      rounded="md"
+      _hover={{ bg: useColorModeValue('yellow.100', 'gray.100') }}
+      onClick={ResetGame}
+    >
+      <Stack direction="row" align="center">
+        <Box>
+          <Text
+            transition="all .3s ease"
+            fontWeight={500}
+            mr={4}
+          >
+            {label}
+          </Text>
+        </Box>
+      </Stack>
+    </Link>
+  );
+};
 
 export const DesktopNav = () => {
   const linkColor = useColorModeValue('gray.700', 'gray.200');
@@ -145,6 +150,7 @@ export const DesktopNav = () => {
 
 const MobileNavItem = ({ label, children, href }: NavItem) => {
   const { isOpen, onToggle } = useDisclosure();
+  const { ResetGame } = useAction();
 
   return (
     <Stack spacing={4} onClick={children && onToggle}>
@@ -186,7 +192,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
         >
           {children
             && children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
+              <Link key={child.label} py={2} href={child.href} onClick={ResetGame}>
                 {child.label}
               </Link>
             ))}

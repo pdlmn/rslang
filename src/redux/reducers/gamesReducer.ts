@@ -192,6 +192,8 @@ export const gamesReducer = (state = initialState, action: GamesAction) => {
           ...state.words.slice(state.currentWordIndex + 1),
         ],
       };
+    case GamesActionTypes.ResetGame:
+      return initialState;
 
     default:
       return state;

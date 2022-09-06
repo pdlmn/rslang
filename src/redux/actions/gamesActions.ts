@@ -81,3 +81,7 @@ export const rightAnswer = () => ({
 export const wrongAnswer = () => ({
   type: GamesActionTypes.WrongAnswer,
 });
+
+export const ResetGame = () => ({
+  type: GamesActionTypes.ResetGame,
+});

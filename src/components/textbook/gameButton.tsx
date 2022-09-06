@@ -37,8 +37,9 @@ export const GameButton = ({
   isFromTextBook,
 }: GameData) => {
   const navigate = useNavigate();
-  const { startFromTextbook, startFromMenu } = useAction();
+  const { startFromTextbook, startFromMenu, ResetGame } = useAction();
   const routeChange = () => {
+    ResetGame();
     if (isFromTextBook) {
       startFromTextbook();
     } else {
