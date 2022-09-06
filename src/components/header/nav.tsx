@@ -82,7 +82,7 @@ const DesktopSubNav = ({ label, href }: NavItem) => (
 
 export const DesktopNav = () => {
   const linkColor = useColorModeValue('gray.700', 'gray.200');
-  const linkHoverColor = useColorModeValue('gray.900', 'white');
+  const linkHoverColor = useColorModeValue('gray.800', 'gray.900');
   const popoverContentBgColor = useColorModeValue('white', 'gray.800');
 
   return (
@@ -92,6 +92,7 @@ export const DesktopNav = () => {
           <Popover trigger="hover" placement="bottom-start">
             <PopoverTrigger>
               <Link
+                transitionDuration="0"
                 p={2}
                 href={navItem.href ?? '#'}
                 fontSize="lg"

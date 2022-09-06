@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { IconType } from 'react-icons';
 import {
-  FaCamera, FaCat, FaGithub,
+  FaCat, FaDog, FaGithub,
 } from 'react-icons/fa';
 import { GiCoffeeCup } from 'react-icons/gi';
 
@@ -128,12 +128,13 @@ export const Developers = () => (
         Наша команда
       </Heading>
       <DeveloperCard
-        icon={FaCamera}
+        icon={FaDog}
         name="Эльдар"
         gitLink="https://github.com/pdlmn"
-        position="Разработчик"
-        photo="https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
-        text={'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}
+        position="Тимлид & Разработчик"
+        photo={`${process.env.PUBLIC_URL}/assets/eldar.jpg`}
+        text="Сервисы для общения с сервером, деплой и расширение функционала сервера, конфигурация проекта, авторизация, модалки входа и регистрации, страница статистики."
+        text2="Самые тёмные мешки под глазами на Диком западе."
       />
       <DeveloperCard
         icon={FaCat}
