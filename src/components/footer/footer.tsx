@@ -127,11 +127,11 @@ export const Footer = () => (
         </Stack>
         <Stack align="flex-start">
           <ListHeader>Меню</ListHeader>
-          <Link href="/">Главная</Link>
-          <Link href="/textbook">Учебник</Link>
-          <Link href="/audiogame">Аудиовызов</Link>
-          <Link href="/sprintgame">Спринт</Link>
-          <Link href="/statistics">Статистика</Link>
+          <Link href="rslang">Главная</Link>
+          <Link href="/#/textbook">Учебник</Link>
+          <Link href="/#/audiogame">Аудиовызов</Link>
+          <Link href="/#/sprintgame">Спринт</Link>
+          <Link href="/#/statistics">Статистика</Link>
         </Stack>
         <Stack align="flex-start">
           <ListHeader>Разработчики</ListHeader>
