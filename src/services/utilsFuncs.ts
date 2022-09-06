@@ -24,7 +24,9 @@ export const addToComplex = async ({
     const existing = await getExistingOrDefaultUserWord(user, selectedWord);
     const existingOrDefault = existing || getDefaultWord();
     const updatedUserWord = {
-      optional: { ...existingOrDefault.optional, learned: false },
+      optional: {
+        ...existingOrDefault.optional, learned: false, date: Date.now(), source: 'textbook',
+      },
       difficulty: 'hard',
     };
     const updateOrCreate = existing ? UserWords.update : UserWords.create;
@@ -59,7 +61,9 @@ const setLearned = async (
     const existingOrDefault = existing || getDefaultWord();
     const updatedUserWord = {
       difficulty: 'easy',
-      optional: { ...existingOrDefault.optional, learned },
+      optional: {
+        ...existingOrDefault.optional, learned, source: 'textbook', date: Date.now(),
+      },
     };
     const updateOrCreate = existing ? UserWords.update : UserWords.create;
 
