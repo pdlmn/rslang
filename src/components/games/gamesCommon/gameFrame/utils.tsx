@@ -26,14 +26,14 @@ export const sendWordStatistic = async (
   hasOptional: boolean,
 ) => {
   if (hasOptional) {
-    UserWords.update(
+    await UserWords.update(
       user.userId,
       body.id,
       user.token,
       body.userWord,
     );
   } else {
-    UserWords.create(
+    await UserWords.create(
       user.userId,
       body.id,
       user.token,

@@ -62,7 +62,7 @@ export const SignInForm = ({
 
   return (
     <Modal
-      size="md"
+      size={{ base: 'full', sm: 'md' }}
       isOpen={isSignInOpen}
       onClose={onSignInClose}
       initialFocusRef={signInRef}

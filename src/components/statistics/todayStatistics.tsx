@@ -69,7 +69,8 @@ export const TodayStatistics = ({
           {overallStatistics.learnedWords}
           {overallStatistics.learnedWords < wordsPerDayGoal && (
             <TooltipUI
-              label={`Мы рекомендуем учить хотя бы ${wordsPerDayGoal} слов в день`}
+              label={`Слово считается выученным, когда вы его отгадываете в играх.
+              Для сложных слов надо отгадать два раза. Мы рекомендуем учить минимум 30 слов в день`}
               shouldWrapChildren
               placement="top-end"
             >

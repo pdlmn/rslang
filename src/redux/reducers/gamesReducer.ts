@@ -20,7 +20,7 @@ const initialState: GamesState = {
 };
 
 export const gamesReducer = (state = initialState, action: GamesAction) => {
-  const comboNum = state.words[state.currentWordIndex]?.userWord?.difficulty.toUpperCase() === 'HARD' ? 5 : 3;
+  const comboNum = state.words[state.currentWordIndex]?.userWord?.difficulty.toUpperCase() === 'HARD' ? 2 : 1;
 
   switch (action.type) {
     case GamesActionTypes.SelectLevel:

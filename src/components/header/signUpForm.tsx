@@ -69,7 +69,7 @@ export const SignUpForm = ({
 
   return (
     <Modal
-      size="md"
+      size={{ base: 'full', sm: 'md' }}
       isOpen={isSignUpOpen}
       onClose={onSignUpClose}
       initialFocusRef={signUpRef}

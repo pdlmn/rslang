@@ -33,27 +33,27 @@ type NavItem = {
 const NAV_ITEMS: Array<NavItem> = [
   {
     label: 'Учебник',
-    href: 'rslang/#/textbook',
+    href: '/#/textbook',
   },
   {
     label: 'Игры',
-    href: 'rslang/#/games',
+    href: '/#/games',
     children: [
       {
         label: 'Аудиовызов',
-        href: 'rslang/#/audiogame',
+        href: '/#/audiogame',
         icon: FaHeadphones,
       },
       {
         label: 'Спринт',
-        href: 'rslang/#/sprintgame',
+        href: '/#/sprintgame',
         icon: GiSprint,
       },
     ],
   },
   {
     label: 'Статистика',
-    href: 'rslang/#/statistics',
+    href: '/#/statistics',
   },
 ];
 
