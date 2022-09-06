@@ -22,6 +22,8 @@ const updateUserWord = (word: WordInfo): WordInfoPlus => ({
     optional: {
       learned: false,
       combo: 0,
+      date: Date.now(),
+      source: 'game',
       gameSprint: {
         rightAnswers: 0,
         wrongAnswers: 0,

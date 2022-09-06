@@ -99,7 +99,7 @@ export const TodayStatistics = ({
             </TooltipUI>
           )}
         </StatNumber>
-        <StatLabel fontSize={{ sm: 'xl', md: '2xl' }} textAlign="center">Новых выученных слов</StatLabel>
+        <StatLabel fontSize={{ sm: 'xl', md: '2xl' }} textAlign="center">Выученных слов</StatLabel>
       </Stat>
       <Stat width="24" display="flex" alignItems="center" justifyContent="center">
         <StatNumber fontSize={{ sm: '4xl', md: '6xl' }} textAlign="center">
@@ -118,7 +118,7 @@ export const TodayStatistics = ({
             </CircularProgressLabel>
           </CircularProgress>
         </StatNumber>
-        <StatLabel fontSize={{ sm: 'xl', md: '2xl' }} textAlign="center">Правильных ответов в играх</StatLabel>
+        <StatLabel fontSize={{ sm: 'xl', md: '2xl' }} textAlign="center">Правильных ответов</StatLabel>
       </Stat>
     </Flex>
 
@@ -132,6 +132,7 @@ export const TodayStatistics = ({
       <StatCard
         heading="Аудиовызов"
         icon={FaHeadphones}
+        newWords="0"
         learnedWords={audiocallStatistics.learnedWords}
         accuracy={audiocallStatistics.accuracy}
         correctAnswersInARow={audiocallStatistics.correctAnswersInARow}
@@ -142,6 +143,7 @@ export const TodayStatistics = ({
       <StatCard
         heading="Спринт"
         icon={GiSprint}
+        newWords="0"
         learnedWords={sprintStatistics.learnedWords}
         accuracy={sprintStatistics.accuracy}
         correctAnswersInARow={sprintStatistics.correctAnswersInARow}
