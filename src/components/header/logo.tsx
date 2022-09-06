@@ -22,7 +22,7 @@ export const Logo = () => {
     >
       <Heading
         as="h1"
-        fontSize={['md', 'xl', '2xl', '3xl']}
+        fontSize={['sm', 'md', 'xl', '3xl']}
         cursor="pointer"
       >
         <Flex position="relative">
@@ -35,7 +35,7 @@ export const Logo = () => {
             color={linkColor}
             top={1}
           />
-          <HStack display={{ base: 'none', sm: 'flex' }} spacing={2}>
+          <HStack display={{ base: 'flex', sm: 'flex' }} spacing={2}>
             <Text textShadow="1px 2px #319795">
               RS
               {' '}

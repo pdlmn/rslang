@@ -8,8 +8,11 @@ import {
   useDisclosure,
   Container,
   useToast,
+  Box,
+  Icon,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import { IoMdLogIn, IoMdLogOut, IoMdPerson } from 'react-icons/io';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { DesktopNav, MobileNav } from './nav';
 import { Logo } from './logo';
@@ -84,14 +87,15 @@ export const Header = () => {
           flex={{ base: 1, md: 0 }}
           justify="flex-end"
           direction="row"
-          spacing={6}
+          spacing={{ base: 2, md: 6 }}
         >
           {user
             ? (
               <Button
-                display={{ base: 'none', md: 'inline-flex' }}
+                display={{ base: 'inline-flex', md: 'inline-flex' }}
                 fontSize="md"
                 fontWeight={600}
+                size={{ base: 'sm', md: 'md' }}
                 color={buttonColor}
                 bg="yellow.400"
                 _hover={{
@@ -102,7 +106,18 @@ export const Header = () => {
                 }}
                 onClick={() => dispatch(authLogOut())}
               >
-                Выход
+                <Box
+                  as="span"
+                  display={{ base: 'none', md: 'inline' }}
+                >
+                  Выход
+                </Box>
+                <Icon
+                  as={IoMdLogOut}
+                  display={{ base: 'inline', md: 'none' }}
+                  w={6}
+                  h={6}
+                />
               </Button>
             )
             : (
@@ -111,16 +126,31 @@ export const Header = () => {
                   onClick={onSignUpOpen}
                   fontSize="md"
                   fontWeight={400}
+                  alignSelf="center"
+                  size={{ base: 'sm', md: 'md' }}
                   variant="link"
                   color={signUpColor}
                 >
-                  Регистрация
+                  <Box
+                    as="span"
+                    display={{ base: 'none', md: 'inline' }}
+                  >
+                    Регистрация
+                  </Box>
+                  <Icon
+                    as={IoMdPerson}
+                    display={{ base: 'inline', md: 'none' }}
+                    w={6}
+                    h={6}
+                  />
                 </Button>
 
                 <Button
                   onClick={onSignInOpen}
-                  display={{ base: 'none', md: 'inline-flex' }}
                   fontWeight={600}
+                  alignSelf="center"
+                  ml={{ base: '8px', md: '24px' }}
+                  size={{ base: 'sm', md: 'md' }}
                   color={buttonColor}
                   bg="yellow.400"
                   _hover={{
@@ -130,7 +160,18 @@ export const Header = () => {
                     bg: 'yellow.500',
                   }}
                 >
-                  Вход
+                  <Box
+                    as="span"
+                    display={{ base: 'none', md: 'inline' }}
+                  >
+                    Вход
+                  </Box>
+                  <Icon
+                    as={IoMdLogIn}
+                    display={{ base: 'inline', md: 'none' }}
+                    w={6}
+                    h={6}
+                  />
                 </Button>
               </>
             )}
