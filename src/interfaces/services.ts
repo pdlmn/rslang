@@ -109,6 +109,7 @@ type UserSettings = {
 type GameStatistic = {
   gameName: string,
   learnedWords: number,
+  newWords: number,
   correctAnswers: number,
   incorrectAnswers: number,
   correctAnswersInARow: number,

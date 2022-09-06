@@ -27,13 +27,13 @@ const send = async (
   userId: string,
   authToken: string,
   {
-    gameName, learnedWords, correctAnswers, incorrectAnswers, correctAnswersInARow,
+    gameName, learnedWords, newWords, correctAnswers, incorrectAnswers, correctAnswersInARow,
   }: Omit<GameStatistic, 'date'>,
 ) => {
   const requestOptions = {
     method: 'POST',
     body: JSON.stringify({
-      gameName, learnedWords, correctAnswers, incorrectAnswers, correctAnswersInARow,
+      gameName, learnedWords, newWords, correctAnswers, incorrectAnswers, correctAnswersInARow,
     }),
     headers: {
       Authorization: `Bearer ${authToken}`,
