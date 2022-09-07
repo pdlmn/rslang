@@ -288,7 +288,7 @@ export const AllTimeStatistics = ({
         )}
       </Flex>
       <Flex justifyContent="center">
-        <Tabs defaultIndex={1} align="center">
+        <Tabs defaultIndex={1} align="center" width="100%">
           <TabList>
             <Tab>Выученные слова</Tab>
             <Tab>Новые слова</Tab>
