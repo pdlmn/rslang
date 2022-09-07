@@ -1,30 +1,24 @@
-import { Statistic } from '../interfaces/services';
-import { API_URI, fetchData, genericGet } from './common';
+import { DateRange, Statistic } from '../interfaces/services';
+import { API_URI, buildQueryString, fetchData } from './common';
 
-const get = genericGet<Statistic>((userId) => `${API_URI}/users/${userId}/statistics`);
-
-const update = async (
+const get = async (
   userId: string,
   authToken: string,
-  { learnedWords, optional = {} }: Statistic,
+  params?: DateRange,
 ) => {
   const requestOptions = {
-    method: 'PUT',
-    body: JSON.stringify({ learnedWords, optional }),
     headers: {
       Authorization: `Bearer ${authToken}`,
-      'Content-Type': 'application/json',
     },
   };
 
-  const queryString = `${API_URI}/users/${userId}/statistics`;
+  const queryString = buildQueryString(`${API_URI}/users/${userId}/statistics`, (params || {}));
   const data = await fetchData<Statistic>(queryString, requestOptions);
-  return data;
+  return data as Statistic;
 };
 
 const Statistics = {
   get,
-  update,
 };
 
 export default Statistics;

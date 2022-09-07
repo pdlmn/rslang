@@ -1,6 +1,18 @@
 import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import {
-  Box, Flex, Text, Heading, useColorModeValue, useToken, IconButton, Tooltip,
+  Box,
+  Flex,
+  Text,
+  Heading,
+  useColorModeValue,
+  useToken,
+  IconButton,
+  Tooltip,
+  TabList,
+  Tabs,
+  Tab,
+  TabPanel,
+  TabPanels,
 } from '@chakra-ui/react';
 import { ChartData, ChartOptions } from 'chart.js';
 import { Line } from 'react-chartjs-2';
@@ -10,23 +22,19 @@ import {
   dateInThisWeek,
   formatDate, getLastWeeksDate, getNextWeeksDate, isFutureDate, isPastDate,
 } from '../../utils/date';
-
-type DailyStatistics = {
-  date: number,
-  learnedWords: number,
-};
+import { Point } from './types';
 
 interface AllTimeStatisticsProps {
-  data: DailyStatistics[];
+  data: Point[];
   wordsPerDayGoal: number;
+  prevWeeksData: Omit<Point, 'date'>
 }
 
 export const AllTimeStatistics = ({
   data,
   wordsPerDayGoal,
+  prevWeeksData,
 }: AllTimeStatisticsProps) => {
-  const chartStepSize = 10;
-
   const [successColor, failColor, gridColor, lineColor, pointColor] = useToken('colors', [
     useColorModeValue('green.500', 'green.400'),
     useColorModeValue('red.500', 'red.400'),
@@ -39,7 +47,11 @@ export const AllTimeStatistics = ({
   const { date, isLoading } = useTypedSelector((state) => state.statistics);
   const dispatch = useAppDispatch();
 
-  const generateOprions = (showWordsPerDayThreshold: boolean): ChartOptions<'line'> => ({
+  const generateOptions = (
+    showWordsPerDayThreshold: boolean,
+    target: 'learnedWords' | 'newWords',
+    min: number | undefined = undefined,
+  ): ChartOptions<'line'> => ({
     responsive: true,
     maintainAspectRatio: true,
     plugins: {
@@ -57,12 +69,24 @@ export const AllTimeStatistics = ({
               return 'Этот день ещё не наступил...\n';
             }
             if (isPastDate(data[context.dataIndex].date, new Date(user.signedUp))) {
-              return 'Вы тогда ещё не были зарегистрированы\n';
+              return 'Вы тогда ещё не были\nзарегистрированы\n';
             }
-            if (data[context.dataIndex].learnedWords < wordsPerDayGoal) {
-              return 'В этот день вы не достигли цели\n';
+
+            if (target === 'learnedWords') {
+              if (data[context.dataIndex].learnedWords < wordsPerDayGoal) {
+                return 'В этот день вы не достигли цели\n';
+              }
+              return 'В этот день вы выучили достаточно слов!\n';
             }
-            return 'В этот день вы выучили достаточно слов!\n';
+
+            if (target === 'newWords') {
+              if (data[context.dataIndex].newWords > 0) {
+                return 'В этот день вы встретили\nновых слова\n';
+              }
+              return 'В этот день вы не встретили\nновых слов\n';
+            }
+
+            return '';
           },
         },
         caretSize: 7,
@@ -96,9 +120,9 @@ export const AllTimeStatistics = ({
           },
         },
         ticks: {
-          stepSize: chartStepSize,
+          stepSize: 10,
         },
-        suggestedMin: 0,
+        suggestedMin: min,
         suggestedMax: 50,
       },
       x: {
@@ -121,10 +145,21 @@ export const AllTimeStatistics = ({
             return gridColor;
           } if (isFutureDate(data[context.dataIndex].date)) {
             return lineColor;
-          } if (data[context.dataIndex].learnedWords < wordsPerDayGoal) {
-            return failColor;
           }
-          return successColor;
+          if (target === 'learnedWords') {
+            if (data[context.dataIndex].learnedWords < wordsPerDayGoal) {
+              return failColor;
+            }
+            return successColor;
+          }
+
+          if (target === 'newWords') {
+            if (data[context.dataIndex].newWords === 0) {
+              return failColor;
+            }
+            return successColor;
+          }
+          return gridColor;
         },
         radius: 5,
         borderWidth: 3,
@@ -133,7 +168,7 @@ export const AllTimeStatistics = ({
     },
   });
 
-  const perDay: ChartData<'line'> = {
+  const learnedPerDay: ChartData<'line'> = {
     labels: data.map((ds) => formatDate(ds.date)),
     datasets: [
       {
@@ -143,17 +178,47 @@ export const AllTimeStatistics = ({
     ],
   };
 
-  const overall: ChartData<'line'> = {
+  const learnedOverall: ChartData<'line'> = {
     labels: data.map((ds) => formatDate(ds.date)),
     datasets: [
       {
-        label: 'Изученных слов за всё время',
+        label: 'Изученные слова за всё время',
         data: (() => {
           const result = [];
 
-          let j = 0;
+          let j = prevWeeksData.learnedWords;
           for (let i = 0; i < data.length; i += 1) {
             j += data[i].learnedWords;
+            result.push(j);
+          }
+
+          return result;
+        })(),
+      },
+    ],
+  };
+
+  const newPerDay: ChartData<'line'> = {
+    labels: data.map((ds) => formatDate(ds.date)),
+    datasets: [
+      {
+        label: 'Новых слов в день',
+        data: data.map((ds) => ds.newWords || 0),
+      },
+    ],
+  };
+
+  const newOverall: ChartData<'line'> = {
+    labels: data.map((ds) => formatDate(ds.date)),
+    datasets: [
+      {
+        label: 'Новые слова за всё время',
+        data: (() => {
+          const result = [];
+
+          let j = prevWeeksData.newWords;
+          for (let i = 0; i < data.length; i += 1) {
+            j += data[i].newWords || 0;
             result.push(j);
           }
 
@@ -168,7 +233,7 @@ export const AllTimeStatistics = ({
       <Heading as="h2" size="2xl" textAlign="center">
         За всё время
       </Heading>
-      <Flex alignItems="center" justifyContent="center" mt="9" mb="12" gap="3">
+      <Flex alignItems="center" justifyContent="center" mt="9" mb="6" gap="3">
         {user && (
         <Box>
           <Tooltip
@@ -222,26 +287,61 @@ export const AllTimeStatistics = ({
           </Box>
         )}
       </Flex>
-      <Flex
-        flexDirection={{ base: 'column', lg: 'row' }}
-        alignItems="center"
-        gap={{ base: '8', md: '24' }}
-        justifyContent="space-evenly"
-        mt="6"
-        pb="6"
-      >
-        <Box width="100%" minW="360px" maxW="500px" height="250px" position="relative">
-          <Text fontStyle="italic" textAlign="center">
-            Сколько слов вы учили за день.
-          </Text>
-          <Line data={perDay} options={generateOprions(true)} />
-        </Box>
-        <Box width="100%" minW="360px" maxW="500px" height="250px" position="relative">
-          <Text fontStyle="italic" textAlign="center">
-            Сколько слов вы выучили всего.
-          </Text>
-          <Line data={overall} options={generateOprions(false)} />
-        </Box>
+      <Flex justifyContent="center">
+        <Tabs defaultIndex={1} align="center" width="100%">
+          <TabList>
+            <Tab>Выученные слова</Tab>
+            <Tab>Новые слова</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Flex
+                flexDirection={{ base: 'column', lg: 'row' }}
+                alignItems="center"
+                gap={{ base: '8', md: '24' }}
+                justifyContent="space-evenly"
+                mt="6"
+                pb="6"
+              >
+                <Box width="100%" minW="360px" maxW="500px" height="250px" position="relative">
+                  <Text fontStyle="italic" textAlign="center">
+                    Сколько слов вы учили за день.
+                  </Text>
+                  <Line data={learnedPerDay} options={generateOptions(true, 'learnedWords', 0)} />
+                </Box>
+                <Box width="100%" minW="360px" maxW="500px" height="250px" position="relative">
+                  <Text fontStyle="italic" textAlign="center">
+                    Сколько слов вы выучили всего.
+                  </Text>
+                  <Line data={learnedOverall} options={generateOptions(false, 'learnedWords', undefined)} />
+                </Box>
+              </Flex>
+            </TabPanel>
+            <TabPanel>
+              <Flex
+                flexDirection={{ base: 'column', lg: 'row' }}
+                alignItems="center"
+                gap={{ base: '8', md: '24' }}
+                justifyContent="space-evenly"
+                mt="6"
+                pb="6"
+              >
+                <Box width="100%" minW="360px" maxW="500px" height="250px" position="relative">
+                  <Text fontStyle="italic" textAlign="center">
+                    Сколько новых слов вы встретили за день.
+                  </Text>
+                  <Line data={newPerDay} options={generateOptions(false, 'newWords', 0)} />
+                </Box>
+                <Box width="100%" minW="360px" maxW="500px" height="250px" position="relative">
+                  <Text fontStyle="italic" textAlign="center">
+                    Сколько новых слов вы встретили всего.
+                  </Text>
+                  <Line data={newOverall} options={generateOptions(false, 'newWords', undefined)} />
+                </Box>
+              </Flex>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Flex>
     </Box>
   );

@@ -98,9 +98,14 @@ type FilterObject = {
   [key: string]: string | number | FilterObject | FilterObject[] | null | boolean
 };
 
+export type DateRange = {
+  from: number,
+  to: number,
+};
+
 type Statistic = {
   learnedWords: number,
-  optional?: Optional,
+  newWords: number,
 };
 
 type UserSettings = {
