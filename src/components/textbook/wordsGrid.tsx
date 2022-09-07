@@ -122,7 +122,7 @@ export const WordsGrid = () => {
         rounded="md"
         bgColor={
             pageLearned && !(showComplexWords || showLearnedWords)
-              ? 'gray.50'
+              ? gray50700
               : 'transparent'
           }
       >
