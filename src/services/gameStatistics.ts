@@ -1,16 +1,12 @@
-import { GameStatistic } from '../interfaces/services';
+import { DateRange, GameStatistic } from '../interfaces/services';
 import {
   API_URI, buildQueryString, fetchData,
 } from './common';
 
-type GetGameStatisticsParams = {
-  from: number,
-  to: number,
-};
 const get = async (
   userId: string,
   authToken: string,
-  params?: GetGameStatisticsParams,
+  params?: DateRange,
 ) => {
   const requestOptions = {
     headers: {
