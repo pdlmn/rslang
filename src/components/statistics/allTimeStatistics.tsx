@@ -256,7 +256,7 @@ export const AllTimeStatistics = ({
         </Box>
         )}
         <Box>
-          <Text fontSize="xl" height="33px" textAlign="center">
+          <Text fontSize={{ base: 'lg', sm: 'xl' }} height="33px" textAlign="center">
             {user ? 'Переключить неделю' : 'Зарегистрируйтесь для доступа к статистике'}
           </Text>
           {user && (
@@ -290,8 +290,8 @@ export const AllTimeStatistics = ({
       <Flex justifyContent="center">
         <Tabs defaultIndex={1} align="center" width="100%">
           <TabList>
-            <Tab>Выученные слова</Tab>
-            <Tab>Новые слова</Tab>
+            <Tab><Box fontSize={{ base: 'sm', sm: 'md' }}>Выученные слова</Box></Tab>
+            <Tab><Box fontSize={{ base: 'sm', sm: 'md' }}>Новые слова</Box></Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -303,13 +303,13 @@ export const AllTimeStatistics = ({
                 mt="6"
                 pb="6"
               >
-                <Box width="100%" minW="360px" maxW="500px" height="250px" position="relative">
+                <Box width="100%" minW="320px" maxW="500px" height="250px" position="relative">
                   <Text fontStyle="italic" textAlign="center">
                     Сколько слов вы учили за день.
                   </Text>
                   <Line data={learnedPerDay} options={generateOptions(true, 'learnedWords', 0)} />
                 </Box>
-                <Box width="100%" minW="360px" maxW="500px" height="250px" position="relative">
+                <Box width="100%" minW="320px" maxW="500px" height="250px" position="relative">
                   <Text fontStyle="italic" textAlign="center">
                     Сколько слов вы выучили всего.
                   </Text>
@@ -326,13 +326,13 @@ export const AllTimeStatistics = ({
                 mt="6"
                 pb="6"
               >
-                <Box width="100%" minW="360px" maxW="500px" height="250px" position="relative">
+                <Box width="100%" minW="320px" maxW="500px" height="250px" position="relative">
                   <Text fontStyle="italic" textAlign="center">
                     Сколько новых слов вы встретили за день.
                   </Text>
                   <Line data={newPerDay} options={generateOptions(false, 'newWords', 0)} />
                 </Box>
-                <Box width="100%" minW="360px" maxW="500px" height="250px" position="relative">
+                <Box width="100%" minW="320px" maxW="500px" height="250px" position="relative">
                   <Text fontStyle="italic" textAlign="center">
                     Сколько новых слов вы встретили всего.
                   </Text>
