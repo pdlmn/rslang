@@ -23,7 +23,7 @@ import {
 } from 'chart.js';
 import { FaHeadphones } from 'react-icons/fa';
 import { GiSprint } from 'react-icons/gi';
-import { GoAlert, GoCheck } from 'react-icons/go';
+import { GoAlert, GoCheck, GoInfo } from 'react-icons/go';
 import { StatCard } from './statCard';
 
 ChartJS.register(
@@ -37,6 +37,7 @@ ChartJS.register(
 );
 
 type StatObject = {
+  newWords: number,
   learnedWords: number,
   accuracy: number,
 };
@@ -63,7 +64,7 @@ export const TodayStatistics = ({
       За сегодня
     </Heading>
 
-    <Flex alignItems="center" height="44" mt="4">
+    <Flex alignItems="center" minHeight="44" mt="4" flexWrap="wrap" columnGap={24} rowGap={6}>
       <Stat width="24" display="flex" alignItems="center" justifyContent="center">
         <StatNumber fontSize="7xl" textAlign="center">
           {overallStatistics.learnedWords}
@@ -99,7 +100,26 @@ export const TodayStatistics = ({
             </TooltipUI>
           )}
         </StatNumber>
-        <StatLabel fontSize={{ sm: 'xl', md: '2xl' }} textAlign="center">Новых выученных слов</StatLabel>
+        <StatLabel fontSize={{ sm: 'xl', md: '2xl' }} textAlign="center">Выученных слов</StatLabel>
+      </Stat>
+      <Stat width="24" display="flex" alignItems="center" justifyContent="center">
+        <StatNumber fontSize="7xl" textAlign="center">
+          {overallStatistics.newWords}
+          <TooltipUI
+            label="Слова, которые вы впервые встретили в играх"
+            shouldWrapChildren
+            placement="top-end"
+          >
+            <Icon
+              as={GoInfo}
+              position="absolute"
+              fill={useColorModeValue('blue.400', 'blue.300')}
+              h="6"
+              w="5"
+            />
+          </TooltipUI>
+        </StatNumber>
+        <StatLabel fontSize={{ sm: 'xl', md: '2xl' }} textAlign="center">Новых слов</StatLabel>
       </Stat>
       <Stat width="24" display="flex" alignItems="center" justifyContent="center">
         <StatNumber fontSize={{ sm: '4xl', md: '6xl' }} textAlign="center">
@@ -118,7 +138,7 @@ export const TodayStatistics = ({
             </CircularProgressLabel>
           </CircularProgress>
         </StatNumber>
-        <StatLabel fontSize={{ sm: 'xl', md: '2xl' }} textAlign="center">Правильных ответов в играх</StatLabel>
+        <StatLabel fontSize={{ sm: 'xl', md: '2xl' }} textAlign="center">Правильных ответов</StatLabel>
       </Stat>
     </Flex>
 
@@ -132,6 +152,7 @@ export const TodayStatistics = ({
       <StatCard
         heading="Аудиовызов"
         icon={FaHeadphones}
+        newWords={audiocallStatistics.newWords}
         learnedWords={audiocallStatistics.learnedWords}
         accuracy={audiocallStatistics.accuracy}
         correctAnswersInARow={audiocallStatistics.correctAnswersInARow}
@@ -142,6 +163,7 @@ export const TodayStatistics = ({
       <StatCard
         heading="Спринт"
         icon={GiSprint}
+        newWords={sprintStatistics.newWords}
         learnedWords={sprintStatistics.learnedWords}
         accuracy={sprintStatistics.accuracy}
         correctAnswersInARow={sprintStatistics.correctAnswersInARow}

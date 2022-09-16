@@ -6,6 +6,7 @@ import { IconType } from 'react-icons';
 interface StatCardProps {
   heading: string,
   icon: IconType,
+  newWords: number | string,
   learnedWords: number | string,
   correctAnswersInARow: number | string,
   accuracy: number | string,
@@ -16,6 +17,7 @@ interface StatCardProps {
 export const StatCard = ({
   heading,
   icon,
+  newWords,
   learnedWords,
   correctAnswersInARow,
   accuracy,
@@ -50,6 +52,12 @@ export const StatCard = ({
           {heading}
         </Heading>
         <Divider />
+        <Flex justifyContent="space-between">
+          <Box>
+            новых слов
+          </Box>
+          <Box>{newWords}</Box>
+        </Flex>
         <Flex justifyContent="space-between">
           <Box>
             изученных слов

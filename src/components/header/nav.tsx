@@ -17,6 +17,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import { FaHeadphones } from 'react-icons/fa';
 import { GiSprint } from 'react-icons/gi';
 import { IconType } from 'react-icons';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAction } from '../../hooks/useAction';
 
 type NavItemChild = {
@@ -34,41 +35,47 @@ type NavItem = {
 const NAV_ITEMS: Array<NavItem> = [
   {
     label: 'Учебник',
-    href: '/#/textbook',
+    href: 'rslang/#/textbook',
   },
   {
     label: 'Игры',
-    href: '/#/games',
+    href: 'rslang/#/games',
     children: [
       {
         label: 'Аудиовызов',
-        href: '/#/audiogame',
+        href: '/audiogame',
         icon: FaHeadphones,
       },
       {
         label: 'Спринт',
-        href: '/#/sprintgame',
+        href: '/sprintgame',
         icon: GiSprint,
       },
     ],
   },
   {
     label: 'Статистика',
-    href: '/#/statistics',
+    href: 'rslang/#/statistics',
   },
 ];
 
 const DesktopSubNav = ({ label, href }: NavItem) => {
-  const { ResetGame } = useAction();
+  const navigate = useNavigate();
+  const { startFromMenu, ResetGame } = useAction();
+  const location = useLocation();
   return (
-    <Link
-      href={href}
+    <Box
       role="group"
       display="block"
       p={2}
       rounded="md"
       _hover={{ bg: useColorModeValue('yellow.100', 'gray.100') }}
-      onClick={ResetGame}
+      onClick={() => {
+        if (location.pathname === href) return;
+        ResetGame();
+        startFromMenu();
+        navigate(href);
+      }}
     >
       <Stack direction="row" align="center">
         <Box>
@@ -81,7 +88,7 @@ const DesktopSubNav = ({ label, href }: NavItem) => {
           </Text>
         </Box>
       </Stack>
-    </Link>
+    </Box>
   );
 };
 
@@ -150,7 +157,9 @@ export const DesktopNav = () => {
 
 const MobileNavItem = ({ label, children, href }: NavItem) => {
   const { isOpen, onToggle } = useDisclosure();
-  const { ResetGame } = useAction();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { startFromMenu, ResetGame } = useAction();
 
   return (
     <Stack spacing={4} onClick={children && onToggle}>
@@ -192,9 +201,21 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
         >
           {children
             && children.map((child) => (
-              <Link key={child.label} py={2} href={child.href} onClick={ResetGame}>
+              <Box
+                key={child.label}
+                py={2}
+                _hover={{
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  if (location.pathname === child.href) return;
+                  ResetGame();
+                  startFromMenu();
+                  navigate(child.href);
+                }}
+              >
                 {child.label}
-              </Link>
+              </Box>
             ))}
         </Stack>
       </Collapse>

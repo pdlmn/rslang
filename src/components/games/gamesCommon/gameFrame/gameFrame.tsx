@@ -20,6 +20,13 @@ export const GameFrame = () => {
   const incorrectAnswers = words
     .filter((word) => word.isAnswered)
     .filter((word) => !word.isCorrect).length;
+  const newWords = words.filter((word) => (
+    word.userWord.optional.gameAudiocall.rightAnswers
+      + word.userWord.optional.gameAudiocall.wrongAnswers
+      + word.userWord.optional.gameSprint.rightAnswers
+      + word.userWord.optional.gameSprint.wrongAnswers
+      === 1
+  )).length;
 
   useEffect(() => {
     if (!user || !currentWordIndex) return;
@@ -44,6 +51,7 @@ export const GameFrame = () => {
       gameName: name.toLowerCase(),
       learnedWords: wordsLearned,
       correctAnswersInARow: correctAnswersRowMax,
+      newWords,
       correctAnswers,
       incorrectAnswers,
     }).catch((err) => {

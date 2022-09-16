@@ -1,16 +1,12 @@
-import { GameStatistic } from '../interfaces/services';
+import { DateRange, GameStatistic } from '../interfaces/services';
 import {
   API_URI, buildQueryString, fetchData,
 } from './common';
 
-type GetGameStatisticsParams = {
-  from: number,
-  to: number,
-};
 const get = async (
   userId: string,
   authToken: string,
-  params?: GetGameStatisticsParams,
+  params?: DateRange,
 ) => {
   const requestOptions = {
     headers: {
@@ -27,13 +23,13 @@ const send = async (
   userId: string,
   authToken: string,
   {
-    gameName, learnedWords, correctAnswers, incorrectAnswers, correctAnswersInARow,
+    gameName, learnedWords, newWords, correctAnswers, incorrectAnswers, correctAnswersInARow,
   }: Omit<GameStatistic, 'date'>,
 ) => {
   const requestOptions = {
     method: 'POST',
     body: JSON.stringify({
-      gameName, learnedWords, correctAnswers, incorrectAnswers, correctAnswersInARow,
+      gameName, learnedWords, newWords, correctAnswers, incorrectAnswers, correctAnswersInARow,
     }),
     headers: {
       Authorization: `Bearer ${authToken}`,

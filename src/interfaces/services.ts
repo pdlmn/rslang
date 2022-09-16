@@ -47,6 +47,8 @@ number |
 export type UserWordOptional = {
   learned?: boolean,
   combo?: number,
+  date?: number,
+  source?: 'textbook' | 'game',
   gameSprint?: {
     rightAnswers: number,
     wrongAnswers: number
@@ -60,7 +62,7 @@ export type UserWordOptional = {
 type UserWord = {
   id: string,
   difficulty: string,
-  optional?: UserWordOptional,
+  optional: UserWordOptional,
 };
 
 type AggregatedWord = Omit<Word, 'id'> & {
@@ -93,12 +95,17 @@ type UserToken = {
 
 // filter object for mongodb queries
 type FilterObject = {
-  [key: string]: string | FilterObject | FilterObject[] | null | boolean
+  [key: string]: string | number | FilterObject | FilterObject[] | null | boolean
+};
+
+export type DateRange = {
+  from: number,
+  to: number,
 };
 
 type Statistic = {
   learnedWords: number,
-  optional?: Optional,
+  newWords: number,
 };
 
 type UserSettings = {
@@ -109,6 +116,7 @@ type UserSettings = {
 type GameStatistic = {
   gameName: string,
   learnedWords: number,
+  newWords: number,
   correctAnswers: number,
   incorrectAnswers: number,
   correctAnswersInARow: number,
